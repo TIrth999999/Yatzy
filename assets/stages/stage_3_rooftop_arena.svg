@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600">
+  <defs>
+    <linearGradient id="rooftopSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#090717" />
+      <stop offset="50%" stop-color="#1B143A" />
+      <stop offset="100%" stop-color="#2D1C52" />
+    </linearGradient>
+    <linearGradient id="searchlightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(79, 209, 197, 0.4)" />
+      <stop offset="100%" stop-color="rgba(79, 209, 197, 0.0)" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="600" fill="url(#rooftopSky)" />
+
+  <!-- Stars -->
+  <g fill="#FFFFFF" opacity="0.6">
+    <circle cx="120" cy="50" r="1.5" /><circle cx="280" cy="80" r="1.5" /><circle cx="450" cy="40" r="2" />
+    <circle cx="680" cy="70" r="1.5" /><circle cx="890" cy="45" r="2" /><circle cx="1120" cy="65" r="1.5" />
+    <circle cx="1340" cy="50" r="2" /><circle cx="1520" cy="85" r="1.5" />
+  </g>
+
+  <!-- Sweeping Searchlight Beams -->
+  <polygon points="500,0 350,530 550,530" fill="url(#searchlightGrad)" />
+  <polygon points="1200,0 1050,530 1250,530" fill="url(#searchlightGrad)" />
+
+  <!-- Skyline Silhouettes -->
+  <g fill="#181335">
+    <rect x="80" y="180" width="130" height="350" />
+    <rect x="260" y="140" width="150" height="390" />
+    <rect x="580" y="160" width="140" height="370" />
+    <rect x="860" y="120" width="180" height="410" />
+    <rect x="1180" y="150" width="140" height="380" />
+    <rect x="1380" y="190" width="160" height="340" />
+  </g>
+
+  <!-- Rooftop Water Tower -->
+  <g id="water-tower">
+    <rect x="440" y="240" width="90" height="110" rx="4" fill="#3A2C55" stroke="#1D1530" stroke-width="2" />
+    <polygon points="430,240 485,200 540,240" fill="#291D3E" />
+    <line x1="450" y1="350" x2="440" y2="530" stroke="#291D3E" stroke-width="4" />
+    <line x1="520" y1="350" x2="530" y2="530" stroke="#291D3E" stroke-width="4" />
+    <line x1="440" y1="420" x2="530" y2="420" stroke="#291D3E" stroke-width="3" />
+  </g>
+
+  <!-- Rooftop AC Unit -->
+  <g id="ac-unit">
+    <rect x="760" y="440" width="80" height="90" fill="#2E2448" stroke="#4C3A73" stroke-width="2" />
+    <circle cx="800" cy="485" r="22" fill="#1B142F" />
+  </g>
+
+  <!-- Rooftop Edge Safety Railing -->
+  <rect x="0" y="490" width="1600" height="40" fill="none" stroke="#5E4E87" stroke-width="2" />
+  <g stroke="#5E4E87" stroke-width="2">
+    <line x1="100" y1="490" x2="100" y2="530" /><line x1="250" y1="490" x2="250" y2="530" />
+    <line x1="400" y1="490" x2="400" y2="530" /><line x1="600" y1="490" x2="600" y2="530" />
+    <line x1="750" y1="490" x2="750" y2="530" /><line x1="950" y1="490" x2="950" y2="530" />
+    <line x1="1100" y1="490" x2="1100" y2="530" /><line x1="1300" y1="490" x2="1300" y2="530" />
+    <line x1="1450" y1="490" x2="1450" y2="530" />
+  </g>
+
+  <!-- Rooftop Concrete Floor -->
+  <rect x="0" y="530" width="1600" height="18" fill="#382E55" />
+  <rect x="0" y="530" width="1600" height="4" fill="#FFD166" />
+  <rect x="0" y="548" width="1600" height="52" fill="#1C162E" />
+</svg>

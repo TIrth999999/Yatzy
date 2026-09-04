@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600">
+  <defs>
+    <linearGradient id="chinaSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#140A18" />
+      <stop offset="60%" stop-color="#261028" />
+      <stop offset="100%" stop-color="#1C0A20" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="600" fill="url(#chinaSky)" />
+
+  <!-- Traditional Pagoda Rooflines (Background) -->
+  <g fill="#210D25" stroke="#3D1845" stroke-width="2">
+    <!-- Pagoda 1 -->
+    <rect x="120" y="240" width="220" height="290" />
+    <path d="M 90 240 Q 230 190 370 240 Z" fill="#E84855" />
+    <!-- Pagoda 2 -->
+    <rect x="580" y="200" width="260" height="330" />
+    <path d="M 540 200 Q 710 150 880 200 Z" fill="#9D4EDD" />
+    <!-- Pagoda 3 -->
+    <rect x="1100" y="220" width="240" height="310" />
+    <path d="M 1060 220 Q 1220 170 1380 220 Z" fill="#E84855" />
+  </g>
+
+  <!-- Glowing Hanging Lanterns -->
+  <g id="lanterns">
+    <g transform="translate(180, 160)">
+      <rect x="-14" y="0" width="28" height="38" rx="8" fill="#FF007F" stroke="#FFD166" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+    <g transform="translate(380, 140)">
+      <rect x="-14" y="0" width="28" height="38" rx="8" fill="#FFD166" stroke="#E84855" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+    <g transform="translate(680, 130)">
+      <rect x="-16" y="0" width="32" height="42" rx="8" fill="#FF007F" stroke="#FFD166" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+    <g transform="translate(940, 150)">
+      <rect x="-14" y="0" width="28" height="38" rx="8" fill="#FFD166" stroke="#E84855" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+    <g transform="translate(1200, 140)">
+      <rect x="-16" y="0" width="32" height="42" rx="8" fill="#FF007F" stroke="#FFD166" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+    <g transform="translate(1440, 160)">
+      <rect x="-14" y="0" width="28" height="38" rx="8" fill="#FFD166" stroke="#E84855" stroke-width="2" />
+      <line x1="0" y1="-30" x2="0" y2="0" stroke="#FFD166" stroke-width="2" />
+    </g>
+  </g>
+
+  <!-- Neon Kanji / Chinatown Signs -->
+  <g id="chinatown-signs">
+    <rect x="280" y="280" width="36" height="120" rx="4" fill="#130617" stroke="#FF007F" stroke-width="2" />
+    <text x="290" y="320" font-family="sans-serif" font-weight="900" font-size="24" fill="#FF007F">武</text>
+    <text x="290" y="360" font-family="sans-serif" font-weight="900" font-size="24" fill="#FF007F">道</text>
+
+    <rect x="980" y="260" width="36" height="140" rx="4" fill="#130617" stroke="#FFD166" stroke-width="2" />
+    <text x="990" y="300" font-family="sans-serif" font-weight="900" font-size="24" fill="#FFD166">龍</text>
+    <text x="990" y="340" font-family="sans-serif" font-weight="900" font-size="24" fill="#FFD166">虎</text>
+  </g>
+
+  <!-- Ground Stone Curb & Street -->
+  <rect x="0" y="530" width="1600" height="18" fill="#421C45" />
+  <rect x="0" y="530" width="1600" height="4" fill="#FF007F" />
+  <rect x="0" y="548" width="1600" height="52" fill="#170A1A" />
+</svg>

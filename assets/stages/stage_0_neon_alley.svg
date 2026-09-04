@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600">
+  <defs>
+    <linearGradient id="skyGrad0" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0E0B1F" />
+      <stop offset="50%" stop-color="#1D1538" />
+      <stop offset="100%" stop-color="#15102A" />
+    </linearGradient>
+    <linearGradient id="roadGrad0" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#241E38" />
+      <stop offset="100%" stop-color="#0F0C1B" />
+    </linearGradient>
+    <linearGradient id="neonSignGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FF007F" />
+      <stop offset="100%" stop-color="#7B2CBF" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect x="0" y="0" width="1600" height="600" fill="url(#skyGrad0)" />
+
+  <!-- Distant City Skyline -->
+  <g fill="#18132B">
+    <rect x="40" y="70" width="120" height="150" />
+    <rect x="200" y="40" width="140" height="180" />
+    <rect x="380" y="90" width="110" height="130" />
+    <rect x="530" y="50" width="160" height="170" />
+    <rect x="730" y="80" width="130" height="140" />
+    <rect x="900" y="30" width="150" height="190" />
+    <rect x="1090" y="70" width="120" height="150" />
+    <rect x="1250" y="45" width="160" height="175" />
+    <rect x="1450" y="85" width="130" height="135" />
+  </g>
+
+  <!-- Distant Neon Windows -->
+  <g fill="#4FD1C5" opacity="0.35">
+    <rect x="60" y="90" width="15" height="20" /><rect x="90" y="90" width="15" height="20" />
+    <rect x="230" y="70" width="15" height="20" /><rect x="260" y="70" width="15" height="20" />
+    <rect x="560" y="80" width="18" height="22" /><rect x="600" y="80" width="18" height="22" />
+    <rect x="930" y="60" width="15" height="20" /><rect x="960" y="60" width="15" height="20" />
+    <rect x="1280" y="75" width="18" height="22" /><rect x="1320" y="75" width="18" height="22" />
+  </g>
+
+  <!-- Brick Street Wall -->
+  <rect x="0" y="160" width="1600" height="370" fill="#241E3A" />
+  <g stroke="#18132B" stroke-width="1.5" opacity="0.7">
+    <line x1="0" y1="190" x2="1600" y2="190" />
+    <line x1="0" y1="230" x2="1600" y2="230" />
+    <line x1="0" y1="270" x2="1600" y2="270" />
+    <line x1="0" y1="310" x2="1600" y2="310" />
+    <line x1="0" y1="350" x2="1600" y2="350" />
+    <line x1="0" y1="390" x2="1600" y2="390" />
+    <line x1="0" y1="430" x2="1600" y2="430" />
+    <line x1="0" y1="470" x2="1600" y2="470" />
+    <line x1="0" y1="510" x2="1600" y2="510" />
+  </g>
+
+  <!-- Wire / Barb Fence on Top of Wall -->
+  <g stroke="#4A3D68" stroke-width="1.5">
+    <line x1="0" y1="135" x2="1600" y2="135" />
+    <line x1="0" y1="148" x2="1600" y2="148" />
+  </g>
+
+  <!-- ================= STREET ART (ORGANIC, NON-OVERLAPPING) ================= -->
+
+  <!-- ZONE 1: High Y (Y: 180) - "STREET COMBAT" Neon Sign -->
+  <g id="street-combat-sign">
+    <rect x="100" y="180" width="300" height="46" rx="4" fill="#130F24" stroke="#6C5CE7" stroke-width="2.5" />
+    <circle cx="112" cy="203" r="4" fill="#FFD166" />
+    <circle cx="388" cy="203" r="4" fill="#FFD166" />
+    <text x="130" y="213" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="28" fill="url(#neonSignGrad)" letter-spacing="2">STREET COMBAT</text>
+  </g>
+
+  <!-- ZONE 2: Low Y (Y: 420) - Colorful Spray Boombox near Sidewalk -->
+  <g id="boombox-mural">
+    <rect x="480" y="420" width="90" height="60" rx="8" fill="#6C5CE7" stroke="#9D4EDD" stroke-width="2" />
+    <rect x="495" y="405" width="60" height="15" rx="3" fill="#FF007F" />
+    <circle cx="505" cy="452" r="16" fill="#4FD1C5" stroke="#100D22" stroke-width="2" />
+    <circle cx="545" cy="452" r="16" fill="#4FD1C5" stroke="#100D22" stroke-width="2" />
+    <rect x="520" y="430" width="10" height="6" fill="#FFD166" />
+    <!-- Drips -->
+    <rect x="502" y="480" width="4" height="22" fill="#4FD1C5" opacity="0.8" />
+    <rect x="542" y="480" width="5" height="16" fill="#4FD1C5" opacity="0.8" />
+  </g>
+
+  <!-- ZONE 3: Mid Y (Y: 290) - "CYBER BEAT" Wildstyle Tag -->
+  <g id="cyber-beat-tag">
+    <text x="733" y="293" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="34" fill="#0C0A17">CYBER BEAT</text>
+    <text x="730" y="290" font-family="'Arial Black', Impact, sans-serif" font-weight="900" font-size="34" fill="#4FD1C5" letter-spacing="2">CYBER BEAT</text>
+    <!-- Spray Splatters -->
+    <circle cx="950" cy="270" r="4" fill="#FF007F" opacity="0.7" />
+    <circle cx="965" cy="285" r="3" fill="#FF007F" opacity="0.7" />
+    <rect x="800" y="300" width="4" height="24" fill="#FF007F" opacity="0.7" />
+  </g>
+
+  <!-- ZONE 4: High-Mid Y (Y: 230) - Gold Crown & "WARRIOR" Tag -->
+  <g id="crown-warrior-tag">
+    <path d="M 1120 230 L 1132 205 L 1148 218 L 1164 205 L 1176 230 Z" fill="#FFD166" stroke="#B38600" stroke-width="2" />
+    <text x="1108" y="268" font-family="'Arial Black', sans-serif" font-weight="900" font-size="28" fill="#0E0A1A">WARRIOR</text>
+    <text x="1105" y="265" font-family="'Arial Black', sans-serif" font-weight="900" font-size="28" fill="#FFD166" letter-spacing="1">WARRIOR</text>
+  </g>
+
+  <!-- ZONE 5: Mid-Low Y (Y: 370) - "K.O. 99" with Lime Lightning Bolt -->
+  <g id="ko-tag">
+    <text x="1353" y="373" font-family="'Arial Black', sans-serif" font-weight="900" font-size="36" fill="#0E0A1A">K.O. 99</text>
+    <text x="1350" y="370" font-family="'Arial Black', sans-serif" font-weight="900" font-size="36" fill="#E84855">K.O. 99</text>
+    <!-- Lightning Bolt -->
+    <polygon points="1490,330 1475,355 1485,355 1470,385 1500,350 1490,350" fill="#62D26F" stroke="#155D27" stroke-width="1.5" />
+  </g>
+
+  <!-- Sidewalk Curb & Asphalt Road -->
+  <rect x="0" y="530" width="1600" height="18" fill="#362F4E" />
+  <rect x="0" y="530" width="1600" height="4" fill="#6C5CE7" />
+  <rect x="0" y="548" width="1600" height="52" fill="url(#roadGrad0)" />
+</svg>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220" width="160" height="220">
+  <defs>
+    <linearGradient id="punkVest" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <linearGradient id="punkSkin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <filter id="punkGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Shadow Base -->
+  <ellipse cx="80" cy="208" rx="36" ry="7" fill="rgba(10, 8, 20, 0.45)"/>
+
+  <!-- Right Leg (Back) -->
+  <g id="punk-leg-right">
+    <rect x="82" y="136" width="16" height="54" rx="4" fill="#1F2937"/>
+    <rect x="80" y="162" width="20" height="4" fill="#374151"/>
+    <!-- Torn Knee Patch -->
+    <path d="M84 154 L94 152 L96 160 L86 162 Z" fill="#D97706"/>
+    <!-- Cyber Combat Boot -->
+    <path d="M80 190 L104 190 L108 206 L76 206 Z" fill="#4B5563"/>
+    <rect x="76" y="202" width="32" height="6" fill="#111827"/>
+  </g>
+
+  <!-- Left Leg (Front) -->
+  <g id="punk-leg-left">
+    <rect x="62" y="138" width="16" height="52" rx="4" fill="#374151"/>
+    <rect x="60" y="166" width="20" height="4" fill="#1F2937"/>
+    <path d="M58 190 L82 190 L86 206 L54 206 Z" fill="#10B981"/>
+    <rect x="54" y="202" width="32" height="6" fill="#064E3B"/>
+  </g>
+
+  <!-- Torso / Sleeveless Vest -->
+  <g id="punk-torso">
+    <!-- Inner Tank Top -->
+    <rect x="64" y="80" width="32" height="58" rx="3" fill="#111827"/>
+    <rect x="70" y="86" width="20" height="24" fill="#9333EA"/>
+    <!-- Toxic Green Punk Vest -->
+    <path d="M60 78 L102 78 L98 142 L58 142 Z" fill="url(#punkVest)"/>
+    <line x1="80" y1="80" x2="80" y2="140" stroke="#064E3B" stroke-width="3"/>
+    <!-- Punk Spikes on Shoulder -->
+    <polygon points="98,76 104,70 102,78" fill="#F3F4F6"/>
+    <polygon points="102,78 108,74 104,82" fill="#F3F4F6"/>
+    <!-- Studded Belt -->
+    <rect x="58" y="132" width="42" height="8" fill="#111827"/>
+    <circle cx="68" cy="136" r="2.5" fill="#E5E7EB"/>
+    <circle cx="80" cy="136" r="2.5" fill="#E5E7EB"/>
+    <circle cx="92" cy="136" r="2.5" fill="#E5E7EB"/>
+  </g>
+
+  <!-- Head & Spiked Mohawk -->
+  <g id="punk-head">
+    <rect x="74" y="66" width="12" height="14" fill="url(#punkSkin)"/>
+    <rect x="66" y="38" width="26" height="30" rx="6" fill="url(#punkSkin)"/>
+    <!-- Purple Spiked Mohawk Hair -->
+    <path d="M72 16 L78 36 L70 36 Z" fill="#A855F7"/>
+    <path d="M78 12 L84 36 L76 36 Z" fill="#C084FC"/>
+    <path d="M84 18 L90 38 L82 38 Z" fill="#9333EA"/>
+    <path d="M90 24 L96 40 L88 40 Z" fill="#7E22CE"/>
+    <!-- Cyberpunk Eye Visor (Facing Left) -->
+    <rect x="62" y="46" width="16" height="7" rx="2" fill="#EC4899" filter="url(#punkGlow)"/>
+    <rect x="64" y="48" width="12" height="2" fill="#FFFFFF"/>
+    <!-- Grin / Face tattoo -->
+    <line x1="66" y1="58" x2="72" y2="58" stroke="#78350F" stroke-width="1.5"/>
+  </g>
+
+  <!-- Left Arm Aiming Handgun (Facing Left) -->
+  <g id="punk-arm-gun">
+    <!-- Shoulder -->
+    <circle cx="72" cy="84" r="9" fill="#047857"/>
+    <!-- Arm Extended Left -->
+    <path d="M74 80 L36 80 L34 94 L74 94 Z" fill="url(#punkSkin)"/>
+    <!-- Hand -->
+    <rect x="28" y="80" width="10" height="12" rx="3" fill="url(#punkSkin)"/>
+
+    <!-- Street Handgun -->
+    <rect x="28" y="90" width="8" height="14" rx="2" fill="#1F2937"/>
+    <rect x="8" y="76" width="30" height="13" rx="2" fill="#374151"/>
+    <rect x="4" y="78" width="6" height="8" fill="#111827"/>
+    <!-- Iron Sights -->
+    <rect x="8" y="73" width="4" height="3" fill="#9CA3AF"/>
+    <rect x="30" y="73" width="4" height="3" fill="#9CA3AF"/>
+  </g>
+</svg>

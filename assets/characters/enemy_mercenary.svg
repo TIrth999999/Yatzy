@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220" width="160" height="220">
+  <defs>
+    <linearGradient id="mercSuit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#4C1D95"/>
+    </linearGradient>
+    <linearGradient id="mercArmor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E1B4B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="mercGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Shadow Base -->
+  <ellipse cx="80" cy="208" rx="38" ry="7" fill="rgba(10, 8, 20, 0.45)"/>
+
+  <!-- Right Leg (Back) -->
+  <g id="merc-leg-right">
+    <rect x="82" y="136" width="16" height="54" rx="4" fill="#1E1B4B"/>
+    <rect x="80" y="156" width="20" height="12" rx="2" fill="#312E81"/> <!-- Holster -->
+    <path d="M80 190 L104 190 L108 206 L76 206 Z" fill="#0F172A"/>
+    <rect x="76" y="202" width="32" height="6" fill="#818CF8"/>
+  </g>
+
+  <!-- Left Leg (Front) -->
+  <g id="merc-leg-left">
+    <rect x="62" y="138" width="16" height="52" rx="4" fill="#312E81"/>
+    <rect x="60" y="160" width="18" height="14" rx="3" fill="#4C1D95"/> <!-- Knee guard -->
+    <path d="M58 190 L82 190 L86 206 L54 206 Z" fill="#1E1B4B"/>
+    <rect x="54" y="202" width="32" height="6" fill="#A78BFA"/>
+  </g>
+
+  <!-- Torso & Tactical Armor Vest -->
+  <g id="merc-torso">
+    <rect x="62" y="80" width="36" height="58" rx="4" fill="url(#mercSuit)"/>
+    <!-- Kevlar Armor Plates -->
+    <rect x="66" y="84" width="28" height="16" rx="2" fill="url(#mercArmor)"/>
+    <rect x="68" y="104" width="24" height="20" rx="2" fill="url(#mercArmor)"/>
+    <!-- Ammo Pouches -->
+    <rect x="64" y="126" width="9" height="12" rx="1" fill="#4338CA"/>
+    <rect x="75" y="126" width="9" height="12" rx="1" fill="#4338CA"/>
+    <rect x="86" y="126" width="9" height="12" rx="1" fill="#4338CA"/>
+    <!-- Combat Harness Belts -->
+    <line x1="62" y1="88" x2="98" y2="130" stroke="#0F172A" stroke-width="2.5"/>
+    <line x1="98" y1="88" x2="62" y2="130" stroke="#0F172A" stroke-width="2.5"/>
+  </g>
+
+  <!-- Head & Cyber Infiltrator Helmet -->
+  <g id="merc-head">
+    <rect x="74" y="66" width="12" height="14" fill="#1E1B4B"/>
+    <!-- Full Face Stealth Helmet -->
+    <rect x="64" y="34" width="30" height="34" rx="8" fill="#1E1B4B"/>
+    <path d="M62 46 L94 46 L90 68 L66 68 Z" fill="#312E81"/>
+    <!-- Tactical Gas Filters / Rebreathers -->
+    <circle cx="68" cy="62" r="5" fill="#475569"/>
+    <circle cx="88" cy="62" r="5" fill="#475569"/>
+    <!-- Twin Glowing Amber Lenses (Facing Left) -->
+    <ellipse cx="70" cy="46" rx="6" ry="4" fill="#F59E0B" filter="url(#mercGlow)"/>
+    <ellipse cx="86" cy="46" rx="5" ry="4" fill="#F59E0B" filter="url(#mercGlow)"/>
+    <!-- Helmet Antenna -->
+    <line x1="92" y1="36" x2="98" y2="18" stroke="#A78BFA" stroke-width="2"/>
+    <circle cx="98" cy="18" r="2.5" fill="#EF4444"/>
+  </g>
+
+  <!-- Extended Arm & Tactical SMG (Facing Left) -->
+  <g id="merc-arm-gun">
+    <!-- Shoulder Armor Plate -->
+    <rect x="68" y="76" width="14" height="12" rx="3" fill="#1E1B4B"/>
+    <!-- Arm Extended Left -->
+    <path d="M72 80 L38 80 L36 94 L72 94 Z" fill="url(#mercSuit)"/>
+    <rect x="30" y="80" width="10" height="12" rx="3" fill="#1E1B4B"/>
+
+    <!-- Tactical Cyber SMG -->
+    <!-- Handle -->
+    <rect x="30" y="90" width="7" height="14" rx="2" fill="#0F172A"/>
+    <!-- Main Receiver -->
+    <rect x="4" y="74" width="36" height="14" rx="2" fill="#1E293B"/>
+    <!-- Barrel & Flash Hider -->
+    <rect x="0" y="77" width="5" height="8" fill="#0F172A"/>
+    <!-- Curved Magazine -->
+    <path d="M22 88 L18 108 L25 108 L28 88 Z" fill="#475569"/>
+    <!-- Top Tactical Rail & Holographic Sight -->
+    <rect x="10" y="70" width="22" height="4" fill="#0F172A"/>
+    <rect x="14" y="66" width="10" height="4" fill="#9333EA"/>
+    <line x1="14" y1="68" x2="0" y2="68" stroke="#EF4444" stroke-width="1.5" filter="url(#mercGlow)"/> <!-- Laser Pointer -->
+  </g>
+</svg>

@@ -1,24 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>Yatzy Clash: Dice Masters</title>
-    <meta name="description" content="Play Yatzy Clash: Dice Masters! The ultimate modern 5-dice casual strategy game with smart AI opponents, dual responsive mobile and desktop boards, achievements, and beautiful 3D dice." />
-    <meta name="theme-color" content="#1e182e" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#101018">
+  <meta name="description" content="Type War - Retro typing street combat arcade game for CrazyGames">
+  <title>Type War - Retro Typing Battle</title>
 
-    <!-- Google Fonts: Fredoka & Nunito for premium casual game feel -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+  <!-- CrazyGames HTML5 SDK -->
+  <script src="https://sdk.crazygames.com/crazygames-sdk-v2.js"></script>
 
-    <!-- CrazyGames SDK v3 -->
-    <script src="https://sdk.crazygames.com/crazygames-sdk-v3.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game-container">
 
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23ff5e57'/><circle cx='30' cy='30' r='8' fill='white'/><circle cx='70' cy='70' r='8' fill='white'/><circle cx='50' cy='50' r='8' fill='white'/></svg>" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+    <!-- CRT Scanlines & Screen Glow Overlay -->
+    <div id="crt-overlay"></div>
+
+    <!-- Battle Arena (Canvas) -->
+    <div id="arena-wrapper">
+      <canvas id="battle-canvas"></canvas>
+
+      <!-- Top Retro Gameplay HUD -->
+      <header id="gameplay-hud" class="hidden">
+        <!-- Player Health Section (Hero) -->
+        <div class="hud-section">
+          <div class="hp-gauge-container player-gauge">
+            <div class="avatar-badge" title="Player">🔫</div>
+            <div class="hp-bar-outer">
+              <div id="player-hp-fill" class="hp-bar-fill"></div>
+            </div>
+            <span id="player-hp-text" class="hp-label">100</span>
+          </div>
+          <div id="player-wpm-badge" class="wpm-badge player-wpm">
+            <span class="wpm-title">WPM</span>
+            <span id="player-wpm-text" class="wpm-val">0</span>
+          </div>
+        </div>
+
+        <!-- Center Score, Stage & Streak -->
+        <div class="hud-center">
+          <div id="stage-name-text" class="stage-tag">NEON ALLEY</div>
+          <div id="score-display" class="score-num">0</div>
+          <div id="streak-display" class="streak-tag">x0</div>
+        </div>
+
+        <!-- Enemy Health Section & Pause Button -->
+        <div class="hud-section">
+          <div id="enemy-wpm-badge" class="wpm-badge enemy-wpm">
+            <span class="wpm-title">WPM</span>
+            <span id="enemy-wpm-text" class="wpm-val">25</span>
+          </div>
+          <div class="hp-gauge-container enemy-gauge">
+            <div class="hp-bar-outer">
+              <div id="enemy-hp-fill" class="hp-bar-fill enemy-hp-fill"></div>
+            </div>
+            <span id="enemy-level-text" class="hp-label">LV.1</span>
+            <div class="avatar-badge enemy" title="Challenger">🎯</div>
+          </div>
+          <button id="btn-pause" class="icon-btn" title="Pause" aria-label="Pause Game">⚙</button>
+        </div>
+      </header>
+      <!-- Streak & Reward Notification Banner (1-2s arcade popup) -->
+      <div id="reward-banner" class="reward-banner hidden">
+        <div id="reward-title" class="reward-title">🔥 3X STREAK! 🔥</div>
+        <div id="reward-subtitle" class="reward-subtitle">+20 HP HEAL & +400 PTS</div>
+      </div>
+    </div>
+
+    <!-- Typing Interface (Bottom) -->
+    <section id="typing-area" class="hidden">
+      <div class="typing-guide-label">⚡ TYPE THE SENTENCE TO FIRE ⚡</div>
+      
+      <!-- Dynamic Arcade Letter Box Tiles -->
+      <div id="sentence-tiles" aria-live="polite"></div>
+
+      <!-- Desktop Virtual Keyboard Strip -->
+      <div id="virtual-keyboard" aria-hidden="true">
+        <div class="vk-row">
+          <div class="vkey" data-key="Q">Q</div>
+          <div class="vkey" data-key="W">W</div>
+          <div class="vkey" data-key="E">E</div>
+          <div class="vkey" data-key="R">R</div>
+          <div class="vkey" data-key="T">T</div>
+          <div class="vkey" data-key="Y">Y</div>
+          <div class="vkey" data-key="U">U</div>
+          <div class="vkey" data-key="I">I</div>
+          <div class="vkey" data-key="O">O</div>
+          <div class="vkey" data-key="P">P</div>
+        </div>
+        <div class="vk-row">
+          <div class="vkey" data-key="A">A</div>
+          <div class="vkey" data-key="S">S</div>
+          <div class="vkey" data-key="D">D</div>
+          <div class="vkey" data-key="F">F</div>
+          <div class="vkey" data-key="G">G</div>
+          <div class="vkey" data-key="H">H</div>
+          <div class="vkey" data-key="J">J</div>
+          <div class="vkey" data-key="K">K</div>
+          <div class="vkey" data-key="L">L</div>
+        </div>
+        <div class="vk-row">
+          <div class="vkey" data-key="Z">Z</div>
+          <div class="vkey" data-key="X">X</div>
+          <div class="vkey" data-key="C">C</div>
+          <div class="vkey" data-key="V">V</div>
+          <div class="vkey" data-key="B">B</div>
+          <div class="vkey" data-key="N">N</div>
+          <div class="vkey" data-key="M">M</div>
+          <div class="vkey space-vkey" data-key=" ">SPACE</div>
+        </div>
+      </div>
+
+      <!-- Hidden input for transparent mobile touch keyboard auto-focus -->
+      <input id="hidden-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text" aria-hidden="true">
+    </section>
+
+    <!-- 3-2-1-FIGHT Countdown Overlay -->
+    <div id="countdown-overlay" class="hidden">
+      <div id="countdown-num">3</div>
+      <div class="countdown-sub">GET READY TO TYPE!</div>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <main id="menu-screen">
+      <div class="title-container">
+        <div class="game-title-top">TYPING</div>
+        <div class="game-title-bottom">FIGHTER</div>
+      </div>
+
+      <div class="menu-buttons">
+        <button id="btn-play" class="retro-btn">START</button>
+        <button id="btn-settings" class="retro-btn secondary">SETTINGS</button>
+      </div>
+
+      <div class="menu-best-score">
+        BEST SCORE: <span id="menu-high-score">0</span>
+      </div>
+    </main>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="retro-modal-card">
+        <h2 class="modal-title">SETTINGS</h2>
+
+        <div class="setting-row">
+          <span class="setting-label">BGM</span>
+          <button id="toggle-bgm" class="retro-toggle active">ON</button>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">SFX</span>
+          <button id="toggle-sfx" class="retro-toggle active">ON</button>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">CRT EFFECT</span>
+          <button id="toggle-crt" class="retro-toggle inactive">OFF</button>
+        </div>
+
+        <button id="btn-settings-back" class="retro-btn" style="margin-top: 18px;">BACK</button>
+      </div>
+    </div>
+
+    <!-- Pause Modal -->
+    <div id="pause-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="retro-modal-card">
+        <h2 class="modal-title">PAUSED</h2>
+        <div style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+          <button id="btn-resume" class="retro-btn">RESUME</button>
+          <button id="btn-quit" class="retro-btn secondary">QUIT</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="retro-modal-card">
+        <h2 class="modal-title" style="color: var(--danger-red);">GAME OVER</h2>
+        
+        <div id="new-highscore-banner" class="new-record-banner hidden">★ NEW HIGH SCORE! ★</div>
+
+        <div class="gameover-score-box">
+          <div class="stat-item">
+            <span class="stat-label">FINAL SCORE</span>
+            <div id="final-score" class="stat-val">0</div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">BEST RECORD</span>
+            <div id="best-score-display" class="stat-val" style="color: var(--neon-cyan);">0</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+          <button id="btn-play-again" class="retro-btn">PLAY AGAIN</button>
+          <button id="btn-game-over-menu" class="retro-btn secondary">MAIN MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Corner Hidden Info for HUD binding -->
+    <span id="high-score-display" class="hidden">0</span>
+
+  </div>
+
+  <!-- Game Scripts in strict dependency order -->
+  <script src="js/config.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/sentences.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/crazygames.js"></script>
+  <script src="js/game.js"></script>
+</body>
 </html>

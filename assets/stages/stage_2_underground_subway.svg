@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 600" width="1600" height="600">
+  <defs>
+    <linearGradient id="subwaySky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#12101F" />
+      <stop offset="100%" stop-color="#1A152E" />
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="600" fill="url(#subwaySky)" />
+
+  <!-- Metro Tile Wall -->
+  <rect x="0" y="100" width="1600" height="430" fill="#25203D" />
+
+  <!-- Tile Grid Lines -->
+  <g stroke="#181429" stroke-width="1.5" opacity="0.6">
+    <line x1="0" y1="140" x2="1600" y2="140" /><line x1="0" y1="180" x2="1600" y2="180" />
+    <line x1="0" y1="220" x2="1600" y2="220" /><line x1="0" y1="260" x2="1600" y2="260" />
+    <line x1="0" y1="300" x2="1600" y2="300" /><line x1="0" y1="340" x2="1600" y2="340" />
+    <line x1="0" y1="380" x2="1600" y2="380" /><line x1="0" y1="420" x2="1600" y2="420" />
+    <line x1="0" y1="460" x2="1600" y2="460" /><line x1="0" y1="500" x2="1600" y2="500" />
+  </g>
+
+  <!-- Yellow Hazard Caution Stripes -->
+  <rect x="0" y="150" width="1600" height="18" fill="#FFD166" />
+  <g fill="#161226">
+    <polygon points="50,150 70,150 40,168 20,168" />
+    <polygon points="150,150 170,150 140,168 120,168" />
+    <polygon points="250,150 270,150 240,168 220,168" />
+    <polygon points="350,150 370,150 340,168 320,168" />
+    <polygon points="450,150 470,150 440,168 420,168" />
+    <polygon points="550,150 570,150 540,168 520,168" />
+    <polygon points="650,150 670,150 640,168 620,168" />
+    <polygon points="750,150 770,150 740,168 720,168" />
+    <polygon points="850,150 870,150 840,168 820,168" />
+    <polygon points="950,150 970,150 940,168 920,168" />
+    <polygon points="1050,150 1070,150 1040,168 1020,168" />
+    <polygon points="1150,150 1170,150 1140,168 1120,168" />
+    <polygon points="1250,150 1270,150 1240,168 1220,168" />
+    <polygon points="1350,150 1370,150 1340,168 1320,168" />
+    <polygon points="1450,150 1470,150 1440,168 1420,168" />
+    <polygon points="1550,150 1570,150 1540,168 1520,168" />
+  </g>
+
+  <!-- Metro Transit Signs -->
+  <g id="metro-sign-1">
+    <rect x="220" y="200" width="220" height="42" rx="4" fill="#151226" stroke="#4FD1C5" stroke-width="2" />
+    <text x="240" y="228" font-family="'Arial Black', sans-serif" font-weight="900" font-size="18" fill="#4FD1C5">LINE 7 : COMBAT</text>
+  </g>
+  <g id="metro-sign-2">
+    <rect x="900" y="200" width="260" height="42" rx="4" fill="#151226" stroke="#FF007F" stroke-width="2" />
+    <text x="920" y="228" font-family="'Arial Black', sans-serif" font-weight="900" font-size="18" fill="#FF007F">SECTOR SUBWAY</text>
+  </g>
+
+  <!-- Heavy Concrete Station Pillars -->
+  <g fill="#362E52" stroke="#4E4373" stroke-width="2">
+    <rect x="80" y="100" width="60" height="430" />
+    <rect x="520" y="100" width="60" height="430" />
+    <rect x="820" y="100" width="60" height="430" />
+    <rect x="1220" y="100" width="60" height="430" />
+    <rect x="1500" y="100" width="60" height="430" />
+  </g>
+
+  <!-- Station Platform Curb & Track Bed -->
+  <rect x="0" y="530" width="1600" height="18" fill="#3E365E" />
+  <rect x="0" y="530" width="1600" height="4" fill="#FFD166" />
+  <rect x="0" y="548" width="1600" height="52" fill="#131021" />
+</svg>
