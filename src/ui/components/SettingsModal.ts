@@ -1,6 +1,7 @@
 import { SettingsManager } from '../../settings/SettingsManager';
 import { StatsManager } from '../../persistence/StatsManager';
 import { AchievementManager } from '../../persistence/AchievementManager';
+import { Icons } from '../icons/Icons';
 
 export class SettingsModal {
   private container: HTMLElement;
@@ -20,7 +21,9 @@ export class SettingsModal {
         <div class="modal-content">
           <div class="modal-header">
             <h2>Game Settings</h2>
-            <button class="btn btn-secondary btn-icon" id="btn-close-settings">✕</button>
+            <button class="circle-header-btn" id="btn-close-settings" style="width: 36px; height: 36px;">
+              ${Icons.close(18, '#2d2538')}
+            </button>
           </div>
           <div class="modal-body" style="gap: 16px;">
             <!-- Sound FX Toggle & Volume -->

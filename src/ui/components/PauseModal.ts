@@ -1,5 +1,6 @@
 import { GameEngine } from '../../core/GameEngine';
 import { EventBus } from '../../core/EventBus';
+import { Icons } from '../icons/Icons';
 
 export class PauseModal {
   private container: HTMLElement;
@@ -19,20 +20,20 @@ export class PauseModal {
             <h2>Game Paused</h2>
           </div>
           <div class="modal-body" style="gap: 12px; padding: 24px;">
-            <button class="btn btn-primary" id="btn-pause-resume" style="height: 50px; font-size: 1.1rem;">
-              ▶️ Resume Match
+            <button class="btn btn-primary" id="btn-pause-resume" style="height: 50px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.play(18, '#ffffff')} Resume Match
             </button>
-            <button class="btn btn-secondary" id="btn-pause-restart" style="height: 46px;">
-              🔄 Restart Match
+            <button class="btn btn-secondary" id="btn-pause-restart" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.refresh(18, 'currentColor')} Restart Match
             </button>
-            <button class="btn btn-secondary" id="btn-pause-settings" style="height: 46px;">
-              ⚙️ Settings
+            <button class="btn btn-secondary" id="btn-pause-settings" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.settings(18, 'currentColor')} Settings
             </button>
-            <button class="btn btn-secondary" id="btn-pause-htp" style="height: 46px;">
-              📖 How to Play
+            <button class="btn btn-secondary" id="btn-pause-htp" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.book(18, 'currentColor')} How to Play
             </button>
-            <button class="btn btn-secondary" id="btn-pause-menu" style="height: 46px; border-color: rgba(255, 82, 82, 0.4); color: #ff5252;">
-              🏠 Quit to Menu
+            <button class="btn btn-secondary" id="btn-pause-menu" style="height: 46px; border-color: rgba(255, 82, 82, 0.4); color: #ff5252; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              ${Icons.arrowLeft(18, '#ff5252')} Quit to Menu
             </button>
           </div>
         </div>

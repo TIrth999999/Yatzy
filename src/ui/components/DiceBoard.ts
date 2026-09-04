@@ -1,13 +1,14 @@
-import { DieState, DieValue } from '../../types/game';
 import { GameEngine } from '../../core/GameEngine';
 import { EventBus } from '../../core/EventBus';
+import { Dice3DComponent } from './Dice3D';
 
 export class DiceBoard {
   private container: HTMLElement;
   private engine: GameEngine;
   private bus: EventBus = EventBus.getInstance();
-  private rollBtn: HTMLButtonElement | null = null;
+  private dice3d: Dice3DComponent = new Dice3DComponent();
   private isRolling: boolean = false;
+  private botStatusMessage: string = 'Bot is rolling dice...';
 
   constructor(container: HTMLElement, engine: GameEngine) {
     this.container = container;
@@ -18,22 +19,63 @@ export class DiceBoard {
 
   private setupEventListeners(): void {
     this.bus.on('DICE_ROLLED', (data: any) => {
-      this.animateRoll(data.rolledIndices, data.values);
+      this.isRolling = true;
+      if (data.player === 'bot') {
+        this.botStatusMessage = `Bot rolling (Roll ${data.rollCount}/3)...`;
+        this.updateBotStatusUI();
+      }
+      this.dice3d.animateRoll(this.container, data.rolledIndices, data.values, () => {
+        this.isRolling = false;
+        this.render();
+      });
     });
 
     this.bus.on('DIE_HOLD_TOGGLED', (data: any) => {
-      this.updateHoldVisual(data.dieIndex, data.isHeld);
+      const scene = this.container.querySelector(`.die-scene[data-index="${data.dieIndex}"]`);
+      if (scene) {
+        if (data.isHeld) scene.classList.add('held');
+        else scene.classList.remove('held');
+      }
     });
 
-    this.bus.on('TURN_STARTED', () => {
+    this.bus.on('TURN_STARTED', (data: any) => {
+      if (data && data.player === 'bot') {
+        this.botStatusMessage = 'Bot is deciding strategy...';
+      } else {
+        this.botStatusMessage = '';
+      }
       this.render();
     });
 
     this.bus.on('BOT_HOLDS_DECIDED', (data: any) => {
+      const heldCount = data.holds.filter(Boolean).length;
+      this.botStatusMessage = heldCount > 0
+        ? `Bot held ${heldCount} ${heldCount === 1 ? 'die' : 'dice'}, preparing next roll...`
+        : 'Bot re-rolling all dice...';
+      this.updateBotStatusUI();
+
       data.holds.forEach((held: boolean, idx: number) => {
-        this.updateHoldVisual(idx, held);
+        const scene = this.container.querySelector(`.die-scene[data-index="${idx}"]`);
+        if (scene) {
+          if (held) scene.classList.add('held');
+          else scene.classList.remove('held');
+        }
       });
     });
+
+    this.bus.on('SCORE_COMMITTED', (data: any) => {
+      if (data.player === 'bot') {
+        this.botStatusMessage = `Bot scored ${data.score} on ${data.category}!`;
+        this.updateBotStatusUI();
+      }
+    });
+  }
+
+  private updateBotStatusUI(): void {
+    const textEl = this.container.querySelector('.bot-status-message-text');
+    if (textEl) {
+      textEl.textContent = this.botStatusMessage;
+    }
   }
 
   private setupKeyboardShortcuts(): void {
@@ -41,7 +83,6 @@ export class DiceBoard {
       const state = this.engine.getState();
       if (state.phase === 'PAUSED' || state.phase === 'GAME_OVER' || state.activePlayer !== 'player') return;
 
-      // Space or R: Roll
       if (e.code === 'KeyR' || e.code === 'Space') {
         if (!this.isRolling && this.engine.getDice().canRoll()) {
           e.preventDefault();
@@ -49,9 +90,8 @@ export class DiceBoard {
         }
       }
 
-      // 1-5: Toggle hold
       if (e.key >= '1' && e.key <= '5') {
-        const idx = parseInt(e.key) - 1;
+        const idx = parseInt(e.key, 10) - 1;
         this.engine.playerToggleHold(idx);
       }
     });
@@ -60,131 +100,68 @@ export class DiceBoard {
   public render(): void {
     const dice = this.engine.getDice().getDice();
     const rollCount = this.engine.getDice().getRollCount();
-    const maxRolls = this.engine.getDice().getMaxRolls();
     const state = this.engine.getState();
     const isPlayer = state.activePlayer === 'player';
     const canRoll = isPlayer && this.engine.getDice().canRoll() && !this.isRolling;
+    const canScore = isPlayer && rollCount > 0;
 
     this.container.innerHTML = `
-      <div class="dice-board-inner" style="display: flex; flex-direction: column; align-items: center; width: 100%;">
-        <div class="dice-tray" id="dice-tray">
-          ${dice.map((d, i) => this.renderDieHTML(d, i)).join('')}
-        </div>
+      <div class="dice-board-wrapper ${!isPlayer ? 'bot-turn-active' : ''}">
+        <!-- 3D Dice Tray -->
+        ${this.dice3d.renderTrayHTML(dice, rollCount)}
 
-        <div class="dice-instruction-hint" style="margin: 8px 0; min-height: 20px;">
-          ${this.getInstructionText(state.activePlayer, rollCount)}
-        </div>
+        <!-- Bottom Action Controls matching reference screenshot 1, 3, & 5 -->
+        ${isPlayer ? `
+          <div class="roll-controls-container">
+            <button class="btn-roll-reference ${canRoll ? '' : 'disabled'}" id="btn-roll-action" ${canRoll ? '' : 'disabled'}>
+              <span class="roll-text">ROLL</span>
+              <div class="roll-pills-group">
+                <span class="roll-pill ${rollCount === 1 ? 'active' : ''}">1</span>
+                <span class="roll-pill ${rollCount === 2 ? 'active' : ''}">2</span>
+                <span class="roll-pill ${rollCount === 3 ? 'active' : ''}">3</span>
+              </div>
+            </button>
 
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%;">
-          <button class="btn btn-primary btn-roll-main" id="btn-roll-action" ${canRoll ? '' : 'disabled'}>
-            ${this.getRollButtonLabel(rollCount, maxRolls, isPlayer)}
-          </button>
-
-          <div class="keyboard-hints desktop-only">
-            <span><span class="kbd-key">R</span> or <span class="kbd-key">Space</span> to Roll</span>
-            <span><span class="kbd-key">1</span>-<span class="kbd-key">5</span> to Hold</span>
+            ${canScore ? `
+              <button class="btn-play-reference" id="btn-play-action" title="Commit score on scorecard">
+                PLAY
+              </button>
+            ` : ''}
           </div>
-        </div>
+        ` : `
+          <div class="bot-status-container animate-fade-in">
+            <div class="bot-status-pill">
+              <span class="bot-pulse-icon">🤖</span>
+              <span class="bot-status-message-text">${this.botStatusMessage || "Bot's Turn — Rolling..."}</span>
+            </div>
+          </div>
+        `}
       </div>
     `;
 
-    this.attachDieClickHandlers();
+    if (isPlayer) {
+      this.attachDieClickHandlers();
 
-    this.rollBtn = this.container.querySelector('#btn-roll-action');
-    this.rollBtn?.addEventListener('click', () => {
-      if (canRoll) {
-        this.engine.playerRoll();
-      }
-    });
-  }
+      this.container.querySelector('#btn-roll-action')?.addEventListener('click', () => {
+        if (canRoll) {
+          this.engine.playerRoll();
+        }
+      });
 
-  private getInstructionText(activePlayer: string, rollCount: number): string {
-    if (activePlayer === 'bot') {
-      return '<span style="color: var(--accent-cyan); font-weight: 700;">🤖 Bot is thinking...</span>';
+      this.container.querySelector('#btn-play-action')?.addEventListener('click', () => {
+        const scorecard = document.querySelector('.scorecard-board-reference');
+        scorecard?.scrollIntoView({ behavior: 'smooth' });
+      });
     }
-    if (rollCount === 0) {
-      return 'Press ROLL to start your turn';
-    }
-    if (rollCount < 3) {
-      return 'Tap dice to KEEP them, then Roll or Score';
-    }
-    return 'Final roll! Choose a category on the scorecard to score';
-  }
-
-  private getRollButtonLabel(rollCount: number, maxRolls: number, isPlayer: boolean): string {
-    if (!isPlayer) {
-      return 'BOT\'S TURN';
-    }
-    if (rollCount === 0) {
-      return 'ROLL DICE (1/3)';
-    }
-    if (rollCount >= maxRolls) {
-      return 'CHOOSE SCORE';
-    }
-    return `ROLL AGAIN (${rollCount + 1}/${maxRolls})`;
-  }
-
-  private renderDieHTML(die: DieState, index: number): string {
-    const heldClass = die.held ? 'held' : '';
-    return `
-      <div class="die-wrapper ${heldClass}" data-index="${index}">
-        <div class="die" data-value="${die.value}">
-          ${this.renderPipsHTML(die.value)}
-        </div>
-        <span class="die-hold-badge">HELD</span>
-      </div>
-    `;
-  }
-
-  private renderPipsHTML(value: DieValue): string {
-    return Array.from({ length: value }, () => '<span class="pip"></span>').join('');
   }
 
   private attachDieClickHandlers(): void {
-    const wrappers = this.container.querySelectorAll('.die-wrapper');
-    wrappers.forEach(wrap => {
-      wrap.addEventListener('click', () => {
-        const index = parseInt(wrap.getAttribute('data-index') || '0', 10);
+    const scenes = this.container.querySelectorAll('.die-scene');
+    scenes.forEach(scene => {
+      scene.addEventListener('click', () => {
+        const index = parseInt(scene.getAttribute('data-index') || '0', 10);
         this.engine.playerToggleHold(index);
       });
     });
-  }
-
-  private updateHoldVisual(index: number, isHeld: boolean): void {
-    const wrap = this.container.querySelector(`.die-wrapper[data-index="${index}"]`);
-    if (wrap) {
-      if (isHeld) wrap.classList.add('held');
-      else wrap.classList.remove('held');
-    }
-  }
-
-  private animateRoll(rolledIndices: number[], newValues: DieValue[]): void {
-    this.isRolling = true;
-    const wrappers = this.container.querySelectorAll('.die-wrapper');
-
-    rolledIndices.forEach(idx => {
-      const wrap = wrappers[idx];
-      if (wrap) {
-        const dieElem = wrap.querySelector('.die') as HTMLElement;
-        if (dieElem) {
-          dieElem.classList.remove('rolling');
-          // Force reflow
-          void dieElem.offsetWidth;
-          dieElem.classList.add('rolling');
-
-          // Change pips midway through tumble
-          setTimeout(() => {
-            const val = newValues[idx];
-            dieElem.setAttribute('data-value', val.toString());
-            dieElem.innerHTML = this.renderPipsHTML(val);
-          }, 200);
-        }
-      }
-    });
-
-    setTimeout(() => {
-      this.isRolling = false;
-      this.render();
-    }, 450);
   }
 }

@@ -1,0 +1,265 @@
+/* True 3D Cube Dice Styles */
+
+:root {
+  --die-size-mobile: 56px;
+  --die-size-desktop: 70px;
+}
+
+.dice-tray-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  perspective: 1200px;
+  padding: 8px 0;
+  width: 100%;
+}
+
+/* Tray Slot */
+.tray-slot {
+  width: var(--die-size-mobile);
+  height: var(--die-size-mobile);
+  background: rgba(22, 40, 60, 0.45);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.35);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 901px) {
+  .tray-slot {
+    width: var(--die-size-desktop);
+    height: var(--die-size-desktop);
+    border-radius: 20px;
+  }
+}
+
+.tray-slot.has-die {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 3D Die Scene Container */
+.die-scene {
+  width: var(--die-size-mobile);
+  height: var(--die-size-mobile);
+  perspective: 900px;
+  cursor: pointer;
+  position: relative;
+  touch-action: manipulation;
+  /* Smooth vertical elevation when held — NO 3D rotation on hold! */
+  transition: transform 0.24s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (min-width: 901px) {
+  .die-scene {
+    width: var(--die-size-desktop);
+    height: var(--die-size-desktop);
+  }
+}
+
+/* Ready to Roll State (before roll 1) */
+.die-scene.ready-to-roll {
+  animation: readyDieBob 2.4s ease-in-out infinite;
+}
+
+@keyframes readyDieBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* Held State: Clean, satisfying vertical slide upward with luminous green border */
+.die-scene.held {
+  transform: translateY(-16px) !important;
+  animation: none !important;
+}
+
+.die-scene.held .cube-face {
+  border: 2.5px solid #2ecc71 !important;
+  box-shadow:
+    0 0 16px rgba(46, 204, 113, 0.8),
+    inset 0 2px 4px rgba(255, 255, 255, 0.95) !important;
+}
+
+.held-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #27ae60;
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 0.62rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  z-index: 30;
+}
+
+/* Hover lift on desktop */
+@media (hover: hover) and (pointer: fine) {
+  .die-scene:not(.held):not(.is-rolling):hover {
+    transform: translateY(-4px);
+  }
+}
+
+/* Contact shadow beneath die */
+.die-shadow {
+  position: absolute;
+  bottom: -6px;
+  left: 10%;
+  width: 80%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 50%;
+  filter: blur(4px);
+  pointer-events: none;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  z-index: 0;
+}
+
+.die-scene.held .die-shadow {
+  transform: scale(0.7);
+  opacity: 0.2;
+}
+
+.die-scene.is-rolling .die-shadow {
+  animation: shadowPulse 0.72s ease-in-out;
+}
+
+@keyframes shadowPulse {
+  0% { transform: scale(1); opacity: 0.4; }
+  35% { transform: scale(0.45); opacity: 0.15; filter: blur(6px); }
+  65% { transform: scale(0.6); opacity: 0.25; filter: blur(5px); }
+  86% { transform: scale(1.15); opacity: 0.55; filter: blur(2px); }
+  100% { transform: scale(1); opacity: 0.4; filter: blur(4px); }
+}
+
+/* 3D Cube Object */
+.die-cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Cube Faces */
+.cube-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: #ffffff;
+  border-radius: 13px;
+  border: 1.8px solid #c9d1d9;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  padding: 6px;
+  box-sizing: border-box;
+  box-shadow:
+    inset 0 3px 5px rgba(255, 255, 255, 1),
+    inset 0 -3px 5px rgba(0, 0, 0, 0.1),
+    0 4px 10px rgba(0, 0, 0, 0.15);
+  backface-visibility: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 901px) {
+  .cube-face {
+    border-radius: 16px;
+    padding: 8px;
+    border-width: 2px;
+  }
+}
+
+/* 3D Cube Face Geometry */
+/* Mobile (size 56px -> translateZ 28px) */
+.cube-face.face-1 { transform: rotateY(0deg) translateZ(28px); }
+.cube-face.face-6 { transform: rotateY(180deg) translateZ(28px); }
+.cube-face.face-2 { transform: rotateX(90deg) translateZ(28px); }
+.cube-face.face-5 { transform: rotateX(-90deg) translateZ(28px); }
+.cube-face.face-3 { transform: rotateY(90deg) translateZ(28px); }
+.cube-face.face-4 { transform: rotateY(-90deg) translateZ(28px); }
+
+/* Desktop (size 70px -> translateZ 35px) */
+@media (min-width: 901px) {
+  .cube-face.face-1 { transform: rotateY(0deg) translateZ(35px); }
+  .cube-face.face-6 { transform: rotateY(180deg) translateZ(35px); }
+  .cube-face.face-2 { transform: rotateX(90deg) translateZ(35px); }
+  .cube-face.face-5 { transform: rotateX(-90deg) translateZ(35px); }
+  .cube-face.face-3 { transform: rotateY(90deg) translateZ(35px); }
+  .cube-face.face-4 { transform: rotateY(-90deg) translateZ(35px); }
+}
+
+/* Pip (Dots) */
+.die-pip {
+  width: 9px;
+  height: 9px;
+  background: #1e272e;
+  border-radius: 50%;
+  justify-self: center;
+  align-self: center;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+@media (min-width: 901px) {
+  .die-pip {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+/* Red Pip for 1 (Commercial classic look) */
+.cube-face.face-1 .die-pip {
+  background: #e74c3c;
+  width: 14px;
+  height: 14px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+@media (min-width: 901px) {
+  .cube-face.face-1 .die-pip {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+/* Pip Layouts */
+.cube-face.face-1 .die-pip:nth-child(1) { grid-column: 2; grid-row: 2; }
+
+.cube-face.face-2 .die-pip:nth-child(1) { grid-column: 1; grid-row: 1; }
+.cube-face.face-2 .die-pip:nth-child(2) { grid-column: 3; grid-row: 3; }
+
+.cube-face.face-3 .die-pip:nth-child(1) { grid-column: 1; grid-row: 1; }
+.cube-face.face-3 .die-pip:nth-child(2) { grid-column: 2; grid-row: 2; }
+.cube-face.face-3 .die-pip:nth-child(3) { grid-column: 3; grid-row: 3; }
+
+.cube-face.face-4 .die-pip:nth-child(1) { grid-column: 1; grid-row: 1; }
+.cube-face.face-4 .die-pip:nth-child(2) { grid-column: 3; grid-row: 1; }
+.cube-face.face-4 .die-pip:nth-child(3) { grid-column: 1; grid-row: 3; }
+.cube-face.face-4 .die-pip:nth-child(4) { grid-column: 3; grid-row: 3; }
+
+.cube-face.face-5 .die-pip:nth-child(1) { grid-column: 1; grid-row: 1; }
+.cube-face.face-5 .die-pip:nth-child(2) { grid-column: 3; grid-row: 1; }
+.cube-face.face-5 .die-pip:nth-child(3) { grid-column: 2; grid-row: 2; }
+.cube-face.face-5 .die-pip:nth-child(4) { grid-column: 1; grid-row: 3; }
+.cube-face.face-5 .die-pip:nth-child(5) { grid-column: 3; grid-row: 3; }
+
+.cube-face.face-6 .die-pip:nth-child(1) { grid-column: 1; grid-row: 1; }
+.cube-face.face-6 .die-pip:nth-child(2) { grid-column: 3; grid-row: 1; }
+.cube-face.face-6 .die-pip:nth-child(3) { grid-column: 1; grid-row: 2; }
+.cube-face.face-6 .die-pip:nth-child(4) { grid-column: 3; grid-row: 2; }
+.cube-face.face-6 .die-pip:nth-child(5) { grid-column: 1; grid-row: 3; }
+.cube-face.face-6 .die-pip:nth-child(6) { grid-column: 3; grid-row: 3; }

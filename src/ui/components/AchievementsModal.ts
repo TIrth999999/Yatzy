@@ -1,4 +1,5 @@
 import { AchievementManager } from '../../persistence/AchievementManager';
+import { Icons } from '../icons/Icons';
 
 export class AchievementsModal {
   private container: HTMLElement;
@@ -17,7 +18,9 @@ export class AchievementsModal {
         <div class="modal-content">
           <div class="modal-header">
             <h2>Achievements (${unlockedCount}/${achievements.length})</h2>
-            <button class="btn btn-secondary btn-icon" id="btn-close-ach">✕</button>
+            <button class="circle-header-btn" id="btn-close-ach" style="width: 36px; height: 36px;">
+              ${Icons.close(18, '#2d2538')}
+            </button>
           </div>
           <div class="modal-body" style="gap: 10px; max-height: 60vh; overflow-y: auto;">
             ${achievements.map(ach => `

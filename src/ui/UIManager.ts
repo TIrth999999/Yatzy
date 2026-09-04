@@ -15,6 +15,7 @@ import { PauseModal } from './components/PauseModal';
 import { DebugPanel } from './components/DebugPanel';
 import { TutorialOverlay } from './components/TutorialOverlay';
 import { MainMenu } from './screens/MainMenu';
+import { Icons } from './icons/Icons';
 
 export class UIManager {
   private appRoot: HTMLElement;
@@ -60,13 +61,13 @@ export class UIManager {
 
         <!-- Desktop Grid Wrapper (reflows into mobile center scroll) -->
         <main class="desktop-main-grid">
-          <!-- Left / Mobile Lower: Gameplay & Dice Area -->
-          <section class="gameplay-panel" id="gameplay-panel">
+          <!-- Desktop Left / Mobile Bottom Controls -->
+          <section class="gameplay-panel mobile-bottom-bar" id="gameplay-panel">
             <div id="dice-container" style="width: 100%;"></div>
           </section>
 
-          <!-- Right / Mobile Center: Scorecard -->
-          <aside class="desktop-scorecard-panel mobile-scorecard-scroll" id="scorecard-container"></aside>
+          <!-- Desktop Right / Mobile Center Scorecard -->
+          <aside class="desktop-scorecard-panel scorecard-scroll-mobile" id="scorecard-container"></aside>
         </main>
       </div>
 
@@ -81,7 +82,7 @@ export class UIManager {
     this.confetti = new ConfettiSystem(confettiCanvas);
 
     const headerEl = this.appRoot.querySelector('#header-container') as HTMLElement;
-    this.header = new ScoreHeader(headerEl);
+    this.header = new ScoreHeader(headerEl, this.engine);
 
     const diceEl = this.appRoot.querySelector('#dice-container') as HTMLElement;
     this.diceBoard = new DiceBoard(diceEl, this.engine);
@@ -126,6 +127,7 @@ export class UIManager {
 
   public renderAll(): void {
     const state = this.engine.getState();
+    document.body.classList.toggle('bot-turn-view', state.activePlayer === 'bot');
     this.header.render(state);
     this.diceBoard.render();
     this.scorecard.render();
@@ -184,8 +186,26 @@ export class UIManager {
     });
 
     this.bus.on('ACHIEVEMENT_UNLOCKED', (ach: any) => {
-      this.showToast(`🏆 Achievement Unlocked: ${ach.title}`, ach.description);
+      this.showToast(`Achievement Unlocked: ${ach.title}`, ach.description);
     });
+
+    this.bus.on('TURN_STARTED', (data: any) => {
+      this.renderAll();
+      if (data.player === 'player') {
+        this.showTurnAlert('YOUR TURN! 🎲');
+      }
+    });
+  }
+
+  private showTurnAlert(text: string): void {
+    const banner = document.createElement('div');
+    banner.className = 'turn-announcement-popup animate-pop-in';
+    banner.textContent = text;
+    this.appRoot.appendChild(banner);
+    setTimeout(() => {
+      banner.classList.add('fade-out');
+      setTimeout(() => banner.remove(), 300);
+    }, 1100);
   }
 
   private showToast(title: string, desc: string): void {
@@ -195,10 +215,10 @@ export class UIManager {
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.innerHTML = `
-      <div style="font-size: 1.6rem;">🏆</div>
+      <div style="display: flex; align-items: center;">${Icons.trophy(28, '#ffd200')}</div>
       <div>
-        <div style="font-weight: 800; font-size: 0.88rem; color: #ffd32a;">${title}</div>
-        <div style="font-size: 0.76rem; color: var(--text-light-muted);">${desc}</div>
+        <div style="font-weight: 800; font-size: 0.88rem; color: #2d2538;">${title}</div>
+        <div style="font-size: 0.76rem; color: #7d7585;">${desc}</div>
       </div>
     `;
 

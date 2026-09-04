@@ -1,5 +1,6 @@
 import './styles/main.css';
 import './styles/dice.css';
+import './styles/dice3d.css';
 import './styles/desktop.css';
 import './styles/mobile.css';
 

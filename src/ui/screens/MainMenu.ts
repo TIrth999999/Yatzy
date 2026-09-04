@@ -1,6 +1,7 @@
 import { Difficulty } from '../../types/game';
 import { EventBus } from '../../core/EventBus';
 import { DailyChallenge } from '../../daily/DailyChallenge';
+import { Icons } from '../icons/Icons';
 
 export class MainMenu {
   private container: HTMLElement;
@@ -25,34 +26,50 @@ export class MainMenu {
         align-items: center;
         justify-content: center;
         padding: 20px;
-        background: radial-gradient(circle at 50% 30%, #362244 0%, #150f24 100%);
+        background: var(--bg-canvas);
         z-index: 80;
         overflow-y: auto;
       ">
-        <div style="max-width: 480px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+        <div style="max-width: 460px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px;">
           <!-- Logo & Title -->
-          <div style="text-align: center;">
-            <div style="font-size: 3.5rem; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));">🎲</div>
+          <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+            <div style="
+              width: 72px;
+              height: 72px;
+              background: #ffffff;
+              border: 3.5px solid var(--board-border);
+              border-radius: 18px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+              margin-bottom: 6px;
+            ">
+              <svg width="48" height="48" viewBox="0 0 24 24">
+                <circle cx="7" cy="7" r="2.4" fill="#ff5e57"/>
+                <circle cx="17" cy="17" r="2.4" fill="#ff5e57"/>
+                <circle cx="12" cy="12" r="2.8" fill="#ff5e57"/>
+              </svg>
+            </div>
+
             <h1 style="
-              font-size: 2.6rem;
+              font-size: 2.5rem;
               font-weight: 900;
-              letter-spacing: -0.02em;
-              background: linear-gradient(135deg, #ffffff 0%, #ffd32a 100%);
-              -webkit-background-clip: text;
-              -webkit-text-fill-color: transparent;
-              line-height: 1.1;
-              margin-top: 4px;
+              letter-spacing: -0.01em;
+              color: #ffffff;
+              text-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+              line-height: 1.05;
             ">
               YATZY CLASH
             </h1>
-            <p style="font-size: 0.95rem; font-weight: 700; color: var(--accent-cyan); letter-spacing: 0.15em; text-transform: uppercase;">
+            <p style="font-size: 0.88rem; font-weight: 800; color: rgba(255, 255, 255, 0.9); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 2px;">
               DICE MASTERS
             </p>
           </div>
 
           <!-- Difficulty Cards Selection -->
-          <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
-            <div style="font-size: 0.8rem; font-weight: 800; color: var(--text-light-muted); letter-spacing: 0.06em; text-align: center;">
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 8px;">
+            <div style="font-size: 0.78rem; font-weight: 800; color: rgba(255, 255, 255, 0.85); letter-spacing: 0.08em; text-align: center;">
               SELECT DIFFICULTY
             </div>
 
@@ -60,89 +77,99 @@ export class MainMenu {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 14px 20px;
-              background: rgba(255, 255, 255, 0.05);
-              border: 1px solid rgba(255, 255, 255, 0.08);
+              padding: 12px 18px;
+              background: #ffffff;
+              border: 2px solid #e2e8f0;
               border-radius: var(--radius-md);
               cursor: pointer;
-              transition: transform 0.15s ease, background 0.15s ease;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              transition: transform 0.15s ease, border-color 0.15s ease;
             ">
               <div>
-                <div style="font-weight: 800; font-size: 1.1rem; color: #4cd137;">EASY</div>
-                <div style="font-size: 0.78rem; color: var(--text-light-muted);">Relaxed opponent</div>
+                <div style="font-weight: 900; font-size: 1.05rem; color: #2ecc71;">EASY</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Relaxed opponent</div>
               </div>
-              <div style="color: #4cd137; font-size: 0.9rem;">★★☆☆☆</div>
+              <div style="color: #2ecc71; font-size: 0.85rem; font-weight: 900;">★★☆☆☆</div>
             </div>
 
             <div class="diff-card selected" data-diff="medium" style="
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 14px 20px;
-              background: rgba(0, 210, 211, 0.15);
-              border: 2px solid var(--accent-cyan);
+              padding: 12px 18px;
+              background: #ffffff;
+              border: 3px solid #00b4d8;
               border-radius: var(--radius-md);
               cursor: pointer;
-              transition: transform 0.15s ease, background 0.15s ease;
+              box-shadow: 0 4px 16px rgba(0, 180, 216, 0.35);
+              transition: transform 0.15s ease, border-color 0.15s ease;
             ">
               <div>
-                <div style="font-weight: 800; font-size: 1.1rem; color: var(--accent-cyan);">MEDIUM</div>
-                <div style="font-size: 0.78rem; color: var(--text-light-muted);">Smart, tactical opponent</div>
+                <div style="font-weight: 900; font-size: 1.05rem; color: #00b4d8;">MEDIUM</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Smart, tactical opponent</div>
               </div>
-              <div style="color: var(--accent-cyan); font-size: 0.9rem;">★★★☆☆</div>
+              <div style="color: #00b4d8; font-size: 0.85rem; font-weight: 900;">★★★☆☆</div>
             </div>
 
             <div class="diff-card" data-diff="hard" style="
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 14px 20px;
-              background: rgba(255, 255, 255, 0.05);
-              border: 1px solid rgba(255, 255, 255, 0.08);
+              padding: 12px 18px;
+              background: #ffffff;
+              border: 2px solid #e2e8f0;
               border-radius: var(--radius-md);
               cursor: pointer;
-              transition: transform 0.15s ease, background 0.15s ease;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              transition: transform 0.15s ease, border-color 0.15s ease;
             ">
               <div>
-                <div style="font-weight: 800; font-size: 1.1rem; color: var(--primary-coral);">HARD</div>
-                <div style="font-size: 0.78rem; color: var(--text-light-muted);">Expert 32-hold EV strategy</div>
+                <div style="font-weight: 900; font-size: 1.05rem; color: #ff5e57;">HARD</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">Expert 32-hold EV strategy</div>
               </div>
-              <div style="color: var(--primary-coral); font-size: 0.9rem;">★★★★★</div>
+              <div style="color: #ff5e57; font-size: 0.85rem; font-weight: 900;">★★★★★</div>
             </div>
           </div>
 
           <!-- Play Buttons -->
-          <div style="width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 6px;">
-            <button class="btn btn-primary" id="btn-play-quick" style="height: 60px; font-size: 1.35rem; width: 100%;">
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+            <button class="btn btn-primary" id="btn-play-quick" style="
+              height: 56px;
+              font-size: 1.3rem;
+              width: 100%;
+              background: #e84d43;
+              box-shadow: 0 6px 0 #b33930, 0 8px 20px rgba(0,0,0,0.22);
+              border-radius: 16px;
+            ">
               PLAY NOW
             </button>
 
             <div style="display: flex; gap: 10px; width: 100%;">
-              <button class="btn btn-gold" id="btn-play-daily" style="flex: 1; height: 46px; font-size: 0.9rem;">
-                📅 Daily Challenge ${isDailyDone ? '✓' : ''}
+              <button class="btn btn-gold" id="btn-play-daily" style="flex: 1; height: 44px; font-size: 0.88rem;">
+                Daily Challenge ${isDailyDone ? '✓' : ''}
               </button>
-              <button class="btn btn-secondary" id="btn-play-practice" style="flex: 1; height: 46px; font-size: 0.9rem;">
-                🎯 Solo Practice
+              <button class="btn btn-secondary" id="btn-play-practice" style="flex: 1; height: 44px; font-size: 0.88rem; background: #ffffff;">
+                Solo Practice
               </button>
             </div>
           </div>
 
-          <!-- Secondary Menu Row -->
-          <div style="display: flex; gap: 10px; width: 100%; justify-content: center; margin-top: 10px;">
-            <button class="btn btn-secondary btn-icon" id="btn-menu-htp" title="How to Play" aria-label="How to Play">
-              📖
+          <!-- Navigation Icon Row -->
+          <div style="display: flex; gap: 14px; width: 100%; justify-content: center; margin-top: 6px;">
+            <button class="circle-header-btn" id="btn-menu-htp" title="How to Play" aria-label="How to Play">
+              ${Icons.book(20, '#23374d')}
             </button>
-            <button class="btn btn-secondary btn-icon" id="btn-menu-stats" title="Statistics" aria-label="Statistics">
-              📊
+            <button class="circle-header-btn" id="btn-menu-stats" title="Statistics" aria-label="Statistics">
+              ${Icons.chart(20, '#23374d')}
             </button>
-            <button class="btn btn-secondary btn-icon" id="btn-menu-ach" title="Achievements" aria-label="Achievements">
-              🏆
+            <button class="circle-header-btn" id="btn-menu-ach" title="Achievements" aria-label="Achievements">
+              ${Icons.trophy(20, '#23374d')}
             </button>
-            <button class="btn btn-secondary btn-icon" id="btn-menu-cosmetics" title="Dice Themes" aria-label="Dice Themes">
-              🎨
+            <button class="circle-header-btn" id="btn-menu-cosmetics" title="Dice Themes" aria-label="Dice Themes">
+              ${Icons.palette(20, '#23374d')}
             </button>
-            <button class="btn btn-secondary btn-icon" id="btn-menu-settings" title="Settings" aria-label="Settings">
-              ⚙️
+            <button class="circle-header-btn" id="btn-menu-settings" title="Settings" aria-label="Settings">
+              ${Icons.settings(20, '#23374d')}
             </button>
           </div>
         </div>
@@ -164,12 +191,12 @@ export class MainMenu {
       card.addEventListener('click', () => {
         cards.forEach(c => {
           c.classList.remove('selected');
-          (c as HTMLElement).style.background = 'rgba(255, 255, 255, 0.05)';
-          (c as HTMLElement).style.borderColor = 'rgba(255, 255, 255, 0.08)';
+          (c as HTMLElement).style.border = '2px solid #e2e8f0';
+          (c as HTMLElement).style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
         });
         card.classList.add('selected');
-        (card as HTMLElement).style.background = 'rgba(0, 210, 211, 0.15)';
-        (card as HTMLElement).style.borderColor = 'var(--accent-cyan)';
+        (card as HTMLElement).style.border = '3px solid #00b4d8';
+        (card as HTMLElement).style.boxShadow = '0 4px 16px rgba(0, 180, 216, 0.35)';
         selectedDiff = card.getAttribute('data-diff') as Difficulty;
       });
     });

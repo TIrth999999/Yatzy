@@ -1,4 +1,5 @@
 import { StatsManager } from '../../persistence/StatsManager';
+import { Icons } from '../icons/Icons';
 
 export class StatsModal {
   private container: HTMLElement;
@@ -22,7 +23,9 @@ export class StatsModal {
         <div class="modal-content">
           <div class="modal-header">
             <h2>Player Statistics</h2>
-            <button class="btn btn-secondary btn-icon" id="btn-close-stats">✕</button>
+            <button class="circle-header-btn" id="btn-close-stats" style="width: 36px; height: 36px;">
+              ${Icons.close(18, '#2d2538')}
+            </button>
           </div>
           <div class="modal-body" style="gap: 16px;">
             <!-- Overall Highlight Grid -->
@@ -32,17 +35,17 @@ export class StatsModal {
                 <div style="font-size: 1.6rem; font-weight: 900;">${stats.gamesPlayed}</div>
               </div>
               <div style="background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: 12px; text-align: center;">
-                <div style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700;">WIN RATE</div>
-                <div style="font-size: 1.6rem; font-weight: 900; color: var(--accent-gold);">${winRate}%</div>
+                <div style="font-size: 0.72rem; color: #ffd200; font-weight: 700;">WIN RATE</div>
+                <div style="font-size: 1.6rem; font-weight: 900; color: #ffd200;">${winRate}%</div>
               </div>
               <div style="background: rgba(255, 255, 255, 0.05); border-radius: var(--radius-md); padding: 12px; text-align: center;">
-                <div style="font-size: 0.72rem; color: var(--accent-cyan); font-weight: 700;">BEST SCORE</div>
-                <div style="font-size: 1.6rem; font-weight: 900; color: var(--accent-cyan);">${stats.highestScore}</div>
+                <div style="font-size: 0.72rem; color: #54b7cb; font-weight: 700;">BEST SCORE</div>
+                <div style="font-size: 1.6rem; font-weight: 900; color: #54b7cb;">${stats.highestScore}</div>
               </div>
             </div>
 
             <!-- Key Records -->
-            <div style="background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
+            <div style="background: rgba(0, 0, 0, 0.04); border-radius: var(--radius-md); padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; font-size: 0.88rem;">
               <div style="display: flex; justify-content: space-between;">
                 <span>Total Wins / Losses / Ties:</span>
                 <strong>${stats.gamesWon}W - ${stats.gamesLost}L - ${stats.gamesDrawn}D</strong>
@@ -57,11 +60,11 @@ export class StatsModal {
               </div>
               <div style="display: flex; justify-content: space-between;">
                 <span>Total Yatzys Scored:</span>
-                <strong style="color: var(--primary-coral);">⚡ ${stats.yatzyCount}</strong>
+                <strong style="color: #e84d43;">${stats.yatzyCount}</strong>
               </div>
               <div style="display: flex; justify-content: space-between;">
                 <span>Upper Bonuses (+35):</span>
-                <strong style="color: var(--accent-gold);">★ ${stats.bonusCount}</strong>
+                <strong style="color: #8938a1;">${stats.bonusCount}</strong>
               </div>
             </div>
 

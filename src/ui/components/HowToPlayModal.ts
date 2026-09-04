@@ -1,3 +1,5 @@
+import { Icons } from '../icons/Icons';
+
 export class HowToPlayModal {
   private container: HTMLElement;
 
@@ -11,7 +13,9 @@ export class HowToPlayModal {
         <div class="modal-content">
           <div class="modal-header">
             <h2>How to Play Yatzy</h2>
-            <button class="btn btn-secondary btn-icon" id="btn-close-htp">✕</button>
+            <button class="circle-header-btn" id="btn-close-htp" style="width: 36px; height: 36px;">
+              ${Icons.close(18, '#2d2538')}
+            </button>
           </div>
           <div class="modal-body" style="font-size: 0.92rem; line-height: 1.5; color: #ddd7e5;">
             <div>

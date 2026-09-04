@@ -1,6 +1,7 @@
 import { ScorecardState } from '../../types/game';
 import { ConfettiSystem } from '../animations/Confetti';
 import { EventBus } from '../../core/EventBus';
+import { Icons } from '../icons/Icons';
 
 export interface MatchResultData {
   winner: 'player' | 'bot' | 'draw';
@@ -31,16 +32,16 @@ export class ResultModal {
     const isDraw = data.winner === 'draw';
 
     let title = 'YOU WIN!';
-    let titleColor = 'var(--accent-gold)';
+    let titleColor = '#e84d43';
     let subtitle = `Crushed the bot by ${data.scoreDifference} points!`;
 
     if (isDraw) {
       title = 'TIED MATCH!';
-      titleColor = 'var(--text-light)';
+      titleColor = '#2d2538';
       subtitle = 'An extraordinary draw! Identical scores.';
     } else if (!isWin) {
       title = 'BOT WINS!';
-      titleColor = 'var(--accent-cyan)';
+      titleColor = '#54b7cb';
       subtitle = `You were ${data.scoreDifference} points behind.`;
     }
 
@@ -48,7 +49,9 @@ export class ResultModal {
       <div class="modal-overlay active">
         <div class="modal-content" style="text-align: center; max-width: 480px;">
           <div class="modal-body" style="gap: 16px; padding: 28px 24px;">
-            <div style="font-size: 3rem;">${isWin ? '🏆' : isDraw ? '🤝' : '🎲'}</div>
+            <div style="display: flex; justify-content: center;">
+              ${Icons.trophy(56, isWin ? '#ffd200' : '#54b7cb')}
+            </div>
             <h2 style="font-size: 2.2rem; font-weight: 900; color: ${titleColor}; line-height: 1;">
               ${title}
             </h2>
@@ -56,18 +59,18 @@ export class ResultModal {
 
             <!-- Score Comparison Cards -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0;">
-              <div style="background: rgba(255, 94, 87, 0.15); border: 1px solid var(--primary-coral); border-radius: var(--radius-md); padding: 14px;">
-                <div style="font-size: 0.8rem; font-weight: 700; color: var(--primary-coral);">YOU</div>
-                <div style="font-size: 2.4rem; font-weight: 900; color: #ffffff;">${data.playerScore}</div>
-                <div style="font-size: 0.75rem; color: var(--text-light-muted);">
+              <div style="background: #fff5f5; border: 2px solid #ff5e57; border-radius: var(--radius-md); padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #ff5e57;">YOU</div>
+                <div style="font-size: 2.4rem; font-weight: 900; color: #23374d;">${data.playerScore}</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">
                   Upper: ${data.playerScorecard.upperSubtotal} ${data.playerScorecard.bonusAchieved ? '(+35)' : ''}
                 </div>
               </div>
 
-              <div style="background: rgba(0, 210, 211, 0.15); border: 1px solid var(--accent-cyan); border-radius: var(--radius-md); padding: 14px;">
-                <div style="font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan);">BOT (${data.difficulty.toUpperCase()})</div>
-                <div style="font-size: 2.4rem; font-weight: 900; color: #ffffff;">${data.botScore}</div>
-                <div style="font-size: 0.75rem; color: var(--text-light-muted);">
+              <div style="background: #f0faff; border: 2px solid #00b4d8; border-radius: var(--radius-md); padding: 14px;">
+                <div style="font-size: 0.8rem; font-weight: 800; color: #00b4d8;">BOT (${data.difficulty.toUpperCase()})</div>
+                <div style="font-size: 2.4rem; font-weight: 900; color: #23374d;">${data.botScore}</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">
                   Upper: ${data.botScorecard.upperSubtotal} ${data.botScorecard.bonusAchieved ? '(+35)' : ''}
                 </div>
               </div>

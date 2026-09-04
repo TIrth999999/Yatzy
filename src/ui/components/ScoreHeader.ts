@@ -1,12 +1,16 @@
+import { GameEngine } from '../../core/GameEngine';
 import { GameState } from '../../core/GameState';
 import { EventBus } from '../../core/EventBus';
+import { Icons } from '../icons/Icons';
 
 export class ScoreHeader {
   private container: HTMLElement;
+  private engine: GameEngine;
   private bus: EventBus = EventBus.getInstance();
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, engine: GameEngine) {
     this.container = container;
+    this.engine = engine;
     this.setupListeners();
   }
 
@@ -17,47 +21,61 @@ export class ScoreHeader {
   }
 
   public render(gameState?: GameState): void {
-    if (!gameState) return;
+    const state = gameState || this.engine.getState();
+    if (!state) return;
 
-    const pScore = gameState.player.scorecard.grandTotal;
-    const bScore = gameState.bot.scorecard.grandTotal;
-    const round = gameState.currentRound;
-    const totalRounds = gameState.totalRounds;
-    const diffLabel = gameState.difficulty.toUpperCase();
+    const pScore = state.player.scorecard.grandTotal;
+    const bScore = state.bot.scorecard.grandTotal;
+    const diffLabel = state.difficulty.toUpperCase();
+    const isBotTurn = state.activePlayer === 'bot';
 
     this.container.innerHTML = `
-      <div class="header-content-inner" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-        <div class="header-score-box player">
-          <span class="score-label">YOU</span>
-          <span class="score-num" id="header-player-score">${pScore}</span>
-        </div>
+      <div class="reference-header-wrapper ${isBotTurn ? 'is-bot-header' : ''}">
+        <!-- Left Action: Back to Menu / Pause -->
+        <button class="circle-header-btn" id="btn-header-back" title="Menu / Pause" aria-label="Menu">
+          ${Icons.arrowLeft(20, '#1e354d')}
+        </button>
 
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="vs-indicator">VS</span>
-            <span class="round-pill">ROUND ${round} / ${totalRounds}</span>
+        <!-- Center: VS Capsule on Player Turn OR Big "Bot's Turn" on Bot Turn -->
+        ${isBotTurn ? `
+          <div class="bot-turn-header-title animate-bounce-subtle">
+            <span class="bot-header-avatar">🤖</span>
+            <span class="bot-header-text">Bot's Turn</span>
           </div>
-          <span style="font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase;">
-            BOT (${diffLabel})
-          </span>
-        </div>
+        ` : `
+          <div class="vs-capsule-container">
+            <div class="diff-tab-pill">${diffLabel}</div>
+            <div class="vs-capsule-body">
+              <div class="score-player-side">
+                <span class="capsule-label">YOU</span>
+                <span class="capsule-score-val player">${pScore}</span>
+              </div>
 
-        <div class="header-score-box bot">
-          <span class="score-label">BOT</span>
-          <span class="score-num" id="header-bot-score">${bScore}</span>
-        </div>
+              <span class="capsule-vs-text">VS</span>
 
-        <div style="display: flex; gap: 8px; margin-left: 12px;">
-          <button class="btn btn-secondary btn-icon" id="btn-header-pause" title="Pause / Menu" aria-label="Pause">
-            ⏸️
-          </button>
-        </div>
+              <div class="score-bot-side">
+                <span class="capsule-label">BOT</span>
+                <span class="capsule-score-val bot">${bScore}</span>
+              </div>
+            </div>
+          </div>
+        `}
+
+        <!-- Right Action: Restart Match -->
+        <button class="circle-header-btn" id="btn-header-restart" title="Restart Game" aria-label="Restart">
+          ${Icons.refresh(20, '#1e354d')}
+        </button>
       </div>
     `;
 
-    const pauseBtn = this.container.querySelector('#btn-header-pause');
-    pauseBtn?.addEventListener('click', () => {
+    this.container.querySelector('#btn-header-back')?.addEventListener('click', () => {
       this.bus.emit('REQUEST_PAUSE');
+    });
+
+    this.container.querySelector('#btn-header-restart')?.addEventListener('click', () => {
+      if (confirm('Restart current match?')) {
+        this.bus.emit('REQUEST_REMATCH');
+      }
     });
   }
 }

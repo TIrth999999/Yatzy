@@ -1,4 +1,4 @@
-/* Dedicated Mobile & Portrait Layout (<= 900px) */
+/* Mobile Dedicated Layout (<= 900px) */
 @media (max-width: 900px) {
   .game-container {
     width: 100%;
@@ -11,162 +11,36 @@
     padding-bottom: env(safe-area-inset-bottom, 8px);
   }
 
-  /* Compact Mobile Header */
-  .mobile-header {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface-panel);
-    border-bottom: 1px solid var(--surface-panel-border);
-    padding: 8px 14px;
-    z-index: 10;
-  }
-
-  .header-score-box {
+  .desktop-main-grid {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
   }
 
-  .header-score-box.player .score-num {
-    color: var(--primary-coral);
-  }
-
-  .header-score-box.bot .score-num {
-    color: var(--accent-cyan);
-  }
-
-  .score-label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--text-light-muted);
-  }
-
-  .score-num {
-    font-size: 1.45rem;
-    font-weight: 900;
-    line-height: 1;
-  }
-
-  .vs-indicator {
-    font-size: 0.75rem;
-    font-weight: 900;
-    letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.4);
-  }
-
-  .round-pill {
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-full);
-    padding: 3px 10px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--accent-gold);
-  }
-
-  /* Center Scrollable Scorecard Container */
-  .mobile-scorecard-scroll {
+  /* Center Scrollable Scorecard (Order 1) */
+  .scorecard-scroll-mobile {
+    order: 1;
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 8px 12px 14px 12px;
+    padding: 6px 12px;
     display: flex;
-    flex-direction: column;
-    gap: 8px;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 0;
   }
 
-  .mobile-scorecard-card {
-    background: var(--surface-panel);
-    border: 1px solid var(--surface-panel-border);
-    border-radius: var(--radius-md);
-    padding: 10px;
-  }
-
-  .mobile-score-row {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    align-items: center;
-    min-height: 44px; /* Touch target size */
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    margin-bottom: 3px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid transparent;
-  }
-
-  .mobile-score-row.clickable {
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 94, 87, 0.3);
-  }
-
-  .mobile-score-row.clickable:active {
-    background: rgba(255, 94, 87, 0.25);
-    transform: scale(0.98);
-  }
-
-  .mobile-score-row.best-choice {
-    background: rgba(255, 190, 16, 0.15);
-    border-color: var(--accent-gold);
-  }
-
-  .mobile-score-row.scored {
-    opacity: 0.75;
-  }
-
-  /* Sticky Bottom Action Zone */
-  .mobile-action-bar {
+  /* Bottom Controls Sticky Zone (Order 2) */
+  .mobile-bottom-bar {
+    order: 2;
     flex-shrink: 0;
-    background: var(--surface-panel-light);
-    border-top: 1px solid var(--surface-panel-border);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
-    padding: 10px 14px 14px 14px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    z-index: 20;
-  }
-
-  .mobile-dice-tray {
-    display: flex;
     align-items: center;
-    justify-content: space-around;
-    gap: 6px;
-  }
-
-  .mobile-dice-tray .die {
-    width: 58px;
-    height: 58px;
-    border-radius: 14px;
-    padding: 6px;
-  }
-
-  .mobile-dice-tray .pip {
-    width: 10px;
-    height: 10px;
-  }
-
-  .mobile-roll-btn-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-
-  .btn-roll-mobile {
-    flex: 1;
-    height: 52px;
-    font-size: 1.2rem;
-    font-weight: 800;
-  }
-
-  .mobile-status-text {
-    text-align: center;
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--text-light-muted);
+    gap: 8px;
+    padding: 4px 12px 10px 12px;
+    z-index: 25;
   }
 }
