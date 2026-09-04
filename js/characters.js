@@ -30,13 +30,13 @@ class StageRenderer {
 
   loadStages() {
     const stageFiles = [
-      'assets/stages/stage_0_neon_alley.svg',
-      'assets/stages/stage_1_cyber_downtown.svg',
-      'assets/stages/stage_2_underground_subway.svg',
-      'assets/stages/stage_3_rooftop_arena.svg',
-      'assets/stages/stage_4_industrial_docks.svg',
-      'assets/stages/stage_5_chinatown_bazaar.svg',
-      'assets/stages/stage_6_cyber_highway.svg'
+      'assets/stages/stage_0_neon_alley.png',
+      'assets/stages/stage_1_cyber_downtown.png',
+      'assets/stages/stage_2_underground_subway.png',
+      'assets/stages/stage_3_rooftop_arena.png',
+      'assets/stages/stage_4_industrial_docks.png',
+      'assets/stages/stage_5_chinatown_bazaar.png',
+      'assets/stages/stage_6_cyber_highway.png'
     ];
 
     let loadedCount = 0;
