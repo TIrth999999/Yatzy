@@ -5,42 +5,125 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden;
     position: relative;
-    padding-bottom: env(safe-area-inset-bottom, 8px);
   }
 
   .desktop-main-grid {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
     min-height: 0;
     overflow: hidden;
   }
 
-  /* Center Scrollable Scorecard (Order 1) */
-  .scorecard-scroll-mobile {
+  .left-gameplay-column {
+    display: contents;
+  }
+
+  /* Top Header: Sticky at Top */
+  .gameplay-header {
     order: 1;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 4px 10px;
+    z-index: 20;
+  }
+
+  /* Center: Scrollable Unified Scorecard */
+  .desktop-scorecard-panel {
+    order: 2;
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 6px 12px;
+    padding: 4px 8px;
+    min-height: 0;
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    min-height: 0;
   }
 
-  /* Bottom Controls Sticky Zone (Order 2) */
-  .mobile-bottom-bar {
-    order: 2;
+  /* Bottom Controls: Docked Gameplay Zone */
+  .gameplay-panel {
+    order: 3;
     flex-shrink: 0;
+    width: 100%;
+    padding: 4px 8px calc(env(safe-area-inset-bottom, 8px) + 4px) 8px;
+    z-index: 25;
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .dice-glass-card {
+    padding: 8px 12px;
     gap: 8px;
-    padding: 4px 12px 10px 12px;
-    z-index: 25;
+    border-radius: 20px;
+    max-width: 420px;
+  }
+
+  .dice-card-banner {
+    font-size: 0.92rem;
+  }
+
+  .btn-roll-3d {
+    height: 50px;
+    max-width: 320px;
+    padding: 0 10px 0 18px;
+    border-radius: 14px;
+  }
+
+  .btn-roll-title {
+    font-size: 1.3rem;
+  }
+
+  .btn-roll-badge {
+    min-width: 64px;
+    padding: 2px 10px;
+    border-radius: 10px;
+  }
+
+  .badge-num {
+    font-size: 1.05rem;
+  }
+
+  .badge-label {
+    font-size: 0.5rem;
+  }
+
+  .roll-feedback-chip {
+    padding: 4px 12px;
+    font-size: 0.74rem;
+  }
+
+  .bottom-hud-row {
+    margin-top: 4px;
+    gap: 6px;
+    max-width: 420px;
+  }
+
+  .hud-combo-card,
+  .hud-tip-card {
+    padding: 4px 8px;
+    font-size: 0.65rem;
+    border-radius: 12px;
+  }
+
+  .hud-undo-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .turn-tracker-pill {
+    padding: 3px 12px 4px;
+    gap: 3px;
+  }
+
+  .turn-dot {
+    width: 6px;
+    height: 6px;
   }
 }

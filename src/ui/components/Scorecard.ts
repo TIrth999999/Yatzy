@@ -42,13 +42,25 @@ export class Scorecard {
       : null;
 
     this.container.innerHTML = `
-      <div class="scorecard-board-reference">
-        <!-- Left Column: Upper Section -->
-        <div class="board-column upper-col">
+      <div class="scorecard-modern-card">
+        <!-- Upper Section Header -->
+        <div class="sc-section-header">
+          <span class="sc-header-label">UPPER SECTION</span>
+          <div class="sc-header-badges">
+            <span class="sc-badge player">YOU</span>
+            <span class="sc-badge bot">BOT</span>
+          </div>
+        </div>
+
+        <!-- Upper Rows -->
+        <div class="sc-rows-container">
           ${UPPER_CATEGORIES.map((cat, idx) => {
             const dieVal = idx + 1;
-            return this.renderCategoryRow(
+            const names = ['Ones', 'Twos', 'Threes', 'Fours', 'Fives', 'Sixes'];
+            return this.renderRow(
               cat,
+              names[idx],
+              '',
               Icons.dieFaceTile(dieVal),
               pCard,
               bCard,
@@ -56,40 +68,67 @@ export class Scorecard {
               recommendation?.category === cat
             );
           }).join('')}
+        </div>
 
-          <!-- Bonus Row with Guaranteed True Circles (Matches reference screenshots 1, 3, 5) -->
-          <div class="scorecard-row bonus-row">
-            <div class="row-tile-icon bonus-label-box">
-              <span class="bonus-title">BONUS</span>
-              <span class="bonus-plus">+35</span>
-            </div>
-
-            <div class="bonus-cell">
-              <div class="bonus-ring-circle ${pCard.bonusAchieved ? 'achieved' : ''}">
-                <span class="ring-text">${pCard.upperSubtotal}/63</span>
-              </div>
-            </div>
-
-            <div class="bonus-cell">
-              <div class="bonus-ring-circle bot ${bCard.bonusAchieved ? 'achieved' : ''}">
-                <span class="ring-text">${bCard.upperSubtotal}/63</span>
-              </div>
-            </div>
+        <!-- Upper Total -->
+        <div class="sc-subtotal-row">
+          <span>UPPER TOTAL</span>
+          <div class="sc-subtotal-values">
+            <span class="sc-subtotal-num player">${pCard.upperSubtotal}</span>
+            <span class="sc-subtotal-num bot">${bCard.upperSubtotal}</span>
           </div>
         </div>
 
-        <!-- Divider line -->
-        <div class="board-divider"></div>
+        <!-- Bonus Progress Row (63+) -->
+        <div class="sc-bonus-row">
+          <div class="sc-bonus-meta">
+            <span class="sc-bonus-label">BONUS (63+)</span>
+            <div class="sc-bonus-track">
+              <div class="sc-bonus-fill" style="width: ${Math.min(100, (pCard.upperSubtotal / 63) * 100)}%;"></div>
+            </div>
+          </div>
+          <div class="sc-bonus-values">
+            <span class="sc-bonus-num player">${pCard.upperBonus}</span>
+            <span class="sc-bonus-num bot">${bCard.upperBonus}</span>
+          </div>
+        </div>
 
-        <!-- Right Column: Lower Section -->
-        <div class="board-column lower-col">
-          ${this.renderCategoryRow('threeOfAKind', '<span class="text-tile">3x</span>', pCard, bCard, potentials, recommendation?.category === 'threeOfAKind')}
-          ${this.renderCategoryRow('fourOfAKind', '<span class="text-tile">4x</span>', pCard, bCard, potentials, recommendation?.category === 'fourOfAKind')}
-          ${this.renderCategoryRow('fullHouse', Icons.house(22, '#2d2538'), pCard, bCard, potentials, recommendation?.category === 'fullHouse')}
-          ${this.renderCategoryRow('smallStraight', Icons.cardsSmall(), pCard, bCard, potentials, recommendation?.category === 'smallStraight')}
-          ${this.renderCategoryRow('largeStraight', Icons.cardsLarge(), pCard, bCard, potentials, recommendation?.category === 'largeStraight')}
-          ${this.renderCategoryRow('yatzy', Icons.yatzyLogo(), pCard, bCard, potentials, recommendation?.category === 'yatzy')}
-          ${this.renderCategoryRow('chance', Icons.question(22, '#2d2538'), pCard, bCard, potentials, recommendation?.category === 'chance')}
+        <!-- Lower Section Header -->
+        <div class="sc-section-header">
+          <span class="sc-header-label">LOWER SECTION</span>
+          <div class="sc-header-badges">
+            <span class="sc-badge player">YOU</span>
+            <span class="sc-badge bot">BOT</span>
+          </div>
+        </div>
+
+        <!-- Lower Rows -->
+        <div class="sc-rows-container">
+          ${this.renderRow('threeOfAKind', '3 of a kind', 'Total of all dice', '<span class="sc-icon-tile">3x</span>', pCard, bCard, potentials, recommendation?.category === 'threeOfAKind')}
+          ${this.renderRow('fourOfAKind', '4 of a kind', 'Total of all dice', '<span class="sc-icon-tile">4x</span>', pCard, bCard, potentials, recommendation?.category === 'fourOfAKind')}
+          ${this.renderRow('fullHouse', 'Full House', '25 points', Icons.house(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'fullHouse')}
+          ${this.renderRow('smallStraight', 'Small Straight', '30 points', Icons.cardsSmall(), pCard, bCard, potentials, recommendation?.category === 'smallStraight')}
+          ${this.renderRow('largeStraight', 'Large Straight', '40 points', Icons.cardsLarge(), pCard, bCard, potentials, recommendation?.category === 'largeStraight')}
+          ${this.renderRow('yatzy', 'Yahtzee', '50 points', '<span class="sc-icon-tile yahtzy-tile">YATZY</span>', pCard, bCard, potentials, recommendation?.category === 'yatzy')}
+          ${this.renderRow('chance', 'Chance', 'Total of all dice', Icons.question(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'chance')}
+        </div>
+
+        <!-- Lower Total -->
+        <div class="sc-subtotal-row">
+          <span>LOWER TOTAL</span>
+          <div class="sc-subtotal-values">
+            <span class="sc-subtotal-num player">${pCard.lowerTotal}</span>
+            <span class="sc-subtotal-num bot">${bCard.lowerTotal}</span>
+          </div>
+        </div>
+
+        <!-- Grand Total -->
+        <div class="sc-grand-total-bar">
+          <span class="sc-grand-label">GRAND TOTAL</span>
+          <div class="sc-grand-values">
+            <span class="sc-grand-num player">${pCard.grandTotal}</span>
+            <span class="sc-grand-num bot">${bCard.grandTotal}</span>
+          </div>
         </div>
       </div>
     `;
@@ -97,52 +136,57 @@ export class Scorecard {
     this.attachRowClickHandlers(potentials);
   }
 
-  private renderCategoryRow(
+  private renderRow(
     category: ScoreCategory,
-    tileIconHTML: string,
-    playerCard: any,
-    botCard: any,
+    name: string,
+    subtext: string,
+    iconHTML: string,
+    pCard: any,
+    bCard: any,
     potentials: Record<ScoreCategory, number> | null,
     isBest: boolean
   ): string {
-    const isPlayerScored = playerCard.scores[category] !== undefined;
-    const isBotScored = botCard.scores[category] !== undefined;
+    const isPlayerScored = pCard.scores[category] !== undefined;
+    const isBotScored = bCard.scores[category] !== undefined;
 
-    const pScoreVal = isPlayerScored ? playerCard.scores[category] : (potentials ? potentials[category] : '');
-    const bScoreVal = isBotScored ? botCard.scores[category] : '';
+    const pScoreVal = isPlayerScored ? pCard.scores[category] : (potentials ? potentials[category] : '');
+    const bScoreVal = isBotScored ? bCard.scores[category] : '';
 
     const canSelect = !isPlayerScored && potentials !== null;
 
-    let pSlotClass = 'score-slot player-slot';
+    let pClass = 'player';
     if (isPlayerScored) {
-      pSlotClass += ' committed';
-      if (playerCard.scores[category] > 0) pSlotClass += ' has-score';
-      if (playerCard.scores[category] >= 18) pSlotClass += ' high-score'; // Green highlight like in reference 3!
+      pClass += ' committed';
     } else if (canSelect) {
-      pSlotClass += ' selectable';
-      if (isBest) pSlotClass += ' best-choice';
+      pClass += ' preview';
     }
 
-    let bSlotClass = 'score-slot bot-slot';
+    let bClass = 'bot';
     if (isBotScored) {
-      bSlotClass += ' committed';
+      bClass += ' committed';
     }
 
     return `
-      <div class="scorecard-row ${canSelect ? 'row-clickable' : ''}" data-category="${category}">
-        <!-- Category Tile Icon -->
-        <div class="row-tile-icon">
-          ${tileIconHTML}
+      <div class="sc-row ${canSelect ? 'row-selectable' : ''} ${isBest ? 'is-best-recommendation' : ''}" data-category="${category}">
+        <div class="sc-cell-meta">
+          <div class="sc-icon-wrapper">
+            ${iconHTML}
+          </div>
+          <div class="sc-text-wrapper">
+            <span class="sc-cat-name">${name}</span>
+            ${subtext ? `<span class="sc-cat-desc">${subtext}</span>` : ''}
+          </div>
         </div>
 
-        <!-- Player Score Slot (Coral) -->
-        <div class="${pSlotClass}" title="${canSelect ? 'Tap to score' : ''}">
-          <span class="slot-number">${pScoreVal}</span>
-        </div>
+        <div class="sc-cell-scores">
+          <div class="sc-score-box ${pClass}" title="${canSelect ? 'Tap to score' : ''}">
+            <span>${pScoreVal !== '' ? pScoreVal : '-'}</span>
+            ${canSelect ? `<span class="sc-dot">●</span>` : ''}
+          </div>
 
-        <!-- Bot Score Slot (Cyan) -->
-        <div class="${bSlotClass}">
-          <span class="slot-number">${bScoreVal}</span>
+          <div class="sc-score-box ${bClass}">
+            <span>${bScoreVal !== '' ? bScoreVal : '-'}</span>
+          </div>
         </div>
       </div>
     `;
@@ -151,7 +195,7 @@ export class Scorecard {
   private attachRowClickHandlers(potentials: Record<ScoreCategory, number> | null): void {
     if (!potentials) return;
 
-    const rows = this.container.querySelectorAll('.scorecard-row.row-clickable');
+    const rows = this.container.querySelectorAll('.sc-row.row-selectable');
     rows.forEach(row => {
       row.addEventListener('click', () => {
         const cat = row.getAttribute('data-category') as ScoreCategory;

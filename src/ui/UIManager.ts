@@ -54,20 +54,19 @@ export class UIManager {
 
       <div class="toast-container" id="toast-container"></div>
 
-      <!-- Main Game Container (Reflows via CSS Grid / Flex) -->
+      <!-- Main Game Container (Desktop 2-Column / Mobile Responsive) -->
       <div class="game-container" id="game-container">
-        <!-- Desktop Header / Mobile Header -->
-        <header class="desktop-header mobile-header" id="header-container"></header>
-
-        <!-- Desktop Grid Wrapper (reflows into mobile center scroll) -->
         <main class="desktop-main-grid">
-          <!-- Desktop Left / Mobile Bottom Controls -->
-          <section class="gameplay-panel mobile-bottom-bar" id="gameplay-panel">
-            <div id="dice-container" style="width: 100%;"></div>
-          </section>
+          <!-- Left Column: Top HUD Header, Glassmorphic Dice Card, and Bottom HUD Row -->
+          <div class="left-gameplay-column">
+            <header class="gameplay-header" id="header-container"></header>
+            <section class="gameplay-panel" id="gameplay-panel">
+              <div id="dice-container" style="width: 100%;"></div>
+            </section>
+          </div>
 
-          <!-- Desktop Right / Mobile Center Scorecard -->
-          <aside class="desktop-scorecard-panel scorecard-scroll-mobile" id="scorecard-container"></aside>
+          <!-- Right Column: Full-Height Unified Scorecard Panel -->
+          <aside class="desktop-scorecard-panel" id="scorecard-container"></aside>
         </main>
       </div>
 
@@ -192,7 +191,7 @@ export class UIManager {
     this.bus.on('TURN_STARTED', (data: any) => {
       this.renderAll();
       if (data.player === 'player') {
-        this.showTurnAlert('YOUR TURN! 🎲');
+        // this.showTurnAlert('YOUR TURN! 🎲');
       }
     });
   }

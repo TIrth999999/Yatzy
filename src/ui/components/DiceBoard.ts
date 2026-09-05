@@ -1,6 +1,8 @@
 import { GameEngine } from '../../core/GameEngine';
 import { EventBus } from '../../core/EventBus';
 import { Dice3DComponent } from './Dice3D';
+import { SmartRecommender } from '../../scoring/SmartRecommender';
+import { CATEGORY_METAS } from '../../types/game';
 
 export class DiceBoard {
   private container: HTMLElement;
@@ -103,32 +105,96 @@ export class DiceBoard {
     const state = this.engine.getState();
     const isPlayer = state.activePlayer === 'player';
     const canRoll = isPlayer && this.engine.getDice().canRoll() && !this.isRolling;
+    const rollsLeft = Math.max(0, 3 - rollCount);
+    const diceValues = this.engine.getDice().getValues();
+
+    const recommendation = (isPlayer && rollCount > 0)
+      ? SmartRecommender.recommend(diceValues, state.player.scorecard, rollCount)
+      : null;
+
+    let bannerText = '';
+    if (rollCount === 0) {
+      bannerText = `➔ Roll up to <span class="accent-rolls">3</span> more times ⇦`;
+    } else if (rollsLeft > 1) {
+      bannerText = `➔ Roll up to <span class="accent-rolls">${rollsLeft}</span> more times ⇦`;
+    } else if (rollsLeft === 1) {
+      bannerText = `➔ Roll up to <span class="accent-rolls">1</span> more time ⇦`;
+    } else {
+      bannerText = `➔ Choose a category on the scorecard ⇦`;
+    }
+
+    const tipCategoryName = recommendation ? (CATEGORY_METAS[recommendation.category]?.name || recommendation.category) : '';
+    const tipText = recommendation
+      ? `Tip: <strong>${tipCategoryName}</strong> is open! Score <strong>${recommendation.score}</strong> pts`
+      : `Tip: Aim for high combinations or 4+ matching dice!`;
+
+    const feedbackText = recommendation
+      ? (recommendation.score >= 20 ? '🔥 Amazing roll! Score now!' : (recommendation.score > 0 ? '✨ Nice! Keep going!' : '🎲 Pick dice to hold or reroll'))
+      : '🎲 Tap dice to hold or roll to play';
 
     this.container.innerHTML = `
-      <div class="dice-board-wrapper ${!isPlayer ? 'bot-turn-active' : ''}">
-        <!-- 3D Dice Tray -->
-        ${this.dice3d.renderTrayHTML(dice, rollCount)}
+      <div class="gameplay-wrapper ${!isPlayer ? 'bot-turn-active' : ''}">
+        <!-- Glassmorphism Dice Tray Card -->
+        <div class="dice-glass-card">
+          <!-- Dynamic Banner -->
+          <div class="dice-card-banner">
+            ${isPlayer ? bannerText : `🤖 Bot's Turn — Calculating optimal EV moves...`}
+          </div>
 
-        <!-- Bottom Action Controls matching reference screenshot 1, 3, & 5 -->
-        ${isPlayer ? `
-          <div class="roll-controls-container">
-            <button class="btn-roll-reference ${canRoll ? '' : 'disabled'}" id="btn-roll-action" ${canRoll ? '' : 'disabled'}>
-              <span class="roll-text">ROLL</span>
-              <div class="roll-pills-group">
-                <span class="roll-pill ${rollCount === 1 ? 'active' : ''}">1</span>
-                <span class="roll-pill ${rollCount === 2 ? 'active' : ''}">2</span>
-                <span class="roll-pill ${rollCount === 3 ? 'active' : ''}">3</span>
+          <!-- 3D Dice Tray -->
+          <div class="dice-tray-wrapper">
+            ${this.dice3d.renderTrayHTML(dice, rollCount)}
+          </div>
+
+          <!-- Action Area (Player Roll Button or Bot Status) -->
+          ${isPlayer ? `
+            <div class="roll-action-area">
+              <button class="btn-roll-3d ${canRoll ? '' : 'disabled'}" id="btn-roll-action" ${canRoll ? '' : 'disabled'}>
+                <span class="btn-roll-title">${rollsLeft === 0 ? 'SELECT CATEGORY' : 'ROLL DICE'}</span>
+                <div class="btn-roll-badge">
+                  <span class="badge-num">${rollsLeft}</span>
+                  <span class="badge-label">${rollsLeft === 1 ? 'ROLL LEFT' : 'ROLLS LEFT'}</span>
+                </div>
+              </button>
+
+              <div class="roll-feedback-chip">
+                <span>${feedbackText}</span>
+                ${recommendation ? `<span class="chip-score">+${recommendation.score}</span>` : ''}
               </div>
-            </button>
-          </div>
-        ` : `
-          <div class="bot-status-container animate-fade-in">
-            <div class="bot-status-pill">
-              <span class="bot-pulse-icon">🤖</span>
-              <span class="bot-status-message-text">${this.botStatusMessage || "Bot's Turn — Rolling..."}</span>
             </div>
+          ` : `
+            <div class="bot-status-container animate-fade-in">
+              <div class="bot-status-pill">
+                <span class="bot-pulse-icon">🤖</span>
+                <span class="bot-status-message-text">${this.botStatusMessage || "Bot's Turn — Rolling..."}</span>
+              </div>
+            </div>
+          `}
+        </div>
+
+        <!-- Bottom HUD Row: Combo Card, Tip Card, Undo/Rematch Button -->
+        <div class="bottom-hud-row">
+          <div class="hud-combo-card">
+            <span class="hud-combo-flame">🔥</span>
+            <div class="hud-combo-body">
+              <span class="hud-combo-title">COMBO x2</span>
+              <div class="hud-combo-bar">
+                <div class="hud-combo-fill" style="width: ${Math.min(100, (rollCount / 3) * 100)}%;"></div>
+              </div>
+            </div>
+            <span class="hud-combo-fraction">${rollCount}/3</span>
           </div>
-        `}
+
+          <div class="hud-tip-card" title="Smart AI Strategy Advisor">
+            <span class="hud-tip-bulb">💡</span>
+            <div class="hud-tip-content">${tipText}</div>
+          </div>
+
+          <button class="hud-undo-btn" id="btn-hud-undo" title="Restart Match" aria-label="Restart Match">
+            <span class="hud-undo-icon">↺</span>
+            <span class="hud-undo-label">RESTART</span>
+          </button>
+        </div>
       </div>
     `;
 
@@ -138,9 +204,18 @@ export class DiceBoard {
       this.container.querySelector('#btn-roll-action')?.addEventListener('click', () => {
         if (canRoll) {
           this.engine.playerRoll();
+        } else if (rollsLeft === 0) {
+          const scorecard = document.querySelector('.scorecard-modern-card') || document.querySelector('.scorecard-board-reference');
+          scorecard?.scrollIntoView({ behavior: 'smooth' });
         }
       });
     }
+
+    this.container.querySelector('#btn-hud-undo')?.addEventListener('click', () => {
+      if (confirm('Restart current match?')) {
+        this.bus.emit('REQUEST_REMATCH');
+      }
+    });
   }
 
   private attachDieClickHandlers(): void {

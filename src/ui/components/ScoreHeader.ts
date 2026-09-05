@@ -29,14 +29,17 @@ export class ScoreHeader {
     const diffLabel = state.difficulty.toUpperCase();
     const isBotTurn = state.activePlayer === 'bot';
 
+    const currentRound = Math.min(state.totalRounds, state.currentRound || 1);
+    const totalRounds = state.totalRounds || 13;
+
     this.container.innerHTML = `
       <div class="reference-header-wrapper ${isBotTurn ? 'is-bot-header' : ''}">
         <!-- Left Action: Back to Menu / Pause -->
         <button class="circle-header-btn" id="btn-header-back" title="Menu / Pause" aria-label="Menu">
-          ${Icons.arrowLeft(40, '#1e354d')}
+          ${Icons.arrowLeft(30, '#1e354d')}
         </button>
 
-        <!-- Center: Persistent VS Capsule with Active Player Turn Highlight -->
+        <!-- Center: Persistent VS Capsule with Active Player Turn Highlight & Attached Turn Tracker -->
         <div class="vs-capsule-container">
           <div class="diff-tab-pill ${isBotTurn ? 'bot-turn' : 'player-turn'}">
             ${diffLabel} • ${isBotTurn ? "BOT'S TURN 🤖" : "YOUR TURN"}
@@ -54,10 +57,20 @@ export class ScoreHeader {
               <span class="capsule-score-val bot">${bScore}</span>
             </div>
           </div>
+
+          <!-- Turn Tracker Attached Below VS Capsule matching reference layout -->
+          <div class="turn-tracker-pill">
+            <span class="turn-tracker-text">TURN ${currentRound} OF ${totalRounds}</span>
+            <div class="turn-tracker-dots">
+              ${Array.from({ length: totalRounds }).map((_, i) => `
+                <span class="turn-dot ${i < currentRound - 1 ? 'completed' : (i === currentRound - 1 ? 'current' : '')}"></span>
+              `).join('')}
+            </div>
+          </div>
         </div>
 
         <!-- Right Spacer to keep center scoreboard capsule perfectly centered -->
-        <div style="width: 60px; height: 60px; visibility: hidden;" aria-hidden="true"></div>
+        <div style="width: 58px; height: 58px; visibility: hidden;" aria-hidden="true"></div>
       </div>
     `;
 
