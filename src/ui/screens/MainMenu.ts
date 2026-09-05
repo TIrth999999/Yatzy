@@ -2,6 +2,7 @@ import { Difficulty } from '../../types/game';
 import { EventBus } from '../../core/EventBus';
 import { DailyChallenge } from '../../daily/DailyChallenge';
 import { Icons } from '../icons/Icons';
+import logoIcon from '../../../assets/two-dice-icon.png';
 
 export class MainMenu {
   private container: HTMLElement;
@@ -25,14 +26,14 @@ export class MainMenu {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding: 20px;
+        padding: 12px;
         background: var(--bg-canvas);
         z-index: 80;
-        overflow-y: auto;
+        overflow: hidden;
       ">
-        <div style="max-width: 460px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+        <div style="max-width: 440px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px;">
           <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-            <img src="assets/two-dice-icon.png" alt="Yatzy Clash Logo" style="width: 100px; height: auto; margin-bottom: 6px;" />
+            <img src="${logoIcon}" alt="Yatzy Clash Logo" style="width: 86px; height: auto; margin-bottom: 4px;" />
 
             <h1 style="
               font-size: 2.5rem;
