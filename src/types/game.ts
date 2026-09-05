@@ -118,8 +118,8 @@ export const CATEGORY_METAS: Record<ScoreCategory, CategoryMeta> = {
     name: 'Full House',
     shortName: 'FULL',
     section: 'lower',
-    description: '3 of one value and 2 of another. Scores sum of all 5 dice',
-    example: '6, 6, 3, 3, 3 = 21'
+    description: '3 of one value and 2 of another. Scores fixed 25 points',
+    example: 'Scores fixed 25 points'
   },
   smallStraight: {
     id: 'smallStraight',
@@ -127,7 +127,7 @@ export const CATEGORY_METAS: Record<ScoreCategory, CategoryMeta> = {
     shortName: 'SMALL',
     section: 'lower',
     description: 'At least 4 consecutive dice (1-2-3-4, 2-3-4-5, 3-4-5-6)',
-    example: 'Scores fixed 15 points'
+    example: 'Scores fixed 30 points'
   },
   largeStraight: {
     id: 'largeStraight',
@@ -135,7 +135,7 @@ export const CATEGORY_METAS: Record<ScoreCategory, CategoryMeta> = {
     shortName: 'LARGE',
     section: 'lower',
     description: '5 consecutive dice (1-2-3-4-5 or 2-3-4-5-6)',
-    example: 'Scores fixed 20 points'
+    example: 'Scores fixed 40 points'
   },
   yatzy: {
     id: 'yatzy',
@@ -198,8 +198,9 @@ export interface DieState {
 export interface GameRulesConfig {
   upperBonusThreshold: number; // default 63
   upperBonusPoints: number;   // default 35
-  smallStraightPoints: number;// default 15
-  largeStraightPoints: number;// default 20
+  fullHousePoints: number;    // default 25
+  smallStraightPoints: number;// default 30
+  largeStraightPoints: number;// default 40
   yatzyPoints: number;        // default 50
   yatzyCountsAsFullHouse: boolean; // default false
   maxRollsPerTurn: number;    // default 3
@@ -209,8 +210,9 @@ export interface GameRulesConfig {
 export const DEFAULT_RULES: GameRulesConfig = {
   upperBonusThreshold: 63,
   upperBonusPoints: 35,
-  smallStraightPoints: 15,
-  largeStraightPoints: 20,
+  fullHousePoints: 25,
+  smallStraightPoints: 30,
+  largeStraightPoints: 40,
   yatzyPoints: 50,
   yatzyCountsAsFullHouse: false,
   maxRollsPerTurn: 3,

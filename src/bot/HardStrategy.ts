@@ -24,7 +24,7 @@ export class HardStrategy {
 
     // If Large Straight rolled and available, hold ALL dice!
     const lsScore = calculateCategoryScore('largeStraight', dice);
-    if (lsScore === 20 && scorecard.scores.largeStraight === undefined) {
+    if (lsScore > 0 && scorecard.scores.largeStraight === undefined) {
       return { holds: [true, true, true, true, true], reasoning: 'Large Straight achieved! Holding all.', ev: 45 };
     }
 
@@ -222,17 +222,17 @@ export class HardStrategy {
     }
 
     if (category === 'largeStraight') {
-      if (score === 20) return 45;
+      if (score === 40) return 50;
       return -8;
     }
 
     if (category === 'smallStraight') {
-      if (score === 15) return 28;
+      if (score === 30) return 35;
       return -4;
     }
 
     if (category === 'fullHouse') {
-      if (score > 0) return score + 14;
+      if (score === 25) return 38;
       return -5;
     }
 

@@ -66,12 +66,12 @@ export function calculateFullHouse(
   counts.sort((a, b) => b - a);
 
   if (counts.length === 2 && counts[0] === 3 && counts[1] === 2) {
-    return sumDice(dice);
+    return config.fullHousePoints;
   }
 
   // If configurable Yatzy-as-Full-House is enabled
   if (config.yatzyCountsAsFullHouse && counts.length === 1 && counts[0] === 5) {
-    return sumDice(dice);
+    return config.fullHousePoints;
   }
 
   return 0;

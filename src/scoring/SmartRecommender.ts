@@ -47,9 +47,9 @@ export class SmartRecommender {
 
       // Large Straight check
       else if (cat === 'largeStraight') {
-        if (score === 20) {
+        if (score === 40) {
           utility += 60;
-          reason = 'Large Straight scored for full 20 points!';
+          reason = 'Large Straight scored for full 40 points!';
         } else {
           utility = -10;
         }
@@ -57,7 +57,7 @@ export class SmartRecommender {
 
       // Small Straight check
       else if (cat === 'smallStraight') {
-        if (score === 15) {
+        if (score === 30) {
           utility += 35;
           reason = 'Small Straight secured!';
         } else {
@@ -67,8 +67,8 @@ export class SmartRecommender {
 
       // Full House check
       else if (cat === 'fullHouse') {
-        if (score > 0) {
-          utility += 30 + (score - 15);
+        if (score === 25) {
+          utility += 40;
           reason = 'Full House completed!';
         } else {
           utility = -8;

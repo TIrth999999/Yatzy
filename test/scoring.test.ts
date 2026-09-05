@@ -65,9 +65,9 @@ describe('ScoreRules - Pure Scoring Calculations', () => {
       expect(calculateFourOfAKind([3, 3, 3, 5, 6])).toBe(0);
     });
 
-    it('Full House: 3 of one value and 2 of another. Scores sum of all five dice', () => {
-      expect(calculateFullHouse([2, 2, 5, 5, 5])).toBe(19);
-      expect(calculateFullHouse([6, 6, 3, 3, 3])).toBe(21);
+    it('Full House: 3 of one value and 2 of another. Scores static 25 points', () => {
+      expect(calculateFullHouse([2, 2, 5, 5, 5])).toBe(25);
+      expect(calculateFullHouse([6, 6, 3, 3, 3])).toBe(25);
       // Default: 5 of a kind is Yatzy, not full house
       expect(calculateFullHouse([5, 5, 5, 5, 5])).toBe(0);
       // Not a full house
@@ -75,18 +75,18 @@ describe('ScoreRules - Pure Scoring Calculations', () => {
       expect(calculateFullHouse([1, 2, 3, 4, 5])).toBe(0);
     });
 
-    it('Small Straight: at least 4 consecutive values scores 15', () => {
-      expect(calculateSmallStraight([1, 2, 3, 4, 6])).toBe(15);
-      expect(calculateSmallStraight([2, 3, 4, 5, 5])).toBe(15);
-      expect(calculateSmallStraight([3, 4, 5, 6, 1])).toBe(15);
-      expect(calculateSmallStraight([1, 3, 4, 5, 6])).toBe(15);
+    it('Small Straight: at least 4 consecutive values scores 30', () => {
+      expect(calculateSmallStraight([1, 2, 3, 4, 6])).toBe(30);
+      expect(calculateSmallStraight([2, 3, 4, 5, 5])).toBe(30);
+      expect(calculateSmallStraight([3, 4, 5, 6, 1])).toBe(30);
+      expect(calculateSmallStraight([1, 3, 4, 5, 6])).toBe(30);
       expect(calculateSmallStraight([1, 2, 3, 5, 6])).toBe(0);
     });
 
-    it('Large Straight: 1-2-3-4-5 or 2-3-4-5-6 scores 20', () => {
-      expect(calculateLargeStraight([1, 2, 3, 4, 5])).toBe(20);
-      expect(calculateLargeStraight([2, 3, 4, 5, 6])).toBe(20);
-      expect(calculateLargeStraight([5, 4, 3, 2, 1])).toBe(20);
+    it('Large Straight: 1-2-3-4-5 or 2-3-4-5-6 scores 40', () => {
+      expect(calculateLargeStraight([1, 2, 3, 4, 5])).toBe(40);
+      expect(calculateLargeStraight([2, 3, 4, 5, 6])).toBe(40);
+      expect(calculateLargeStraight([5, 4, 3, 2, 1])).toBe(40);
       expect(calculateLargeStraight([1, 2, 3, 4, 6])).toBe(0);
       expect(calculateLargeStraight([2, 3, 4, 5, 5])).toBe(0);
     });

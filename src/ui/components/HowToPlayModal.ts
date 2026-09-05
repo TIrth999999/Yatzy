@@ -37,9 +37,9 @@ export class HowToPlayModal {
               <h4 style="color: #4cd137; font-size: 1rem; margin-bottom: 4px;">4. SPECIAL COMBINATIONS</h4>
               <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
                 <li><strong>3 of a Kind / 4 of a Kind:</strong> Sum of all 5 dice.</li>
-                <li><strong>Full House:</strong> 3 of one value + 2 of another (sum of all dice).</li>
-                <li><strong>Small Straight:</strong> 4 consecutive dice (15 points).</li>
-                <li><strong>Large Straight:</strong> 5 consecutive dice (20 points).</li>
+                <li><strong>Full House:</strong> 3 of one value + 2 of another (25 points).</li>
+                <li><strong>Small Straight:</strong> 4 consecutive dice (30 points).</li>
+                <li><strong>Large Straight:</strong> 5 consecutive dice (40 points).</li>
                 <li><strong>Yatzy:</strong> All 5 dice matching (50 points!).</li>
                 <li><strong>Chance:</strong> Sum of all dice (always available).</li>
               </ul>

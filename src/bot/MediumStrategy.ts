@@ -13,7 +13,7 @@ export class MediumStrategy {
     }
 
     // 2. Large straight made? Keep all
-    if (calculateCategoryScore('largeStraight', dice) === 20 && scorecard.scores.largeStraight === undefined) {
+    if (calculateCategoryScore('largeStraight', dice) > 0 && scorecard.scores.largeStraight === undefined) {
       return { holds: [true, true, true, true, true], reasoning: 'Holding Large Straight' };
     }
 
@@ -115,11 +115,11 @@ export class MediumStrategy {
       if (cat === 'yatzy') {
         value = score === 50 ? 100 : -10;
       } else if (cat === 'largeStraight') {
-        value = score === 20 ? 35 : -4;
+        value = score === 40 ? 45 : -4;
       } else if (cat === 'smallStraight') {
-        value = score === 15 ? 25 : -2;
+        value = score === 30 ? 35 : -2;
       } else if (cat === 'fullHouse') {
-        value = score > 0 ? score + 10 : -3;
+        value = score === 25 ? 35 : -3;
       } else if (UPPER_CATEGORIES.includes(cat)) {
         const numVal = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixes'].indexOf(cat) + 1;
         const count = dice.filter(d => d === numVal).length;

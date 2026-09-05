@@ -60,7 +60,7 @@ export const ACHIEVEMENTS_DEF: Omit<Achievement, 'unlocked' | 'unlockedAt'>[] = 
   {
     id: 'full_house_king',
     title: 'Full House Master',
-    description: 'Score a Full House of 25 or higher',
+    description: 'Score a Full House (25 points)',
     icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="#2d2538"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3z"/></svg>'
   }
 ];
