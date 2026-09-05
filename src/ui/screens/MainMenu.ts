@@ -31,12 +31,12 @@ export class MainMenu {
         z-index: 80;
         overflow: hidden;
       ">
-        <div style="max-width: 440px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px;">
+        <div style="max-width: 440px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 8px;">
           <div style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-            <img src="${logoIcon}" alt="Yatzy Clash Logo" style="width: 86px; height: auto; margin-bottom: 4px;" />
+            <img src="${logoIcon}" alt="Yatzy Clash Logo" style="width: 58px; height: auto; margin-bottom: 2px;" />
 
             <h1 style="
-              font-size: 2.5rem;
+              font-size: 1.85rem;
               font-weight: 900;
               letter-spacing: -0.01em;
               color: #ffffff;
@@ -45,14 +45,14 @@ export class MainMenu {
             ">
               YATZY CLASH
             </h1>
-            <p style="font-size: 0.88rem; font-weight: 800; color: rgba(255, 255, 255, 0.9); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 2px;">
+            <p style="font-size: 0.72rem; font-weight: 800; color: rgba(255, 255, 255, 0.9); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 1px;">
               DICE MASTERS
             </p>
           </div>
 
           <!-- Difficulty Selection Slider & Animated Expression -->
-          <div style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
-            <div style="font-size: 0.78rem; font-weight: 800; color: rgba(255, 255, 255, 0.85); letter-spacing: 0.08em; text-align: center;">
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 6px;">
+            <div style="font-size: 0.72rem; font-weight: 800; color: rgba(255, 255, 255, 0.85); letter-spacing: 0.08em; text-align: center;">
               SELECT DIFFICULTY
             </div>
 
@@ -61,16 +61,16 @@ export class MainMenu {
               display: flex;
               align-items: center;
               justify-content: space-between;
-              padding: 12px 18px;
+              padding: 8px 14px;
               background: #ffffff;
-              border: 2.5px solid #1e354d;
-              border-radius: 18px;
-              box-shadow: 0 5px 0 #1e354d, 0 8px 16px rgba(0, 0, 0, 0.15);
+              border: 2px solid #1e354d;
+              border-radius: 14px;
+              box-shadow: 0 4px 0 #1e354d, 0 6px 12px rgba(0, 0, 0, 0.12);
               transition: box-shadow 0.25s ease, border-color 0.25s ease;
             ">
-              <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="display: flex; align-items: center; gap: 10px;">
                 <div id="diff-face-icon" style="
-                  font-size: 2.2rem;
+                  font-size: 1.8rem;
                   line-height: 1;
                   display: flex;
                   align-items: center;
@@ -81,15 +81,15 @@ export class MainMenu {
                   😏
                 </div>
                 <div>
-                  <div id="diff-title" style="font-weight: 900; font-size: 1.08rem; color: #00b4d8; transition: color 0.25s ease;">
+                  <div id="diff-title" style="font-weight: 900; font-size: 0.95rem; color: #00b4d8; transition: color 0.25s ease;">
                     MEDIUM
                   </div>
-                  <div id="diff-desc" style="font-size: 0.76rem; color: #64748b; font-weight: 600; transition: color 0.25s ease;">
+                  <div id="diff-desc" style="font-size: 0.7rem; color: #64748b; font-weight: 600; transition: color 0.25s ease;">
                     Smart, tactical opponent
                   </div>
                 </div>
               </div>
-              <div id="diff-stars" style="color: #00b4d8; font-size: 0.85rem; font-weight: 900; transition: color 0.25s ease;">
+              <div id="diff-stars" style="color: #00b4d8; font-size: 0.8rem; font-weight: 900; transition: color 0.25s ease;">
                 ★★★☆☆
               </div>
             </div>
@@ -98,23 +98,23 @@ export class MainMenu {
             <div class="diff-slider-wrapper" style="
               position: relative;
               background: #ffffff;
-              border-radius: 18px;
-              padding: 4px;
+              border-radius: 14px;
+              padding: 3px;
               display: flex;
               align-items: center;
-              border: 2.5px solid #1e354d;
-              box-shadow: 0 5px 0 #1e354d, 0 8px 16px rgba(0, 0, 0, 0.15);
+              border: 2px solid #1e354d;
+              box-shadow: 0 4px 0 #1e354d, 0 6px 12px rgba(0, 0, 0, 0.12);
               user-select: none;
             ">
               <!-- Sliding Thumb Pill with 3D button bevel -->
               <div id="slider-pill" style="
                 position: absolute;
-                top: 4px;
-                bottom: 8px;
+                top: 3px;
+                bottom: 6px;
                 left: calc(33.333% + 1px);
                 width: calc(33.333% - 4px);
                 background: #00b4d8;
-                border-radius: 13px;
+                border-radius: 10px;
                 border: 2px solid #0077b6;
                 box-shadow: 0 3px 0 #0077b6, 0 4px 10px rgba(0, 0, 0, 0.2);
                 transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
@@ -126,9 +126,9 @@ export class MainMenu {
               <div class="diff-segment" data-index="0" style="
                 flex: 1;
                 text-align: center;
-                padding: 10px 0;
+                padding: 6px 0;
                 font-weight: 900;
-                font-size: 0.85rem;
+                font-size: 0.78rem;
                 letter-spacing: 0.05em;
                 color: #475569;
                 cursor: pointer;
@@ -140,9 +140,9 @@ export class MainMenu {
               <div class="diff-segment active" data-index="1" style="
                 flex: 1;
                 text-align: center;
-                padding: 10px 0;
+                padding: 6px 0;
                 font-weight: 900;
-                font-size: 0.85rem;
+                font-size: 0.78rem;
                 letter-spacing: 0.05em;
                 color: #ffffff;
                 cursor: pointer;
@@ -154,9 +154,9 @@ export class MainMenu {
               <div class="diff-segment" data-index="2" style="
                 flex: 1;
                 text-align: center;
-                padding: 10px 0;
+                padding: 6px 0;
                 font-weight: 900;
-                font-size: 0.85rem;
+                font-size: 0.78rem;
                 letter-spacing: 0.05em;
                 color: #475569;
                 cursor: pointer;
@@ -182,46 +182,46 @@ export class MainMenu {
           </div>
 
           <!-- Play Buttons -->
-          <div style="width: 100%; display: flex; flex-direction: column; gap: 20px; margin-top: 4px;">
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 8px; margin-top: 2px;">
             <button class="btn btn-primary" id="btn-play-quick" style="
-              height: 56px;
-              font-size: 1.3rem;
+              height: 46px;
+              font-size: 1.15rem;
               width: 100%;
               background: #e84d43;
-              box-shadow: 0 6px 0 #b33930, 0 8px 20px rgba(0,0,0,0.22);
-              border-radius: 16px;
+              box-shadow: 0 5px 0 #b33930, 0 6px 14px rgba(0,0,0,0.2);
+              border-radius: 14px;
             ">
               PLAY NOW
             </button>
 
-            <div style="display: flex; gap: 10px; width: 100%;">
-              <button class="btn btn-gold mode-coming-soon-btn" id="btn-play-daily" style="flex: 1; height: 48px; font-size: 0.84rem; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 6px;">
+            <div style="display: flex; gap: 8px; width: 100%;">
+              <button class="btn btn-gold mode-coming-soon-btn" id="btn-play-daily" style="flex: 1; height: 40px; font-size: 0.78rem; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 2px 4px; border-radius: 12px;">
                 <span>Daily Challenge</span>
-                <span style="font-size: 0.58rem; font-weight: 900; background: rgba(0, 0, 0, 0.45); color: #ffd200; padding: 1px 7px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid rgba(255, 210, 0, 0.4);">COMING SOON</span>
+                <span style="font-size: 0.54rem; font-weight: 900; background: rgba(0, 0, 0, 0.45); color: #ffd200; padding: 1px 6px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid rgba(255, 210, 0, 0.4);">COMING SOON</span>
               </button>
-              <button class="btn btn-secondary mode-coming-soon-btn" id="btn-play-practice" style="flex: 1; height: 48px; font-size: 0.84rem; background: #f1f5f9; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 6px;">
+              <button class="btn btn-secondary mode-coming-soon-btn" id="btn-play-practice" style="flex: 1; height: 40px; font-size: 0.78rem; background: #f1f5f9; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 2px 4px; border-radius: 12px;">
                 <span style="color: #475569;">Solo Practice</span>
-                <span style="font-size: 0.58rem; font-weight: 900; background: #e2e8f0; color: #64748b; padding: 1px 7px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid #cbd5e1;">COMING SOON</span>
+                <span style="font-size: 0.54rem; font-weight: 900; background: #e2e8f0; color: #64748b; padding: 1px 6px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid #cbd5e1;">COMING SOON</span>
               </button>
             </div>
           </div>
 
           <!-- Navigation Icon Row -->
-          <div style="display: flex; gap: 14px; width: 100%; justify-content: center; margin-top: 8px;">
-            <button class="circle-header-btn" id="btn-menu-htp" title="How to Play" aria-label="How to Play">
-              ${Icons.book(22, '#1e354d')}
+          <div style="display: flex; gap: 10px; width: 100%; justify-content: center; margin-top: 4px;">
+            <button class="circle-header-btn" id="btn-menu-htp" title="How to Play" aria-label="How to Play" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px;">
+              ${Icons.book(18, '#1e354d')}
             </button>
-            <button class="circle-header-btn" id="btn-menu-stats" title="Statistics" aria-label="Statistics">
-              ${Icons.chart(22, '#1e354d')}
+            <button class="circle-header-btn" id="btn-menu-stats" title="Statistics" aria-label="Statistics" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px;">
+              ${Icons.chart(18, '#1e354d')}
             </button>
-            <button class="circle-header-btn" id="btn-menu-ach" title="Achievements" aria-label="Achievements">
-              ${Icons.trophy(22, '#1e354d')}
+            <button class="circle-header-btn" id="btn-menu-ach" title="Achievements" aria-label="Achievements" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px;">
+              ${Icons.trophy(18, '#1e354d')}
             </button>
-            <button class="circle-header-btn" id="btn-menu-cosmetics" title="Dice Themes" aria-label="Dice Themes">
-              ${Icons.palette(22, '#1e354d')}
+            <button class="circle-header-btn" id="btn-menu-cosmetics" title="Dice Themes" aria-label="Dice Themes" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px;">
+              ${Icons.palette(18, '#1e354d')}
             </button>
-            <button class="circle-header-btn" id="btn-menu-settings" title="Settings" aria-label="Settings">
-              ${Icons.settings(22, '#1e354d')}
+            <button class="circle-header-btn" id="btn-menu-settings" title="Settings" aria-label="Settings" style="width: 44px; height: 44px; min-width: 44px; min-height: 44px;">
+              ${Icons.settings(18, '#1e354d')}
             </button>
           </div>
         </div>
