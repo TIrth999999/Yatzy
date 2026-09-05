@@ -18,72 +18,98 @@ export class SettingsModal {
 
     this.container.innerHTML = `
       <div class="modal-overlay active">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 480px;">
           <div class="modal-header">
-            <h2>Game Settings</h2>
-            <button class="circle-header-btn" id="btn-close-settings" style="width: 36px; height: 36px;">
-              ${Icons.close(18, '#2d2538')}
+            <h2>${Icons.settings(22, '#1e354d')} Game Settings</h2>
+            <button class="modal-close-btn" id="btn-close-settings" aria-label="Close">
+              ${Icons.close(18, '#1e354d')}
             </button>
           </div>
-          <div class="modal-body" style="gap: 16px;">
-            <!-- Sound FX Toggle & Volume -->
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="modal-body" style="gap: 12px;">
+            <!-- Audio Section -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+              <div style="font-size: 0.74rem; font-weight: 900; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase;">AUDIO</div>
+              
+              <!-- Sound FX -->
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 800; color: #1e354d; font-size: 0.95rem;">Sound Effects</span>
+                  <label class="custom-toggle">
+                    <input type="checkbox" id="setting-sound" ${s.soundEnabled ? 'checked' : ''}>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div style="padding: 4px 0;">
+                  <input type="range" class="custom-range" id="setting-sfx-vol" min="0" max="1" step="0.05" value="${s.sfxVolume}">
+                </div>
+              </div>
+
+              <!-- Music -->
+              <div style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid #edf2f7; padding-top: 12px; margin-top: 2px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 800; color: #1e354d; font-size: 0.95rem;">Background Music</span>
+                  <label class="custom-toggle">
+                    <input type="checkbox" id="setting-music" ${s.musicEnabled ? 'checked' : ''}>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div style="padding: 4px 0;">
+                  <input type="range" class="custom-range" id="setting-music-vol" min="0" max="1" step="0.05" value="${s.musicVolume}">
+                </div>
+              </div>
+            </div>
+
+            <!-- Gameplay & Motion -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 12px;">
+              <div style="font-size: 0.74rem; font-weight: 900; color: #64748b; letter-spacing: 0.08em; text-transform: uppercase;">GAMEPLAY</div>
+              
+              <!-- Fast Animations -->
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <label for="setting-sound" style="font-weight: 700;">Sound Effects</label>
-                <input type="checkbox" id="setting-sound" ${s.soundEnabled ? 'checked' : ''} style="transform: scale(1.4);">
+                <div>
+                  <div style="font-weight: 800; color: #1e354d; font-size: 0.95rem;">Fast Animations</div>
+                  <div style="font-size: 0.76rem; color: #64748b;">Speed up rolls and score effects</div>
+                </div>
+                <label class="custom-toggle">
+                  <input type="checkbox" id="setting-fast-anim" ${s.fastAnimation ? 'checked' : ''}>
+                  <span class="slider"></span>
+                </label>
               </div>
-              <input type="range" id="setting-sfx-vol" min="0" max="1" step="0.05" value="${s.sfxVolume}" style="width: 100%;">
+
+              <!-- Reduced Motion -->
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edf2f7; padding-top: 10px;">
+                <div>
+                  <div style="font-weight: 800; color: #1e354d; font-size: 0.95rem;">Reduced Motion</div>
+                  <div style="font-size: 0.76rem; color: #64748b;">Disable 3D spins & heavy animations</div>
+                </div>
+                <label class="custom-toggle">
+                  <input type="checkbox" id="setting-reduced-motion" ${s.reducedMotion ? 'checked' : ''}>
+                  <span class="slider"></span>
+                </label>
+              </div>
             </div>
 
-            <!-- Music Toggle & Volume -->
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+            <!-- Manage & Data -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <label for="setting-music" style="font-weight: 700;">Background Music</label>
-                <input type="checkbox" id="setting-music" ${s.musicEnabled ? 'checked' : ''} style="transform: scale(1.4);">
+                <span style="font-weight: 800; color: #1e354d; font-size: 0.9rem;">Tutorial Guide</span>
+                <button class="btn btn-secondary" id="btn-replay-tutorial" style="height: 34px; padding: 0 14px; font-size: 0.8rem;">
+                  Replay
+                </button>
               </div>
-              <input type="range" id="setting-music-vol" min="0" max="1" step="0.05" value="${s.musicVolume}" style="width: 100%;">
-            </div>
 
-            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08);">
-
-            <!-- Fast Animations -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 700;">Fast Animation</div>
-                <div style="font-size: 0.78rem; color: var(--text-light-muted);">Speed up dice roll animations</div>
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #edf2f7; padding-top: 10px;">
+                <div>
+                  <span style="font-weight: 800; color: #ef4444; font-size: 0.9rem;">Reset Progress</span>
+                  <div style="font-size: 0.72rem; color: #94a3b8;">Clear stats and unlocks</div>
+                </div>
+                <button class="btn btn-danger" id="btn-reset-data" style="height: 34px; padding: 0 14px; font-size: 0.8rem;">
+                  Reset Data
+                </button>
               </div>
-              <input type="checkbox" id="setting-fast-anim" ${s.fastAnimation ? 'checked' : ''} style="transform: scale(1.4);">
-            </div>
-
-            <!-- Reduced Motion -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div>
-                <div style="font-weight: 700;">Reduced Motion</div>
-                <div style="font-size: 0.78rem; color: var(--text-light-muted);">Disable tumbles and rotations</div>
-              </div>
-              <input type="checkbox" id="setting-reduced-motion" ${s.reducedMotion ? 'checked' : ''} style="transform: scale(1.4);">
-            </div>
-
-            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.08);">
-
-            <!-- Tutorial Replay -->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-weight: 700;">First-Game Tutorial</span>
-              <button class="btn btn-secondary" id="btn-replay-tutorial" style="height: 36px; font-size: 0.82rem;">
-                Replay Tutorial
-              </button>
-            </div>
-
-            <!-- Reset Progress -->
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 6px;">
-              <span style="font-weight: 700; color: #ff5252;">Reset Game Data</span>
-              <button class="btn btn-secondary" id="btn-reset-data" style="height: 36px; font-size: 0.82rem; border-color: rgba(255, 82, 82, 0.4); color: #ff5252;">
-                Reset Data
-              </button>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" id="btn-save-settings" style="width: 100%;">Done</button>
+            <button class="btn btn-primary" id="btn-save-settings" style="width: 100%; height: 48px; font-size: 1.05rem;">Done</button>
           </div>
         </div>
       </div>
@@ -133,17 +159,13 @@ export class SettingsModal {
     this.container.querySelector('#btn-replay-tutorial')?.addEventListener('click', () => {
       this.settingsMgr.setTutorialCompleted(false);
       close();
-      alert('Tutorial reset! It will appear on your next game roll.');
     });
 
     this.container.querySelector('#btn-reset-data')?.addEventListener('click', () => {
-      if (confirm('Are you sure you want to reset all your statistics and achievements? This cannot be undone.')) {
-        this.statsMgr.resetStats();
-        this.achMgr.reset();
-        this.settingsMgr.resetToDefaults();
-        close();
-        alert('All game data has been reset.');
-      }
+      this.statsMgr.resetStats();
+      this.achMgr.reset();
+      this.settingsMgr.resetToDefaults();
+      close();
     });
   }
 }

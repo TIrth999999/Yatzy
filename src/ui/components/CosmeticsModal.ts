@@ -36,14 +36,14 @@ export class CosmeticsModal {
 
     this.container.innerHTML = `
       <div class="modal-overlay active">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 480px;">
           <div class="modal-header">
-            <h2>Dice Themes</h2>
-            <button class="circle-header-btn" id="btn-close-cosmetics" style="width: 36px; height: 36px;">
-              ${Icons.close(18, '#2d2538')}
+            <h2>${Icons.palette(22, '#1e354d')} Dice Themes</h2>
+            <button class="modal-close-btn" id="btn-close-cosmetics" aria-label="Close">
+              ${Icons.close(18, '#1e354d')}
             </button>
           </div>
-          <div class="modal-body" style="gap: 12px;">
+          <div class="modal-body" style="gap: 10px;">
             ${SKINS.map(skin => {
               const isUnlocked = stats.gamesWon >= skin.requiredWins;
               const isSelected = s.selectedDiceSkin === skin.id;
@@ -53,27 +53,40 @@ export class CosmeticsModal {
                   display: flex;
                   align-items: center;
                   gap: 14px;
-                  padding: 12px 16px;
-                  border-radius: var(--radius-md);
-                  background: ${isSelected ? 'rgba(255, 94, 87, 0.15)' : 'rgba(255, 255, 255, 0.03)'};
-                  border: 1px solid ${isSelected ? 'var(--primary-coral)' : 'rgba(255, 255, 255, 0.06)'};
+                  padding: 12px 14px;
+                  border-radius: 14px;
+                  background: ${isSelected ? '#fef2f2' : isUnlocked ? '#ffffff' : '#f8fafc'};
+                  border: ${isSelected ? '2px solid #ff5252' : isUnlocked ? '1.5px solid #e2e8f0' : '1.5px dashed #cbd5e1'};
+                  box-shadow: ${isSelected ? '0 2px 10px rgba(255, 82, 82, 0.12)' : 'none'};
                 ">
-                  <div style="font-size: 2.2rem;">${skin.icon}</div>
-                  <div style="flex: 1;">
-                    <div style="font-weight: 800; font-size: 1rem;">${skin.name}</div>
-                    <div style="font-size: 0.78rem; color: var(--text-light-muted);">${skin.description}</div>
+                  <div style="
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 12px;
+                    background: ${isSelected ? '#fee2e2' : '#f1f5f9'};
+                    border: 1.5px solid ${isSelected ? '#fca5a5' : '#e2e8f0'};
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                  ">
+                    ${skin.icon}
+                  </div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="font-weight: 800; font-size: 0.95rem; color: #1e354d;">${skin.name}</div>
+                    <div style="font-size: 0.78rem; color: #64748b; margin-top: 2px;">${skin.description}</div>
                   </div>
 
-                  <div>
+                  <div style="flex-shrink: 0;">
                     ${isSelected
-                      ? '<span style="font-size: 0.78rem; font-weight: 800; color: var(--primary-coral);">EQUIPPED</span>'
+                      ? '<span style="font-size: 0.72rem; font-weight: 800; color: #ff5252; background: #fee2e2; border: 1px solid #fca5a5; padding: 4px 10px; border-radius: 6px;">EQUIPPED</span>'
                       : isUnlocked
-                      ? `<button class="btn btn-secondary btn-equip-skin" data-skin="${skin.id}" style="height: 36px; padding: 0 14px;">Equip</button>`
+                      ? `<button class="btn btn-secondary btn-equip-skin" data-skin="${skin.id}" style="height: 36px; padding: 0 16px; font-size: 0.85rem;">Equip</button>`
                       : `
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
-                          <span style="font-size: 0.7rem; color: var(--text-light-muted);">${stats.gamesWon}/${skin.requiredWins} Wins</span>
-                          <button class="btn btn-gold btn-reward-unlock" data-skin="${skin.id}" style="height: 30px; font-size: 0.72rem; padding: 0 8px;">
-                            📺 Unlock Now
+                          <span style="font-size: 0.7rem; font-weight: 700; color: #64748b;">${stats.gamesWon}/${skin.requiredWins} Wins</span>
+                          <button class="btn btn-gold btn-reward-unlock" data-skin="${skin.id}" style="height: 32px; font-size: 0.72rem; padding: 0 10px;">
+                            📺 Unlock
                           </button>
                         </div>
                       `
@@ -84,7 +97,7 @@ export class CosmeticsModal {
             }).join('')}
           </div>
           <div class="modal-footer">
-            <button class="btn btn-secondary" id="btn-done-cosmetics" style="width: 100%;">Close</button>
+            <button class="btn btn-secondary" id="btn-done-cosmetics" style="width: 100%; height: 46px; font-size: 1rem;">Close</button>
           </div>
         </div>
       </div>

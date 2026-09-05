@@ -10,43 +10,82 @@ export class HowToPlayModal {
   public show(): void {
     this.container.innerHTML = `
       <div class="modal-overlay active">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 480px;">
           <div class="modal-header">
-            <h2>How to Play Yatzy</h2>
-            <button class="circle-header-btn" id="btn-close-htp" style="width: 36px; height: 36px;">
-              ${Icons.close(18, '#2d2538')}
+            <h2>${Icons.book(22, '#1e354d')} How to Play Yatzy</h2>
+            <button class="modal-close-btn" id="btn-close-htp" aria-label="Close">
+              ${Icons.close(18, '#1e354d')}
             </button>
           </div>
-          <div class="modal-body" style="font-size: 0.92rem; line-height: 1.5; color: #ddd7e5;">
-            <div>
-              <h4 style="color: var(--primary-coral); font-size: 1rem; margin-bottom: 4px;">1. ROLL & HOLD</h4>
-              <p>On each turn, you can roll your 5 dice up to <strong>3 times</strong>. After any roll, tap dice to <strong>keep (hold)</strong> them, and roll again to improve your combinations.</p>
+          <div class="modal-body" style="gap: 14px;">
+            <!-- Step 1 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <h4 style="color: #ff5252; font-size: 0.95rem; font-weight: 900; letter-spacing: 0.04em;">1. ROLL & HOLD</h4>
+                <span class="score-pill coral">3 ROLLS</span>
+              </div>
+              <p style="color: #334155; font-size: 0.88rem; line-height: 1.45;">
+                On each turn, you can roll the 5 dice up to <strong>3 times</strong>. Tap any dice to <strong>hold (keep)</strong> them, and re-roll the rest to build high-scoring combinations.
+              </p>
             </div>
 
-            <div>
-              <h4 style="color: var(--accent-cyan); font-size: 1rem; margin-bottom: 4px;">2. CHOOSE A CATEGORY</h4>
-              <p>After your rolls, select one available category on your scorecard. Each of the 13 categories can only be scored <strong>once</strong> per game.</p>
+            <!-- Step 2 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <h4 style="color: #00b4d8; font-size: 0.95rem; font-weight: 900; letter-spacing: 0.04em;">2. CHOOSE A CATEGORY</h4>
+                <span class="score-pill">13 ROUNDS</span>
+              </div>
+              <p style="color: #334155; font-size: 0.88rem; line-height: 1.45;">
+                After rolling, choose <strong>one category</strong> on your scorecard to bank points. Each of the 13 categories can only be scored <strong>once</strong> per match!
+              </p>
             </div>
 
-            <div>
-              <h4 style="color: var(--accent-gold); font-size: 1rem; margin-bottom: 4px;">3. UPPER SECTION BONUS (+35)</h4>
-              <p>Categories 1 through 6 sum the matching dice. If your upper section total reaches <strong>63 or more</strong>, you earn a massive <strong>+35 bonus</strong> points!</p>
+            <!-- Step 3 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                <h4 style="color: #7b2cbf; font-size: 0.95rem; font-weight: 900; letter-spacing: 0.04em;">3. UPPER SECTION BONUS</h4>
+                <span class="score-pill gold">+35 BONUS</span>
+              </div>
+              <p style="color: #334155; font-size: 0.88rem; line-height: 1.45;">
+                Categories 1 through 6 sum matching dice. Reach <strong>63 or more</strong> points in the Upper Section to earn a massive <strong>+35 bonus</strong>!
+              </p>
             </div>
 
-            <div>
-              <h4 style="color: #4cd137; font-size: 1rem; margin-bottom: 4px;">4. SPECIAL COMBINATIONS</h4>
-              <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 4px;">
-                <li><strong>3 of a Kind / 4 of a Kind:</strong> Sum of all 5 dice.</li>
-                <li><strong>Full House:</strong> 3 of one value + 2 of another (25 points).</li>
-                <li><strong>Small Straight:</strong> 4 consecutive dice (30 points).</li>
-                <li><strong>Large Straight:</strong> 5 consecutive dice (40 points).</li>
-                <li><strong>Yatzy:</strong> All 5 dice matching (50 points!).</li>
-                <li><strong>Chance:</strong> Sum of all dice (always available).</li>
-              </ul>
+            <!-- Step 4 -->
+            <div style="background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 14px; padding: 14px;">
+              <h4 style="color: #16a34a; font-size: 0.95rem; font-weight: 900; margin-bottom: 10px; letter-spacing: 0.04em;">4. SPECIAL COMBINATIONS</h4>
+              <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.86rem; color: #334155;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>3 & 4 of a Kind:</strong> 3 or 4 matching dice</span>
+                  <span class="score-pill">Sum of all 5</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>Full House:</strong> 3 of one + 2 of another</span>
+                  <span class="score-pill gold">25 pts</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>Small Straight:</strong> 4 sequential dice</span>
+                  <span class="score-pill">30 pts</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>Large Straight:</strong> 5 sequential dice</span>
+                  <span class="score-pill">40 pts</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>Yatzy:</strong> All 5 dice identical</span>
+                  <span class="score-pill coral">50 pts!</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span><strong>Chance:</strong> Any dice combination</span>
+                  <span class="score-pill">Sum of all 5</span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="btn btn-primary" id="btn-done-htp" style="width: 100%;">Understood!</button>
+            <button class="btn btn-primary" id="btn-done-htp" style="width: 100%; height: 48px; font-size: 1.05rem;">
+              Got It, Let's Play!
+            </button>
           </div>
         </div>
       </div>

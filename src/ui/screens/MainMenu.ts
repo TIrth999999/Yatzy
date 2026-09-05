@@ -62,10 +62,10 @@ export class MainMenu {
               justify-content: space-between;
               padding: 12px 18px;
               background: #ffffff;
-              border: 3px solid #00b4d8;
-              border-radius: var(--radius-md);
-              box-shadow: 0 4px 16px rgba(0, 180, 216, 0.35);
-              transition: border-color 0.25s ease, box-shadow 0.25s ease;
+              border: 2.5px solid #1e354d;
+              border-radius: 18px;
+              box-shadow: 0 5px 0 #1e354d, 0 8px 16px rgba(0, 0, 0, 0.15);
+              transition: box-shadow 0.25s ease, border-color 0.25s ease;
             ">
               <div style="display: flex; align-items: center; gap: 12px;">
                 <div id="diff-face-icon" style="
@@ -93,29 +93,30 @@ export class MainMenu {
               </div>
             </div>
 
-            <!-- Discrete 3-Level Slider Track -->
+            <!-- Discrete 3-Level Slider Track with 3D button styling -->
             <div class="diff-slider-wrapper" style="
               position: relative;
               background: #ffffff;
-              border-radius: 14px;
+              border-radius: 18px;
               padding: 4px;
               display: flex;
               align-items: center;
-              box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.1);
-              border: 2px solid #e2e8f0;
+              border: 2.5px solid #1e354d;
+              box-shadow: 0 5px 0 #1e354d, 0 8px 16px rgba(0, 0, 0, 0.15);
               user-select: none;
             ">
-              <!-- Sliding Thumb Pill -->
+              <!-- Sliding Thumb Pill with 3D button bevel -->
               <div id="slider-pill" style="
                 position: absolute;
                 top: 4px;
-                bottom: 4px;
+                bottom: 8px;
                 left: calc(33.333% + 1px);
                 width: calc(33.333% - 4px);
                 background: #00b4d8;
-                border-radius: 10px;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-                transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease;
+                border-radius: 13px;
+                border: 2px solid #0077b6;
+                box-shadow: 0 3px 0 #0077b6, 0 4px 10px rgba(0, 0, 0, 0.2);
+                transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
                 pointer-events: none;
                 z-index: 1;
               "></div>
@@ -203,21 +204,21 @@ export class MainMenu {
           </div>
 
           <!-- Navigation Icon Row -->
-          <div style="display: flex; gap: 14px; width: 100%; justify-content: center; margin-top: 6px;">
+          <div style="display: flex; gap: 14px; width: 100%; justify-content: center; margin-top: 8px;">
             <button class="circle-header-btn" id="btn-menu-htp" title="How to Play" aria-label="How to Play">
-              ${Icons.book(20, '#23374d')}
+              ${Icons.book(22, '#1e354d')}
             </button>
             <button class="circle-header-btn" id="btn-menu-stats" title="Statistics" aria-label="Statistics">
-              ${Icons.chart(20, '#23374d')}
+              ${Icons.chart(22, '#1e354d')}
             </button>
             <button class="circle-header-btn" id="btn-menu-ach" title="Achievements" aria-label="Achievements">
-              ${Icons.trophy(20, '#23374d')}
+              ${Icons.trophy(22, '#1e354d')}
             </button>
             <button class="circle-header-btn" id="btn-menu-cosmetics" title="Dice Themes" aria-label="Dice Themes">
-              ${Icons.palette(20, '#23374d')}
+              ${Icons.palette(22, '#1e354d')}
             </button>
             <button class="circle-header-btn" id="btn-menu-settings" title="Settings" aria-label="Settings">
-              ${Icons.settings(20, '#23374d')}
+              ${Icons.settings(22, '#1e354d')}
             </button>
           </div>
         </div>
@@ -241,7 +242,7 @@ export class MainMenu {
         desc: 'Relaxed opponent',
         stars: '★★☆☆☆',
         color: '#2ecc71',
-        shadow: 'rgba(46, 204, 113, 0.35)',
+        darkColor: '#27ae60',
         face: '😊'
       },
       {
@@ -250,7 +251,7 @@ export class MainMenu {
         desc: 'Smart, tactical opponent',
         stars: '★★★☆☆',
         color: '#00b4d8',
-        shadow: 'rgba(0, 180, 216, 0.35)',
+        darkColor: '#0077b6',
         face: '😏'
       },
       {
@@ -259,7 +260,7 @@ export class MainMenu {
         desc: 'Expert 32-hold EV strategy',
         stars: '★★★★★',
         color: '#ff5e57',
-        shadow: 'rgba(255, 94, 87, 0.35)',
+        darkColor: '#d63031',
         face: '😈'
       }
     ];
@@ -285,6 +286,8 @@ export class MainMenu {
 
       if (sliderPill) {
         sliderPill.style.background = cfg.color;
+        sliderPill.style.borderColor = cfg.darkColor;
+        sliderPill.style.boxShadow = `0 3px 0 ${cfg.darkColor}, 0 4px 10px rgba(0, 0, 0, 0.2)`;
         if (index === 0) {
           sliderPill.style.left = '4px';
           sliderPill.style.width = 'calc(33.333% - 5px)';
@@ -305,10 +308,6 @@ export class MainMenu {
         }
       });
 
-      if (infoCard) {
-        infoCard.style.borderColor = cfg.color;
-        infoCard.style.boxShadow = `0 4px 16px ${cfg.shadow}`;
-      }
       if (diffTitle) {
         diffTitle.textContent = cfg.name;
         diffTitle.style.color = cfg.color;

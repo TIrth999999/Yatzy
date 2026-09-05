@@ -31,60 +31,74 @@ export class ResultModal {
     const isWin = data.winner === 'player';
     const isDraw = data.winner === 'draw';
 
-    let title = 'YOU WIN!';
-    let titleColor = '#e84d43';
-    let subtitle = `Crushed the bot by ${data.scoreDifference} points!`;
+    let title = 'VICTORY!';
+    let titleColor = '#ff5252';
+    let subtitle = `You won the match by ${data.scoreDifference} points!`;
 
     if (isDraw) {
       title = 'TIED MATCH!';
-      titleColor = '#2d2538';
-      subtitle = 'An extraordinary draw! Identical scores.';
+      titleColor = '#1e354d';
+      subtitle = 'An extraordinary draw! Identical grand scores.';
     } else if (!isWin) {
       title = 'BOT WINS!';
-      titleColor = '#54b7cb';
-      subtitle = `You were ${data.scoreDifference} points behind.`;
+      titleColor = '#00b4d8';
+      subtitle = `Bot took the lead by ${data.scoreDifference} points.`;
     }
 
     this.container.innerHTML = `
       <div class="modal-overlay active">
-        <div class="modal-content" style="text-align: center; max-width: 480px;">
-          <div class="modal-body" style="gap: 16px; padding: 28px 24px;">
+        <div class="modal-content" style="text-align: center; max-width: 440px;">
+          <div class="modal-body" style="gap: 14px; padding: 26px 20px;">
             <div style="display: flex; justify-content: center;">
-              ${Icons.trophy(56, isWin ? '#ffd200' : '#54b7cb')}
+              <div style="
+                width: 72px;
+                height: 72px;
+                border-radius: 50%;
+                background: ${isWin ? '#fffbeb' : '#f0f9ff'};
+                border: 2px solid ${isWin ? '#fde68a' : '#bae6fd'};
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 14px ${isWin ? 'rgba(255, 210, 0, 0.25)' : 'rgba(0, 180, 216, 0.25)'};
+              ">
+                ${Icons.trophy(44, isWin ? '#ffd200' : '#00b4d8')}
+              </div>
             </div>
-            <h2 style="font-size: 2.2rem; font-weight: 900; color: ${titleColor}; line-height: 1;">
-              ${title}
-            </h2>
-            <p style="font-size: 0.95rem; color: var(--text-light-muted);">${subtitle}</p>
+            <div>
+              <h2 style="font-size: 2.2rem; font-weight: 900; color: ${titleColor}; line-height: 1.1; letter-spacing: -0.01em;">
+                ${title}
+              </h2>
+              <p style="font-size: 0.95rem; font-weight: 600; color: #475569; margin-top: 4px;">${subtitle}</p>
+            </div>
 
             <!-- Score Comparison Cards -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 12px 0;">
-              <div style="background: #fff5f5; border: 2px solid #ff5e57; border-radius: var(--radius-md); padding: 14px;">
-                <div style="font-size: 0.8rem; font-weight: 800; color: #ff5e57;">YOU</div>
-                <div style="font-size: 2.4rem; font-weight: 900; color: #23374d;">${data.playerScore}</div>
-                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 4px 0;">
+              <div style="background: #fef2f2; border: 2.5px solid #ff5252; border-radius: 16px; padding: 14px 10px;">
+                <div style="font-size: 0.8rem; font-weight: 900; color: #ff5252; letter-spacing: 0.05em;">YOU</div>
+                <div style="font-size: 2.4rem; font-weight: 900; color: #1e354d; line-height: 1.1; margin: 2px 0;">${data.playerScore}</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 700;">
                   Upper: ${data.playerScorecard.upperSubtotal} ${data.playerScorecard.bonusAchieved ? '(+35)' : ''}
                 </div>
               </div>
 
-              <div style="background: #f0faff; border: 2px solid #00b4d8; border-radius: var(--radius-md); padding: 14px;">
-                <div style="font-size: 0.8rem; font-weight: 800; color: #00b4d8;">BOT (${data.difficulty.toUpperCase()})</div>
-                <div style="font-size: 2.4rem; font-weight: 900; color: #23374d;">${data.botScore}</div>
-                <div style="font-size: 0.76rem; color: #64748b; font-weight: 600;">
+              <div style="background: #f0f9ff; border: 2.5px solid #00b4d8; border-radius: 16px; padding: 14px 10px;">
+                <div style="font-size: 0.8rem; font-weight: 900; color: #00b4d8; letter-spacing: 0.05em;">BOT (${data.difficulty.toUpperCase()})</div>
+                <div style="font-size: 2.4rem; font-weight: 900; color: #1e354d; line-height: 1.1; margin: 2px 0;">${data.botScore}</div>
+                <div style="font-size: 0.76rem; color: #64748b; font-weight: 700;">
                   Upper: ${data.botScorecard.upperSubtotal} ${data.botScorecard.bonusAchieved ? '(+35)' : ''}
                 </div>
               </div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 10px;">
-              <button class="btn btn-primary" id="btn-result-rematch" style="height: 52px; font-size: 1.15rem;">
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 6px;">
+              <button class="btn btn-primary" id="btn-result-rematch" style="height: 52px; font-size: 1.15rem; width: 100%;">
                 PLAY AGAIN
               </button>
-              <div style="display: flex; gap: 10px;">
-                <button class="btn btn-secondary" id="btn-result-diff" style="flex: 1; height: 44px;">
+              <div style="display: flex; gap: 10px; width: 100%;">
+                <button class="btn btn-secondary" id="btn-result-diff" style="flex: 1; height: 44px; font-size: 0.85rem;">
                   CHANGE DIFFICULTY
                 </button>
-                <button class="btn btn-secondary" id="btn-result-menu" style="flex: 1; height: 44px;">
+                <button class="btn btn-secondary" id="btn-result-menu" style="flex: 1; height: 44px; font-size: 0.85rem;">
                   MAIN MENU
                 </button>
               </div>

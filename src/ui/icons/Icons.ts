@@ -39,7 +39,7 @@ export const Icons = {
   settings: (size = 22, color = 'currentColor') => `
     <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l-.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
     </svg>
   `,
 
@@ -75,6 +75,57 @@ export const Icons = {
       <circle cx="8.5" cy="7.5" r=".5" fill="${color}"/>
       <circle cx="6.5" cy="12.5" r=".5" fill="${color}"/>
       <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.02-.23-.27-.38-.62-.38-1.03 0-.83.67-1.5 1.5-1.5H16c3.31 0 6-2.69 6-6 0-5.5-4.5-9.95-10-9.95z"/>
+    </svg>
+  `,
+
+  // Rich Colorful 3D-feel Menu Icons
+  menuBook: (size = 28) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="5" width="24" height="22" rx="4" fill="#3b82f6"/>
+      <path d="M4 23c4 0 8 1 12 3 4-2 8-3 12-3V5c-4 0-8 1-12 3-4-2-8-3-12-3v18z" fill="#60a5fa"/>
+      <path d="M16 8v18" stroke="#1e3a8a" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="8" y1="12" x2="13" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="8" y1="16" x2="13" y2="16" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="19" y1="12" x2="24" y2="12" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      <line x1="19" y1="16" x2="24" y2="16" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  menuStats: (size = 28) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none">
+      <rect x="5" y="16" width="5" height="11" rx="2" fill="#38bdf8"/>
+      <rect x="13.5" y="7" width="5" height="20" rx="2" fill="#22c55e"/>
+      <rect x="22" y="12" width="5" height="15" rx="2" fill="#f59e0b"/>
+      <path d="M4 28h24" stroke="#1e354d" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+  `,
+
+  menuTrophy: (size = 28) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none">
+      <path d="M8 8H4a2 2 0 0 0-2 2v2a6 6 0 0 0 6 6h1" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M24 8h4a2 2 0 0 1 2 2v2a6 6 0 0 1-6 6h-1" stroke="#d97706" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M7 6h18v8a9 9 0 0 1-18 0V6z" fill="#facc15" stroke="#d97706" stroke-width="2"/>
+      <path d="M12 22h8v2h-8z" fill="#d97706"/>
+      <path d="M10 24h12v3H10z" fill="#f59e0b" stroke="#b45309" stroke-width="1.5" rx="1.5"/>
+      <polygon points="16,8 17.5,11.5 21,11.5 18,13.5 19.5,17 16,15 12.5,17 14,13.5 11,11.5 14.5,11.5" fill="#ffffff"/>
+    </svg>
+  `,
+
+  menuPalette: (size = 28) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none">
+      <path d="M16 3C8.8 3 3 8.8 3 16c0 3.6 1.5 6.8 4 9 1.2 1.1 2.8 1.7 4.4 1.4 1.3-.2 2.3-1.3 2.6-2.6.3-1.4 1.5-2.4 3-2.4h2c4.4 0 8-3.6 8-8 0-5.8-4.7-10.4-11-10.4z" fill="#ec4899" stroke="#be185d" stroke-width="2"/>
+      <circle cx="9.5" cy="11.5" r="2.2" fill="#38bdf8"/>
+      <circle cx="16" cy="8.5" r="2.2" fill="#facc15"/>
+      <circle cx="22.5" cy="12.5" r="2.2" fill="#4ade80"/>
+      <circle cx="19.5" cy="18.5" r="2.2" fill="#a855f7"/>
+    </svg>
+  `,
+
+  menuSettings: (size = 28) => `
+    <svg width="${size}" height="${size}" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="12" fill="#64748b"/>
+      <circle cx="16" cy="16" r="5" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
+      <path d="M16 2v4M16 26v4M2 16h4M26 16h4M6.1 6.1l2.8 2.8M23.1 23.1l2.8 2.8M6.1 25.9l2.8-2.8M23.1 8.9l2.8-2.8" stroke="#334155" stroke-width="3" stroke-linecap="round"/>
     </svg>
   `,
 

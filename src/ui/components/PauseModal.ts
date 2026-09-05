@@ -15,25 +15,28 @@ export class PauseModal {
   public show(): void {
     this.container.innerHTML = `
       <div class="modal-overlay active">
-        <div class="modal-content" style="max-width: 380px; text-align: center;">
-          <div class="modal-header" style="justify-content: center;">
-            <h2>Game Paused</h2>
+        <div class="modal-content" style="max-width: 380px;">
+          <div class="modal-header">
+            <h2>${Icons.pause(22, '#1e354d')} Game Paused</h2>
+            <button class="modal-close-btn" id="btn-close-pause" aria-label="Resume">
+              ${Icons.close(18, '#1e354d')}
+            </button>
           </div>
-          <div class="modal-body" style="gap: 12px; padding: 24px;">
-            <button class="btn btn-primary" id="btn-pause-resume" style="height: 50px; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <div class="modal-body" style="gap: 10px; padding: 20px;">
+            <button class="btn btn-primary" id="btn-pause-resume" style="height: 50px; font-size: 1.08rem;">
               ${Icons.play(18, '#ffffff')} Resume Match
             </button>
-            <button class="btn btn-secondary" id="btn-pause-restart" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              ${Icons.refresh(18, 'currentColor')} Restart Match
+            <button class="btn btn-secondary" id="btn-pause-restart" style="height: 44px; font-size: 0.95rem;">
+              ${Icons.refresh(18, '#1e354d')} Restart Match
             </button>
-            <button class="btn btn-secondary" id="btn-pause-settings" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              ${Icons.settings(18, 'currentColor')} Settings
+            <button class="btn btn-secondary" id="btn-pause-htp" style="height: 44px; font-size: 0.95rem;">
+              ${Icons.book(18, '#1e354d')} How to Play
             </button>
-            <button class="btn btn-secondary" id="btn-pause-htp" style="height: 46px; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              ${Icons.book(18, 'currentColor')} How to Play
+            <button class="btn btn-secondary" id="btn-pause-settings" style="height: 44px; font-size: 0.95rem;">
+              ${Icons.settings(18, '#1e354d')} Settings
             </button>
-            <button class="btn btn-secondary" id="btn-pause-menu" style="height: 46px; border-color: rgba(255, 82, 82, 0.4); color: #ff5252; display: flex; align-items: center; justify-content: center; gap: 8px;">
-              ${Icons.arrowLeft(18, '#ff5252')} Quit to Menu
+            <button class="btn btn-danger" id="btn-pause-menu" style="height: 44px; font-size: 0.95rem; margin-top: 4px;">
+              ${Icons.arrowLeft(18, '#ef4444')} Quit to Menu
             </button>
           </div>
         </div>
@@ -48,10 +51,13 @@ export class PauseModal {
   }
 
   private attachHandlers(): void {
-    this.container.querySelector('#btn-pause-resume')?.addEventListener('click', () => {
+    const resumeAndClose = () => {
       this.close();
       this.engine.resume();
-    });
+    };
+
+    this.container.querySelector('#btn-close-pause')?.addEventListener('click', resumeAndClose);
+    this.container.querySelector('#btn-pause-resume')?.addEventListener('click', resumeAndClose);
 
     this.container.querySelector('#btn-pause-restart')?.addEventListener('click', () => {
       this.close();

@@ -104,7 +104,6 @@ export class DebugPanel {
 
     this.container.querySelector('#btn-dbg-instant-bot')?.addEventListener('click', () => {
       this.engine.getBotEngine().setInstantMode(true);
-      alert('Bot instant mode enabled!');
     });
   }
 }

@@ -119,38 +119,34 @@ export class TutorialOverlay {
         justify-content: center;
         pointer-events: auto;
       ">
-        <div style="
-          background: #ffffff;
-          border: 3px solid #00b4d8;
-          border-radius: var(--radius-lg);
-          padding: 24px;
+        <div class="modal-content" style="
           max-width: 400px;
-          width: 90%;
-          box-shadow: 0 16px 40px rgba(0,0,0,0.35);
-          display: flex;
-          flex-direction: column;
+          border: 3px solid #1e354d;
+          border-radius: 20px;
+          padding: 20px;
           gap: 12px;
-          color: #23374d;
         ">
           <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-size: 0.78rem; font-weight: 800; color: #00b4d8; text-transform: uppercase;">
+            <span class="score-pill" style="text-transform: uppercase;">
               Tutorial (${this.currentStepIndex + 1}/${this.steps.length})
             </span>
             <button id="btn-skip-tutorial" style="
-              background: none;
-              border: none;
-              color: #64748b;
-              font-size: 0.85rem;
-              font-weight: 700;
+              background: #f1f5f9;
+              border: 1.5px solid #cbd5e1;
+              color: #475569;
+              font-size: 0.8rem;
+              font-weight: 800;
               cursor: pointer;
+              padding: 3px 10px;
+              border-radius: 8px;
             ">Skip</button>
           </div>
 
-          <h3 style="font-size: 1.25rem; font-weight: 900; color: #23374d;">${step.title}</h3>
-          <p style="font-size: 0.95rem; line-height: 1.5; color: #475569;">${step.message}</p>
+          <h3 style="font-size: 1.25rem; font-weight: 900; color: #1e354d;">${step.title}</h3>
+          <p style="font-size: 0.92rem; line-height: 1.5; color: #334155;">${step.message}</p>
 
-          <button id="btn-next-tutorial" class="btn btn-primary" style="margin-top: 8px; height: 46px;">
-            ${this.currentStepIndex === this.steps.length - 1 ? 'Got it!' : 'Next'}
+          <button id="btn-next-tutorial" class="btn btn-primary" style="margin-top: 6px; height: 46px; font-size: 1rem;">
+            ${this.currentStepIndex === this.steps.length - 1 ? 'Got it, Let\'s Play!' : 'Next'}
           </button>
         </div>
       </div>
