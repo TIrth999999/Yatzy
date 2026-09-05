@@ -1,5 +1,5 @@
 /**
- * Type War - Procedural Web Audio 8-bit / 16-bit Synthesizer & Chiptune Engine
+ * Typing Fighter - Procedural Web Audio 8-bit / 16-bit Synthesizer & Chiptune Engine
  * 100% self-contained, no external sound files required!
  */
 class AudioManager {
@@ -499,6 +499,70 @@ class AudioManager {
 
     osc.start(t);
     osc.stop(t + 0.06);
+  }
+
+  // 10. Store Purchase Coin Chime
+  playPurchase() {
+    if (!this.sfxEnabled) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6 triumphant chord
+    notes.forEach((freq, i) => {
+      const st = t + i * 0.06;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, st);
+      gain.gain.setValueAtTime(0.2, st);
+      gain.gain.exponentialRampToValueAtTime(0.001, st + 0.18);
+      osc.connect(gain);
+      gain.connect(this.sfxGain);
+      osc.start(st);
+      osc.stop(st + 0.2);
+    });
+  }
+
+  // 11. Skin / Gear Equip Sound
+  playEquip() {
+    if (!this.sfxEnabled) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(440, t);
+    osc.frequency.exponentialRampToValueAtTime(880, t + 0.08);
+    gain.gain.setValueAtTime(0.25, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+    osc.connect(gain);
+    gain.connect(this.sfxGain);
+    osc.start(t);
+    osc.stop(t + 0.12);
+  }
+
+  // 12. Denied / Insufficient Credits Buzz
+  playDenied() {
+    if (!this.sfxEnabled) return;
+    this.ensureContext();
+    if (!this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    [0, 0.08].forEach(delay => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(140, t + delay);
+      gain.gain.setValueAtTime(0.2, t + delay);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.06);
+      osc.connect(gain);
+      gain.connect(this.sfxGain);
+      osc.start(t + delay);
+      osc.stop(t + delay + 0.07);
+    });
   }
 }
 

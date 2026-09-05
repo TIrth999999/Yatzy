@@ -1,5 +1,5 @@
 /**
- * Type War / Typing Fighter - Configuration and Constants
+ * Typing Fighter - Configuration and Constants
  */
 const CONFIG = {
   // Color Palette (Purple-shaded street fight & retro arcade theme)

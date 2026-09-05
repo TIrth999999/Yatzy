@@ -1,20 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220" width="160" height="220">
   <defs>
-    <linearGradient id="pCoat" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FF2A55"/>
-      <stop offset="100%" stop-color="#B31238"/>
+    <!-- Skin Tones -->
+    <linearGradient id="pHeroSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7B4C38"/>
+      <stop offset="60%" stop-color="#5C3828"/>
+      <stop offset="100%" stop-color="#432619"/>
     </linearGradient>
-    <linearGradient id="pSkin" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#E8A882"/>
-      <stop offset="100%" stop-color="#C57E58"/>
+
+    <!-- Red Varsity Jacket -->
+    <linearGradient id="pHeroJacket" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E11D48"/>
+      <stop offset="50%" stop-color="#C82A38"/>
+      <stop offset="100%" stop-color="#941826"/>
     </linearGradient>
-    <linearGradient id="pGun" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2D3436"/>
-      <stop offset="50%" stop-color="#4A5568"/>
+
+    <!-- Dark Denim Trousers -->
+    <linearGradient id="pHeroPants" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2D3748"/>
       <stop offset="100%" stop-color="#1A202C"/>
     </linearGradient>
-    <filter id="pGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
+
+    <!-- Electric Blue Sneakers -->
+    <linearGradient id="pHeroShoe" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+
+    <!-- Gun Metal -->
+    <linearGradient id="pHeroGun" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4B5563"/>
+      <stop offset="50%" stop-color="#374151"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <filter id="pCyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
@@ -22,57 +42,116 @@
     </filter>
   </defs>
 
-  <!-- Shadow Base -->
-  <ellipse cx="80" cy="208" rx="36" ry="7" fill="rgba(10, 8, 20, 0.45)"/>
+  <!-- Ground Shadow -->
+  <ellipse cx="80" cy="208" rx="38" ry="7" fill="rgba(15, 12, 28, 0.45)"/>
 
-  <!-- Left Leg & Combat Boot (Back) -->
+  <!-- Left Leg & Sneaker (Back Leg) -->
   <g id="p-leg-left">
-    <rect x="62" y="136" width="16" height="54" rx="4" fill="#252636"/>
-    <rect x="60" y="160" width="18" height="6" fill="#181924"/>
-    <path d="M58 190 L80 190 L82 206 L54 206 Z" fill="#E2E8F0"/>
-    <rect x="54" y="202" width="28" height="6" fill="#0F172A"/>
+    <!-- Thigh & Calf -->
+    <path d="M60 134 L76 134 L72 192 L54 192 Z" fill="#1A202C"/>
+    <!-- Fold Shading -->
+    <path d="M57 156 L73 154 L72 160 L56 162 Z" fill="#111827"/>
+    <!-- Blue Sneaker -->
+    <path d="M50 190 L74 190 L76 204 L46 204 Z" fill="url(#pHeroShoe)"/>
+    <!-- White Sole -->
+    <rect x="44" y="202" width="34" height="6" rx="2" fill="#FFFFFF"/>
+    <!-- Ankle Cuff -->
+    <rect x="52" y="188" width="20" height="4" rx="1" fill="#4B5563"/>
   </g>
 
-  <!-- Right Leg & Combat Boot (Front) -->
+  <!-- Right Leg & Sneaker (Front Leg) -->
   <g id="p-leg-right">
-    <rect x="80" y="138" width="16" height="52" rx="4" fill="#32344A"/>
-    <rect x="78" y="164" width="18" height="6" fill="#1E2030"/>
-    <path d="M78 190 L102 190 L106 206 L74 206 Z" fill="#FFFFFF"/>
-    <rect x="74" y="202" width="32" height="6" fill="#0F172A"/>
+    <!-- Thigh & Calf -->
+    <path d="M76 134 L94 134 L92 192 L72 192 Z" fill="url(#pHeroPants)"/>
+    <!-- Knee highlight -->
+    <path d="M78 152 L91 150 L89 164 L76 166 Z" fill="#374151"/>
+    <!-- Blue Sneaker -->
+    <path d="M70 190 L96 190 L100 204 L66 204 Z" fill="url(#pHeroShoe)"/>
+    <!-- White Sole -->
+    <rect x="64" y="202" width="38" height="6" rx="2" fill="#FFFFFF"/>
+    <!-- White Lace Detail -->
+    <line x1="78" y1="192" x2="88" y2="192" stroke="#FFFFFF" stroke-width="2"/>
+    <!-- Ankle Cuff -->
+    <rect x="72" y="188" width="22" height="4" rx="1" fill="#6B7280"/>
   </g>
 
-  <!-- Torso & Combat Armor -->
+  <!-- Torso & Red Varsity Bomber Jacket -->
   <g id="p-torso">
-    <rect x="64" y="80" width="32" height="58" rx="3" fill="#12131A"/>
-    <rect x="72" y="84" width="16" height="48" fill="#1E293B"/>
-    <path d="M58 78 L100 78 L96 142 L56 142 Z" fill="url(#pCoat)"/>
-    <path d="M60 74 L74 96 L70 134 L56 134 Z" fill="#E01B4C"/>
-    <path d="M98 74 L84 96 L88 134 L98 134 Z" fill="#E01B4C"/>
-    <line x1="72" y1="92" x2="72" y2="126" stroke="#4FD1C5" stroke-width="2.5" filter="url(#pGlow)"/>
-    <rect x="60" y="132" width="38" height="8" fill="#111827"/>
-    <rect x="74" y="130" width="12" height="12" fill="#F59E0B"/>
+    <!-- Inner Crewneck T-Shirt (Navy Blue) -->
+    <rect x="66" y="78" width="28" height="58" rx="4" fill="#1E3A5F"/>
+    <path d="M68 76 Q80 84 92 76 Z" fill="#0F172A"/> <!-- Collar curve -->
+
+    <!-- Red Varsity Jacket Body -->
+    <path d="M56 74 L102 74 L98 136 L54 136 Z" fill="url(#pHeroJacket)"/>
+    <!-- Jacket Trim / Hem -->
+    <rect x="54" y="132" width="44" height="6" rx="1" fill="#18181B"/>
+    <line x1="54" y1="134" x2="98" y2="134" stroke="#F8FAFC" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+    <!-- Left Jacket Flap & Shadow -->
+    <path d="M56 74 L74 74 L68 132 L54 132 Z" fill="#941826"/>
+    <!-- Right Jacket Flap -->
+    <path d="M84 74 L102 74 L98 132 L84 132 Z" fill="#E11D48"/>
+    <!-- Zipper Track -->
+    <line x1="79" y1="84" x2="79" y2="132" stroke="#D1D5DB" stroke-width="2"/>
+
+    <!-- Gold Chain Necklace & Pendant -->
+    <path d="M72 82 Q80 102 88 82" stroke="#F59E0B" stroke-width="2.5" fill="none"/>
+    <polygon points="78,102 82,102 80,108" fill="#F59E0B"/>
+    <circle cx="80" cy="104" r="2" fill="#FEF08A"/>
   </g>
 
-  <!-- Head & Hair -->
+  <!-- Head & Hair (Dark Skin, Fade Cut) -->
   <g id="p-head">
-    <rect x="74" y="66" width="12" height="14" fill="url(#pSkin)"/>
-    <rect x="68" y="38" width="26" height="30" rx="6" fill="url(#pSkin)"/>
-    <path d="M62 38 L98 34 L102 48 L94 48 L92 38 L68 40 L62 54 L60 42 Z" fill="#1F162B"/>
-    <path d="M66 28 L84 18 L94 28 L98 22 L104 36 L66 38 Z" fill="#2E213D"/>
-    <rect x="74" y="44" width="24" height="8" rx="2" fill="#00F5D4" filter="url(#pGlow)"/>
-    <rect x="76" y="46" width="20" height="2" fill="#FFFFFF"/>
-    <rect x="66" y="46" width="5" height="10" rx="2" fill="#F59E0B"/>
+    <!-- Neck -->
+    <rect x="72" y="62" width="14" height="16" fill="url(#pHeroSkin)"/>
+    <!-- Head Base / Jawline -->
+    <path d="M68 38 L92 38 Q96 56 88 66 L72 66 Q66 56 68 38 Z" fill="url(#pHeroSkin)"/>
+    <!-- Ear -->
+    <ellipse cx="68" cy="50" rx="3.5" ry="6" fill="#5C3828"/>
+    <circle cx="68" cy="53" r="1.5" fill="#F59E0B"/> <!-- Gold stud earring -->
+
+    <!-- Textured High-Top Pompadour Hair -->
+    <path d="M66 38 L68 20 Q80 12 94 22 L96 36 L94 44 L90 40 L70 40 Z" fill="#18181B"/>
+    <path d="M72 18 Q82 14 90 20 Z" fill="#27272A"/> <!-- Highlight on hair -->
+    <!-- Fade Cut Side -->
+    <path d="M67 36 L74 36 L73 48 L68 46 Z" fill="#2D201A"/>
+
+    <!-- Confident Eyes & Brow (Facing Right) -->
+    <line x1="82" y1="44" x2="94" y2="42" stroke="#18181B" stroke-width="2.5"/> <!-- Eyebrow -->
+    <ellipse cx="88" cy="48" rx="3" ry="2" fill="#FFFFFF"/>
+    <circle cx="89.5" cy="48" r="1.5" fill="#18181B"/> <!-- Iris looking forward -->
+    <!-- Nose & Mouth -->
+    <path d="M94 48 L97 54 L92 55" stroke="#432619" stroke-width="1.5" fill="none"/>
+    <line x1="86" y1="60" x2="93" y2="59" stroke="#371E13" stroke-width="2"/>
   </g>
 
-  <!-- Extended Aiming Right Arm & Cyber Blaster Pistol -->
+  <!-- Left Arm (Back Arm) -->
+  <g id="p-arm-back">
+    <path d="M60 76 L50 96 L58 102 L66 84 Z" fill="#941826"/>
+    <rect x="48" y="98" width="10" height="10" rx="3" fill="url(#pHeroSkin)"/>
+  </g>
+
+  <!-- Right Arm Aiming Cyber Blaster (Facing Right) -->
   <g id="p-arm-gun">
-    <circle cx="86" cy="84" r="10" fill="#B31238"/>
-    <path d="M86 78 L124 78 L126 92 L86 94 Z" fill="url(#pCoat)"/>
-    <rect x="122" y="78" width="10" height="12" rx="3" fill="url(#pSkin)"/>
-    <rect x="124" y="88" width="8" height="16" rx="2" fill="#1A202C"/>
-    <rect x="118" y="74" width="36" height="15" rx="3" fill="url(#pGun)"/>
-    <rect x="152" y="77" width="6" height="9" fill="#0F172A"/>
-    <rect x="124" y="72" width="24" height="3" fill="#00F5D4" filter="url(#pGlow)"/>
-    <circle cx="148" cy="81" r="3" fill="#F59E0B"/>
+    <!-- Shoulder -->
+    <circle cx="94" cy="80" r="10" fill="#C82A38"/>
+    <!-- Extended Bicep & Forearm -->
+    <path d="M92 74 L122 84 L120 96 L90 88 Z" fill="url(#pHeroJacket)"/>
+    <!-- White Striped Sleeve Cuff -->
+    <rect x="118" y="85" width="6" height="12" rx="1" fill="#FFFFFF" transform="rotate(18, 121, 91)"/>
+    <!-- Hand Gripping Weapon -->
+    <rect x="122" y="87" width="9" height="10" rx="3" fill="url(#pHeroSkin)"/>
+
+    <!-- Sleek Cyber Blaster Pistol -->
+    <!-- Grip / Handle -->
+    <rect x="124" y="94" width="7" height="14" rx="2" fill="#111827" transform="rotate(12, 127, 101)"/>
+    <!-- Main Receiver / Slide -->
+    <rect x="118" y="82" width="34" height="13" rx="2" fill="url(#pHeroGun)"/>
+    <!-- Barrel Extension -->
+    <rect x="150" y="85" width="8" height="7" fill="#1F2937"/>
+    <rect x="157" y="86" width="3" height="5" fill="#111827"/> <!-- Muzzle Crown -->
+    <!-- Glowing Cyan Charge Rail -->
+    <rect x="124" y="80" width="22" height="3" rx="1" fill="#00F5D4" filter="url(#pCyanGlow)"/>
+    <circle cx="146" cy="88" r="2" fill="#F59E0B"/>
   </g>
 </svg>

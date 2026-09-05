@@ -1,5 +1,5 @@
 /**
- * Type War - Lightweight Retro Pixel Particle Engine, Screen Shake & Bullet Projectiles
+ * Typing Fighter - Lightweight Retro Pixel Particle Engine, Screen Shake & Bullet Projectiles
  */
 class ParticleSystem {
   constructor() {
@@ -25,12 +25,12 @@ class ParticleSystem {
     return { x, y };
   }
 
-  // Active Bullet / Laser Projectile
-  spawnBullet(fromX, fromY, targetX, targetY, isPlayer = true, color = '#FFD166') {
+  // Active Bullet / Laser Projectile with synchronized impact damage
+  spawnBullet(fromX, fromY, targetX, targetY, isPlayer = true, color = '#FFD166', damage = 0, onImpact = null) {
     const dx = targetX - fromX;
     const dy = targetY - fromY;
     const dist = Math.hypot(dx, dy) || 1;
-    const speed = 750; // Fast laser velocity
+    const speed = 900; // Crisp, fast laser velocity
 
     this.bullets.push({
       x: fromX,
@@ -41,7 +41,9 @@ class ParticleSystem {
       targetY: targetY,
       isPlayer: isPlayer,
       color: color,
-      life: 0.45
+      damage: damage,
+      onImpact: onImpact,
+      life: 0.5
     });
   }
 
@@ -122,6 +124,43 @@ class ParticleSystem {
     }
   }
 
+  // Street foot dust / impact slam dust puff
+  spawnGroundDust(x, y, count = 6) {
+    for (let i = 0; i < count; i++) {
+      const angle = Math.PI + (Math.random() * Math.PI); // spread horizontally & slightly upward
+      const speed = 0.8 + Math.random() * 2.2;
+      this.particles.push({
+        x: x + (Math.random() * 16 - 8),
+        y: y + (Math.random() * 4 - 2),
+        vx: Math.cos(angle) * speed,
+        vy: -Math.abs(Math.sin(angle)) * speed * 0.4,
+        size: Math.floor(Math.random() * 3) + 2,
+        color: Math.random() > 0.4 ? 'rgba(180, 160, 220, 0.7)' : 'rgba(90, 75, 120, 0.5)',
+        life: 1.0,
+        decay: 0.045 + Math.random() * 0.03,
+        gravity: 0.02
+      });
+    }
+  }
+
+  // Digital voxel dispersion particles for defeat / disintegration
+  spawnGlitchVoxels(x, y, count = 16) {
+    const colors = ['#00F5D4', '#FF007F', '#9D4EDD', '#FFEAA7'];
+    for (let i = 0; i < count; i++) {
+      this.particles.push({
+        x: x + (Math.random() * 30 - 15),
+        y: y + (Math.random() * 50 - 25),
+        vx: (Math.random() * 2 - 1) * 2.0,
+        vy: -1.0 - Math.random() * 3.5, // float upward into neon ether
+        size: Math.floor(Math.random() * 4) + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 1.0,
+        decay: 0.02 + Math.random() * 0.025,
+        gravity: -0.04
+      });
+    }
+  }
+
   // Floating text like "+120", "-5 HP"
   addFloatingText(text, x, y, color = '#FFD166', size = 16) {
     this.floatingTexts.push({
@@ -146,10 +185,13 @@ class ParticleSystem {
 
       // Check arrival at target
       const dx = b.targetX - b.x;
-      const arrived = (b.isPlayer && dx <= 10) || (!b.isPlayer && dx >= -10) || (b.life <= 0);
+      const arrived = (b.isPlayer && dx <= 12) || (!b.isPlayer && dx >= -12) || (b.life <= 0);
 
       if (arrived) {
-        this.spawnHitSparks(b.targetX, b.targetY, 8, b.color);
+        this.spawnHitSparks(b.targetX, b.targetY, 12, b.color);
+        if (typeof b.onImpact === 'function') {
+          b.onImpact(b);
+        }
         this.bullets.splice(i, 1);
       }
     }

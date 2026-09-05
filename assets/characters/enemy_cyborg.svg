@@ -1,16 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 220" width="160" height="220">
   <defs>
+    <linearGradient id="cybSkin" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0"/>
+      <stop offset="100%" stop-color="#94A3B8"/>
+    </linearGradient>
     <linearGradient id="cybArmor" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#334155"/>
       <stop offset="50%" stop-color="#1E293B"/>
       <stop offset="100%" stop-color="#0F172A"/>
     </linearGradient>
-    <linearGradient id="cybPlate" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#64748B"/>
-      <stop offset="100%" stop-color="#475569"/>
+    <linearGradient id="cybGun" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="50%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#0F172A"/>
     </linearGradient>
-    <filter id="cybGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="3" result="blur"/>
+    <filter id="cybRed" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
@@ -18,80 +23,59 @@
     </filter>
   </defs>
 
-  <!-- Shadow Base -->
-  <ellipse cx="80" cy="208" rx="40" ry="7" fill="rgba(10, 8, 20, 0.45)"/>
+  <ellipse cx="80" cy="208" rx="40" ry="7" fill="rgba(15, 12, 28, 0.45)"/>
 
-  <!-- Right Leg (Back) -->
-  <g id="cyb-leg-right">
-    <rect x="84" y="134" width="18" height="56" rx="4" fill="url(#cybArmor)"/>
-    <rect x="82" y="152" width="22" height="12" rx="2" fill="url(#cybPlate)"/>
-    <!-- Mechanical Joint -->
-    <circle cx="93" cy="158" r="4" fill="#00F5D4"/>
-    <path d="M82 190 L108 190 L112 206 L78 206 Z" fill="#0F172A"/>
-    <rect x="78" y="202" width="34" height="6" fill="#06B6D4"/>
+  <!-- Legs -->
+  <g id="cyb-legs">
+    <path d="M84 134 L102 134 L98 186 L80 186 Z" fill="#0F172A"/>
+    <path d="M78 184 L104 184 L108 204 L74 204 Z" fill="#1E293B"/>
+    <rect x="74" y="202" width="36" height="6" rx="1" fill="#0284C7"/>
+
+    <path d="M66 134 L84 134 L82 186 L62 186 Z" fill="url(#cybArmor)"/>
+    <path d="M58 184 L84 184 L86 204 L54 204 Z" fill="#334155"/>
+    <rect x="54" y="202" width="34" height="6" rx="1" fill="#0284C7"/>
   </g>
 
-  <!-- Left Leg (Front) -->
-  <g id="cyb-leg-left">
-    <rect x="60" y="136" width="18" height="54" rx="4" fill="url(#cybArmor)"/>
-    <rect x="58" y="156" width="22" height="14" rx="3" fill="url(#cybPlate)"/>
-    <circle cx="69" cy="163" r="4" fill="#00F5D4"/>
-    <path d="M56 190 L82 190 L86 206 L52 206 Z" fill="url(#cybPlate)"/>
-    <rect x="52" y="202" width="34" height="6" fill="#06B6D4"/>
-  </g>
-
-  <!-- Heavy Armored Torso -->
+  <!-- Armored Torso -->
   <g id="cyb-torso">
-    <rect x="58" y="78" width="42" height="60" rx="6" fill="url(#cybArmor)"/>
-    <!-- Chest Ballistic Chassis Plates -->
-    <path d="M60 82 L78 82 L76 104 L62 104 Z" fill="url(#cybPlate)"/>
-    <path d="M80 82 L98 82 L96 104 L82 104 Z" fill="url(#cybPlate)"/>
-    <rect x="64" y="108" width="30" height="24" rx="3" fill="#1E293B"/>
-    <!-- Central Power Arc Reactor (Glowing Red) -->
-    <circle cx="79" cy="94" r="6" fill="#EF4444" filter="url(#cybGlow)"/>
-    <circle cx="79" cy="94" r="2.5" fill="#FFFFFF"/>
-    <!-- Exoskeleton Ribs -->
-    <line x1="60" y1="114" x2="98" y2="114" stroke="#00F5D4" stroke-width="2"/>
-    <line x1="62" y1="122" x2="96" y2="122" stroke="#00F5D4" stroke-width="2"/>
+    <rect x="64" y="76" width="32" height="60" rx="4" fill="url(#cybArmor)"/>
+    <!-- Ballistic Chest Plates -->
+    <path d="M64 80 L78 80 L76 104 L66 104 Z" fill="#475569"/>
+    <path d="M82 80 L96 80 L94 104 L84 104 Z" fill="#475569"/>
+    <!-- Glowing Arc Core -->
+    <circle cx="80" cy="94" r="5" fill="#EF4444" filter="url(#cybRed)"/>
+    <circle cx="80" cy="94" r="2" fill="#FFFFFF"/>
+    <!-- Tactical Belt -->
+    <rect x="62" y="132" width="36" height="6" fill="#0F172A"/>
   </g>
 
-  <!-- Head & Cybernetic Helmet -->
+  <!-- Head with Glowing Red Ocular Sensor (Facing Left) -->
   <g id="cyb-head">
-    <rect x="74" y="66" width="12" height="14" fill="#0F172A"/>
-    <rect x="64" y="32" width="30" height="36" rx="6" fill="url(#cybArmor)"/>
-    <path d="M64 48 L94 48 L92 68 L66 68 Z" fill="url(#cybPlate)"/>
-    <!-- Cyber Ocular Sensor (Facing Left, Blood Red Glow) -->
-    <rect x="62" y="44" width="16" height="6" rx="2" fill="#EF4444" filter="url(#cybGlow)"/>
-    <rect x="64" y="46" width="12" height="2" fill="#FEE2E2"/>
-    <!-- Cranial Neural Ports -->
-    <circle cx="86" cy="38" r="2.5" fill="#00F5D4"/>
-    <circle cx="90" cy="44" r="2.5" fill="#00F5D4"/>
+    <rect x="74" y="62" width="14" height="16" fill="#0F172A"/>
+    <path d="M68 38 L92 38 Q94 56 88 66 L72 66 Q64 56 68 38 Z" fill="url(#cybSkin)"/>
+    <!-- Armored Helmet / Cranium -->
+    <path d="M66 38 L68 20 Q80 14 94 20 L96 38 L92 42 L68 40 Z" fill="#1E293B"/>
+    <!-- Ocular Scanner Sensor -->
+    <rect x="64" y="44" width="14" height="5" rx="1.5" fill="#EF4444" filter="url(#cybRed)"/>
+    <rect x="66" y="45.5" width="8" height="2" fill="#FFFFFF"/>
   </g>
 
   <!-- Arm Aiming Heavy Assault Rifle (Facing Left) -->
   <g id="cyb-arm-gun">
-    <!-- Heavy Mechanical Shoulder Pauldron -->
-    <rect x="64" y="74" width="18" height="16" rx="4" fill="url(#cybPlate)"/>
-    <circle cx="73" cy="82" r="4" fill="#EF4444"/>
-    <!-- Arm -->
-    <path d="M70 80 L32 80 L30 96 L70 96 Z" fill="url(#cybArmor)"/>
-    <rect x="24" y="80" width="10" height="14" rx="2" fill="#0F172A"/>
+    <circle cx="68" cy="80" r="10" fill="#1E293B"/>
+    <path d="M68 76 L34 84 L36 96 L68 90 Z" fill="url(#cybArmor)"/>
+    <rect x="28" y="86" width="9" height="10" rx="3" fill="#0F172A"/>
 
     <!-- Heavy Assault Plasma Rifle -->
-    <rect x="24" y="92" width="8" height="16" rx="2" fill="#0F172A"/>
-    <!-- Main Receiver & Cooling Fins -->
-    <rect x="-8" y="74" width="48" height="18" rx="3" fill="#1E293B"/>
-    <!-- Cooling Shroud Slots -->
-    <rect x="0" y="78" width="6" height="10" fill="#0F172A"/>
-    <rect x="8" y="78" width="6" height="10" fill="#0F172A"/>
-    <rect x="16" y="78" width="6" height="10" fill="#0F172A"/>
-    <!-- Plasma Coil Glowing Core -->
-    <rect x="2" y="81" width="22" height="4" fill="#00F5D4" filter="url(#cybGlow)"/>
-    <!-- Extended Barrel & Heavy Muzzle Brake -->
-    <rect x="-18" y="78" width="12" height="10" fill="#0F172A"/>
-    <rect x="-24" y="76" width="8" height="14" fill="#334155"/>
-    <!-- High-Magnification Scope -->
-    <rect x="4" y="66" width="22" height="6" fill="#0F172A"/>
-    <circle cx="6" cy="69" r="2.5" fill="#EF4444"/>
+    <rect x="26" y="94" width="7" height="14" rx="2" fill="#0F172A" transform="rotate(-12, 29, 101)"/>
+    <rect x="-10" y="82" width="46" height="14" rx="2" fill="url(#cybGun)"/>
+    <!-- Barrel & Heavy Brake -->
+    <rect x="-18" y="85" width="9" height="8" fill="#0F172A"/>
+    <rect x="-24" y="84" width="7" height="10" fill="#334155"/>
+    <!-- Plasma Core Rail -->
+    <rect x="-2" y="86" width="18" height="3" fill="#00F5D4"/>
+    <!-- Scope -->
+    <rect x="2" y="76" width="20" height="6" fill="#0F172A"/>
+    <circle cx="4" cy="79" r="2" fill="#EF4444"/>
   </g>
 </svg>

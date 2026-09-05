@@ -1,5 +1,5 @@
 /**
- * Type War - Robust Keyboard & Mobile Input Manager
+ * Typing Fighter - Robust Keyboard & Mobile Input Manager
  * Handles desktop keystrokes, mobile virtual input, anti-frustration checks, and key visualization.
  */
 class InputManager {
@@ -32,21 +32,31 @@ class InputManager {
   }
 
   bindVirtualKeys() {
-    document.querySelectorAll('.vkey').forEach(el => {
+    this.virtualKeys = {};
+    document.querySelectorAll('.vkey, .mvkey').forEach(el => {
       const k = el.getAttribute('data-key');
       if (k) {
         const upperK = k.toUpperCase();
-        this.virtualKeys[upperK] = el;
+        if (!this.virtualKeys[upperK]) {
+          this.virtualKeys[upperK] = [];
+        }
+        this.virtualKeys[upperK].push(el);
 
-        // Enable direct clicking/tapping on virtual keys
-        el.addEventListener('pointerdown', (e) => {
-          e.preventDefault();
-          if (!this.isEnabled) return;
-          this.highlightVirtualKey(upperK);
-          if (this.onCharTyped) {
-            this.onCharTyped(k);
-          }
-        });
+        if (!el._hasPointerListener) {
+          el._hasPointerListener = true;
+          // Enable direct clicking/tapping on virtual keys
+          el.addEventListener('pointerdown', (e) => {
+            e.preventDefault();
+            if (!this.isEnabled) return;
+            this.highlightVirtualKey(upperK);
+            if (k === 'Backspace') {
+              return;
+            }
+            if (this.onCharTyped) {
+              this.onCharTyped(k);
+            }
+          });
+        }
       }
     });
   }
@@ -110,12 +120,14 @@ class InputManager {
   }
 
   highlightVirtualKey(key) {
-    const el = this.virtualKeys[key];
-    if (el) {
-      el.classList.add('active');
-      setTimeout(() => {
-        el.classList.remove('active');
-      }, 120);
+    const els = this.virtualKeys[key];
+    if (els && Array.isArray(els)) {
+      els.forEach(el => {
+        el.classList.add('active');
+        setTimeout(() => {
+          el.classList.remove('active');
+        }, 120);
+      });
     }
   }
 }

@@ -1,6 +1,6 @@
 /**
- * Type War - Main Game Controller & Gunfight Engine
- * Featuring real-time bullet gunfight, dynamic Player WPM & static Enemy WPM,
+ * Typing Fighter - Main Game Controller & Combat Engine
+ * Featuring synchronized bullet gunfight, dynamic Player WPM & static Enemy WPM,
  * one-time START countdown, SVG stage parallax, and weapon level-ups.
  */
 class Game {
@@ -57,11 +57,17 @@ class Game {
     this.canvas = document.getElementById('battle-canvas');
     this.ctx = this.canvas.getContext('2d');
 
-    this.resizeCanvas();
-    window.addEventListener('resize', () => this.resizeCanvas());
-
     this.cacheUIElements();
     this.bindEvents();
+
+    // Setup multi-trigger resize observer & fullscreen handlers
+    this.setupResizeHandlers();
+    this.resizeCanvas();
+
+    // Initialize in-game store
+    if (window.storeManager) {
+      window.storeManager.initUI();
+    }
 
     this.highScore = window.crazyGames.getHighScore();
     this.updateHighScoreDisplay();
@@ -74,25 +80,71 @@ class Game {
     requestAnimationFrame((t) => this.gameLoop(t));
   }
 
+  setupResizeHandlers() {
+    const handleScreenChange = () => {
+      this.resizeCanvas();
+      // Immediate next frame check + 120ms settle check for CSS transitions and fullscreen animations
+      requestAnimationFrame(() => this.resizeCanvas());
+      setTimeout(() => this.resizeCanvas(), 120);
+    };
+
+    window.addEventListener('resize', handleScreenChange);
+    window.addEventListener('orientationchange', handleScreenChange);
+    document.addEventListener('fullscreenchange', handleScreenChange);
+    document.addEventListener('webkitfullscreenchange', handleScreenChange);
+
+    if (window.ResizeObserver && this.canvas && this.canvas.parentElement) {
+      const ro = new ResizeObserver(() => handleScreenChange());
+      ro.observe(this.canvas.parentElement);
+    }
+  }
+
   resizeCanvas() {
-    const rect = this.canvas.parentElement.getBoundingClientRect();
+    if (!this.canvas || !this.canvas.parentElement) return;
+
+    const parent = this.canvas.parentElement;
+    const rect = parent.getBoundingClientRect();
     const dpr = Math.min(2, window.devicePixelRatio || 1);
-    this.canvas.width = Math.floor(rect.width * dpr);
-    this.canvas.height = Math.floor(rect.height * dpr);
-    this.virtualWidth = rect.width;
-    this.virtualHeight = rect.height;
+
+    const w = Math.max(300, Math.floor(rect.width || window.innerWidth));
+    const h = Math.max(160, Math.floor(rect.height || (window.innerHeight * 0.38)));
+
+    this.canvas.width = Math.floor(w * dpr);
+    this.canvas.height = Math.floor(h * dpr);
+    this.virtualWidth = w;
+    this.virtualHeight = h;
 
     if (this.player && this.enemy) {
-      this.player.baseX = this.virtualWidth * 0.40;
-      this.player.baseY = this.virtualHeight * 0.88;
-      this.player.x = this.player.baseX;
-      this.player.y = this.player.baseY;
+      const isMobile = this.virtualWidth <= 600;
+      if (isMobile) {
+        // Safe mobile clearance: ensure at least 140px separation between centers
+        const minGap = Math.max(140, this.virtualWidth * 0.48);
+        const halfGap = minGap / 2;
+        const centerX = this.virtualWidth * 0.5;
+        this.player.baseX = Math.max(48, centerX - halfGap);
+        this.enemy.baseX = Math.min(this.virtualWidth - 48, centerX + halfGap);
+      } else {
+        this.player.baseX = this.virtualWidth * 0.38;
+        this.enemy.baseX = this.virtualWidth * 0.62;
+      }
 
-      this.enemy.baseX = this.virtualWidth * 0.60;
+      this.player.baseY = this.virtualHeight * 0.88;
       this.enemy.baseY = this.virtualHeight * 0.88;
-      if (this.state !== CONFIG.STATES.WALKING) {
-        this.enemy.x = this.enemy.baseX;
-        this.enemy.y = this.enemy.baseY;
+
+      if (this.player.state !== 'DEFEAT') {
+        this.player.x = this.player.baseX;
+        this.player.y = this.player.baseY;
+      }
+
+      if (this.enemy.state !== 'DEFEAT') {
+        if (this.state === CONFIG.STATES.WALKING) {
+          // Clamp enemy position so screen shrinkage never teleports enemy past baseX
+          this.enemy.x = Math.max(this.enemy.baseX, this.enemy.x);
+          this.enemy.y = this.enemy.baseY;
+        } else {
+          this.enemy.x = this.enemy.baseX;
+          this.enemy.y = this.enemy.baseY;
+        }
       }
     }
   }
@@ -174,12 +226,16 @@ class Game {
 
     this.ui.btnPlayAgain.addEventListener('click', () => {
       window.audioManager.playButtonClick();
-      this.startGame();
+      window.crazyGames.requestMidgameAd(() => {
+        this.startGame();
+      });
     });
 
     this.ui.btnGameOverMenu.addEventListener('click', () => {
       window.audioManager.playButtonClick();
-      this.quitToMenu();
+      window.crazyGames.requestMidgameAd(() => {
+        this.quitToMenu();
+      });
     });
 
     this.ui.btnSettingsBack.addEventListener('click', () => {
@@ -271,8 +327,10 @@ class Game {
     window.audioManager.startBGM();
     window.crazyGames.gameplayStart();
 
-    // Reset battle stats
-    this.playerHp = CONFIG.PLAYER.MAX_HP;
+    // Reset battle stats with in-game store upgrades applied
+    const hpBonus = window.storeManager ? window.storeManager.getMaxHpBonus() : 0;
+    this.playerMaxHp = CONFIG.PLAYER.MAX_HP + hpBonus;
+    this.playerHp = this.playerMaxHp;
     this.enemiesDefeated = 0;
     this.enemyLevel = 1;
     this.currentStageId = 0;
@@ -392,27 +450,61 @@ class Game {
   renderSentenceTiles() {
     const container = this.ui.sentenceTiles;
     container.innerHTML = '';
+    this.tileElements = [];
 
-    for (let i = 0; i < this.currentSentence.length; i++) {
-      const char = this.currentSentence[i];
-      const span = document.createElement('span');
-      span.className = 'char-tile';
-
-      if (char === ' ') {
-        span.classList.add('space-tile');
-        span.innerHTML = '&nbsp;';
-      } else {
-        span.textContent = char;
-      }
-
-      if (i === this.typedIndex) {
-        span.classList.add('current');
-      } else if (i < this.typedIndex) {
-        span.classList.add('completed');
-      }
-
-      container.appendChild(span);
+    // Sentences wrap cleanly by word onto multiple rows without aggressive font shrinking
+    const len = this.currentSentence.length;
+    container.classList.remove('font-compact', 'font-tiny');
+    if (len > 60) {
+      container.classList.add('font-compact');
     }
+
+    // Split sentence into words, grouping characters inside word-wrappers to prevent word splitting
+    const words = this.currentSentence.split(' ');
+    let globalCharIndex = 0;
+
+    words.forEach((word, wordIdx) => {
+      const wordWrapper = document.createElement('span');
+      wordWrapper.className = 'word-wrapper';
+
+      for (let i = 0; i < word.length; i++) {
+        const char = word[i];
+        const span = document.createElement('span');
+        span.className = 'char-tile';
+        span.textContent = char;
+
+        const thisIdx = globalCharIndex;
+        if (thisIdx === this.typedIndex) {
+          span.classList.add('current');
+        } else if (thisIdx < this.typedIndex) {
+          span.classList.add('completed');
+        }
+
+        this.tileElements[thisIdx] = span;
+        wordWrapper.appendChild(span);
+        globalCharIndex++;
+      }
+
+      // If not the last word, append the spacebar tile to the word
+      if (wordIdx < words.length - 1) {
+        const spaceSpan = document.createElement('span');
+        spaceSpan.className = 'char-tile space-tile';
+        spaceSpan.innerHTML = '&nbsp;';
+
+        const thisIdx = globalCharIndex;
+        if (thisIdx === this.typedIndex) {
+          spaceSpan.classList.add('current');
+        } else if (thisIdx < this.typedIndex) {
+          spaceSpan.classList.add('completed');
+        }
+
+        this.tileElements[thisIdx] = spaceSpan;
+        wordWrapper.appendChild(spaceSpan);
+        globalCharIndex++;
+      }
+
+      container.appendChild(wordWrapper);
+    });
   }
 
   // --- Keystroke & Real-time Bullet Gunfight Logic ---
@@ -427,7 +519,7 @@ class Game {
       // 1. Correct character typed!
       this.totalCharsTyped++;
 
-      const tile = this.ui.sentenceTiles.children[this.typedIndex];
+      const tile = this.tileElements ? this.tileElements[this.typedIndex] : null;
       if (tile) {
         tile.classList.remove('current');
         tile.classList.add('completed');
@@ -437,36 +529,48 @@ class Game {
       this.player.setState('SHOOT');
       window.audioManager.playBlasterShot();
 
-      const gunX = this.player.x + 36;
-      const gunY = this.player.y - 70;
-      const targetX = this.enemy.x - 12;
-      const targetY = this.enemy.y - 70;
-      window.particleSystem.spawnBullet(gunX, gunY, targetX, targetY, true, '#FFD166');
-
-      // 3. Reduce enemy health with EACH correct alphabet typed!
-      const dmgPerChar = this.enemyMaxHp / this.currentSentence.length;
-      this.enemyHp = Math.max(0, this.enemyHp - dmgPerChar);
-      this.enemy.setState('HURT');
-      window.particleSystem.triggerShake(2.5);
+      const scale = this.characterScale || 1.25;
+      const muzzle = this.player.getMuzzlePosition(scale);
+      const target = this.enemy.getHitTargetPosition(scale);
+      const skin = window.storeManager ? window.storeManager.getActiveSkinData() : null;
+      const bulletColor = skin ? skin.bulletColor : '#FFD166';
+      const dmgMult = window.storeManager ? window.storeManager.getDamageMultiplier() : 1.0;
+      const dmgPerChar = (this.enemyMaxHp / this.currentSentence.length) * dmgMult;
 
       this.typedIndex++;
-      this.updateHUD();
+      const isLastChar = (this.typedIndex >= this.currentSentence.length);
 
-      // Check if sentence complete
-      if (this.typedIndex >= this.currentSentence.length) {
-        this.onSentenceComplete();
+      if (isLastChar) {
+        window.inputManager.disable();
       } else {
-        const nextTile = this.ui.sentenceTiles.children[this.typedIndex];
+        const nextTile = this.tileElements ? this.tileElements[this.typedIndex] : null;
         if (nextTile) {
           nextTile.classList.add('current');
+          nextTile.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
         }
       }
+
+      // 3. Spawn bullet: damage & hurt state trigger strictly upon projectile impact!
+      window.particleSystem.spawnBullet(
+        muzzle.x, muzzle.y, target.x, target.y,
+        true, bulletColor, dmgPerChar,
+        (b) => {
+          this.enemyHp = Math.max(0, this.enemyHp - b.damage);
+          this.enemy.setState('HURT');
+          window.particleSystem.triggerShake(2.5);
+          this.updateHUD();
+
+          if (isLastChar) {
+            this.onSentenceComplete();
+          }
+        }
+      );
     } else {
       // Wrong character typed!
       window.audioManager.playTypo();
       window.particleSystem.triggerShake(4);
 
-      const tile = this.ui.sentenceTiles.children[this.typedIndex];
+      const tile = this.tileElements ? this.tileElements[this.typedIndex] : null;
       if (tile) {
         tile.classList.add('error');
         setTimeout(() => tile.classList.remove('error'), 180);
@@ -478,8 +582,9 @@ class Game {
       this.player.setState('HURT');
       this.playerHp = Math.max(0, this.playerHp - CONFIG.PLAYER.MISTAKE_DAMAGE);
 
-      window.particleSystem.spawnTypoBurst(this.player.x + 10, this.player.y - 40);
-      window.particleSystem.addFloatingText('-' + CONFIG.PLAYER.MISTAKE_DAMAGE + ' HP', this.player.x, this.player.y - 70, CONFIG.COLORS.DANGER);
+      const target = this.player.getHitTargetPosition(this.characterScale || 1.25);
+      window.particleSystem.spawnTypoBurst(target.x, target.y);
+      window.particleSystem.addFloatingText('-' + CONFIG.PLAYER.MISTAKE_DAMAGE + ' HP', target.x, target.y - 30, CONFIG.COLORS.DANGER);
 
       this.updateHUD();
 
@@ -511,21 +616,13 @@ class Game {
     sentenceScore += this.streak * CONFIG.SCORE.STREAK_BONUS_FACTOR;
     this.score += sentenceScore;
 
-    // Rapid double laser blast finisher!
-    this.player.setState('SHOOT');
-    window.audioManager.playBlasterShot();
-    window.particleSystem.spawnBullet(this.player.x + 36, this.player.y - 70, this.enemy.x - 12, this.enemy.y - 70, true, '#00F5D4');
+    this.enemyHp = 0; // Final hit connected!
+    window.particleSystem.triggerShake(9);
+    window.particleSystem.spawnHitSparks(this.enemy.x - 15, this.enemy.y - 40, 20);
+    window.particleSystem.addFloatingText('+' + sentenceScore, this.enemy.x, this.enemy.y - 75, CONFIG.COLORS.HIGHLIGHT, 20);
 
-    setTimeout(() => {
-      this.enemy.setState('HURT');
-      this.enemyHp = 0; // Enemy knocked out!
-      window.particleSystem.triggerShake(9);
-      window.particleSystem.spawnHitSparks(this.enemy.x - 15, this.enemy.y - 40, 20);
-      window.particleSystem.addFloatingText('+' + sentenceScore, this.enemy.x, this.enemy.y - 75, CONFIG.COLORS.HIGHLIGHT, 20);
-
-      this.updateHUD();
-      this.onEnemyDefeated();
-    }, 180);
+    this.updateHUD();
+    this.onEnemyDefeated();
   }
 
   // --- Enemy Defeated & Streak Health Recovery ---
@@ -545,8 +642,10 @@ class Game {
 
     // Streak Health & Bonus Reward (every 3 consecutive enemies)
     if (this.killStreak > 0 && this.killStreak % CONFIG.PLAYER.STREAK_HEAL_EVERY === 0) {
-      const heal = CONFIG.PLAYER.STREAK_HEAL_AMOUNT;
-      this.playerHp = Math.min(CONFIG.PLAYER.MAX_HP, this.playerHp + heal);
+      const streakBonus = window.storeManager ? window.storeManager.getStreakHealBonus() : 0;
+      const heal = CONFIG.PLAYER.STREAK_HEAL_AMOUNT + streakBonus;
+      const maxHp = this.playerMaxHp || CONFIG.PLAYER.MAX_HP;
+      this.playerHp = Math.min(maxHp, this.playerHp + heal);
       this.score += 400;
 
       window.audioManager.playStreakBonus();
@@ -565,10 +664,10 @@ class Game {
 
     this.updateHUD();
 
-    // Allow full death collapse and disintegration animation (~1.0s) before advancing
+    // Allow full death collapse and disintegration animation (~1.35s) before advancing
     setTimeout(() => {
       this.startWalkingToNextEnemy();
-    }, 1050);
+    }, 1350);
   }
 
   // --- Enemy Gunshot Counter-Attack Loop ---
@@ -584,34 +683,35 @@ class Game {
       this.enemy.setState('ATTACK');
       window.audioManager.playEnemyShot();
 
-      // Spawn bullet projectile towards player
-      const gunX = this.enemy.x - 36;
-      const gunY = this.enemy.y - 70;
-      const targetX = this.player.x + 12;
-      const targetY = this.player.y - 70;
-      window.particleSystem.spawnBullet(gunX, gunY, targetX, targetY, false, '#FF007F');
+      const scale = this.characterScale || 1.25;
+      const muzzle = this.enemy.getMuzzlePosition(scale);
+      const target = this.player.getHitTargetPosition(scale);
+      const dmg = Math.min(
+        CONFIG.ENEMY.MAX_DAMAGE,
+        CONFIG.ENEMY.BASE_DAMAGE + Math.floor(this.enemyLevel * 0.7)
+      );
 
-      setTimeout(() => {
-        if (this.state !== CONFIG.STATES.PLAYER_TYPING) return;
+      // Bullet flies and damages player synchronously upon projectile impact
+      window.particleSystem.spawnBullet(
+        muzzle.x, muzzle.y, target.x, target.y,
+        false, '#FF007F', dmg,
+        (b) => {
+          if (this.state !== CONFIG.STATES.PLAYER_TYPING && this.state !== CONFIG.STATES.ATTACK) return;
 
-        // Player takes hit
-        const dmg = Math.min(
-          CONFIG.ENEMY.MAX_DAMAGE,
-          CONFIG.ENEMY.BASE_DAMAGE + Math.floor(this.enemyLevel * 0.7)
-        );
-        this.playerHp = Math.max(0, this.playerHp - dmg);
-        this.player.setState('HURT');
+          this.playerHp = Math.max(0, this.playerHp - b.damage);
+          this.player.setState('HURT');
 
-        window.particleSystem.triggerShake(6);
-        window.particleSystem.spawnTypoBurst(this.player.x, this.player.y - 40);
-        window.particleSystem.addFloatingText('-' + dmg + ' HP', this.player.x, this.player.y - 70, CONFIG.COLORS.DANGER, 18);
+          window.particleSystem.triggerShake(6);
+          window.particleSystem.spawnTypoBurst(target.x, target.y);
+          window.particleSystem.addFloatingText('-' + b.damage + ' HP', target.x, target.y - 30, CONFIG.COLORS.DANGER, 18);
 
-        this.updateHUD();
+          this.updateHUD();
 
-        if (this.playerHp <= 0) {
-          this.onGameOver();
+          if (this.playerHp <= 0) {
+            this.onGameOver();
+          }
         }
-      }, 100);
+      );
     }
   }
 
@@ -619,9 +719,11 @@ class Game {
 
   updateHUD() {
     // Player HP
-    const pPct = Math.max(0, Math.min(100, (this.playerHp / CONFIG.PLAYER.MAX_HP) * 100));
+    const maxHp = this.playerMaxHp || CONFIG.PLAYER.MAX_HP;
+    const pPct = Math.max(0, Math.min(100, (this.playerHp / maxHp) * 100));
     this.ui.playerHpFill.style.width = pPct + '%';
-    this.ui.playerHpText.textContent = Math.ceil(this.playerHp);
+    const hpVal = Math.ceil(this.playerHp);
+    this.ui.playerHpText.textContent = hpVal > 9999 ? Math.round(hpVal / 1000) + 'k' : hpVal;
 
     // Live Dynamic Player WPM
     const minutes = Math.max(0.04, this.totalTypingTimeSec / 60);
@@ -674,6 +776,16 @@ class Game {
 
     this.ui.finalScore.textContent = this.score.toLocaleString();
     this.ui.bestScoreDisplay.textContent = this.highScore.toLocaleString();
+
+    // Bank the run's score directly into the player's persistent credits!
+    const earnedCredits = Math.floor(this.score);
+    if (window.storeManager) {
+      window.storeManager.addCredits(earnedCredits);
+    }
+    const creditsEl = document.getElementById('gameover-credits-val');
+    if (creditsEl) {
+      creditsEl.textContent = earnedCredits.toLocaleString();
+    }
 
     if (this.score >= this.highScore && this.score > 0) {
       this.ui.newHighScoreBanner.classList.remove('hidden');
@@ -803,8 +915,11 @@ class Game {
     // 1. Draw SVG City Stage
     this.stage.render(ctx, w, h, this.currentStageId, this.isBossRound);
 
-    // 2. Draw Characters (Aiming & Shooting Guns)
-    const scale = Math.max(1.15, Math.min(1.45, w / 700));
+    // 2. Draw Characters (Aiming & Shooting Guns with responsive mobile/desktop scaling)
+    const scale = w <= 600
+      ? Math.max(0.78, Math.min(1.15, w / 420))
+      : Math.max(1.15, Math.min(1.45, w / 700));
+    this.characterScale = scale;
     this.player.render(ctx, scale);
     this.enemy.render(ctx, scale);
 

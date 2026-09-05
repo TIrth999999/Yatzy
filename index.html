@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#101018">
-  <meta name="description" content="Type War - Retro typing street combat arcade game for CrazyGames">
-  <title>Type War - Retro Typing Battle</title>
+  <meta name="description" content="Typing Fighter - Retro typing street combat arcade game for CrazyGames">
+  <title>Typing Fighter - Retro Typing Battle</title>
 
   <!-- CrazyGames HTML5 SDK -->
   <script src="https://sdk.crazygames.com/crazygames-sdk-v2.js"></script>
@@ -27,7 +27,16 @@
         <!-- Player Health Section (Hero) -->
         <div class="hud-section">
           <div class="hp-gauge-container player-gauge">
-            <div class="avatar-badge" title="Player">🔫</div>
+            <div class="avatar-badge" title="Hero">
+              <svg class="hud-avatar-svg" viewBox="0 0 24 24" width="16" height="16">
+                <!-- Cyber Visor Helmet -->
+                <path d="M4 8 C4 4 20 4 20 8 L20 16 C20 20 16 21 12 21 C8 21 4 20 4 16 Z" fill="#251B42" stroke="#FF007F" stroke-width="1.5"/>
+                <!-- Cyan Visor -->
+                <path d="M5 9 L19 9 L18 13 L6 13 Z" fill="#4FD1C5"/>
+                <line x1="7" y1="11" x2="17" y2="11" stroke="#FFFFFF" stroke-width="1"/>
+                <rect x="10" y="16" width="4" height="2" rx="1" fill="#FFD166"/>
+              </svg>
+            </div>
             <div class="hp-bar-outer">
               <div id="player-hp-fill" class="hp-bar-fill"></div>
             </div>
@@ -57,7 +66,17 @@
               <div id="enemy-hp-fill" class="hp-bar-fill enemy-hp-fill"></div>
             </div>
             <span id="enemy-level-text" class="hp-label">LV.1</span>
-            <div class="avatar-badge enemy" title="Challenger">🎯</div>
+            <div class="avatar-badge enemy" title="Challenger">
+              <svg class="hud-avatar-svg" viewBox="0 0 24 24" width="16" height="16">
+                <!-- Cyber Skull / Robot Challenger -->
+                <path d="M5 7 C5 3 19 3 19 7 L19 14 C19 18 16 19 12 19 C8 19 5 18 5 14 Z" fill="#1B142F" stroke="#4FD1C5" stroke-width="1.5"/>
+                <!-- Magenta Optics Eyes -->
+                <rect x="7" y="9" width="3.5" height="2.5" rx="1" fill="#FF007F"/>
+                <rect x="13.5" y="9" width="3.5" height="2.5" rx="1" fill="#FF007F"/>
+                <!-- Grille / Teeth -->
+                <path d="M9 15 L9 17 M12 15 L12 17 M15 15 L15 17" stroke="#4FD1C5" stroke-width="1.2"/>
+              </svg>
+            </div>
           </div>
           <button id="btn-pause" class="icon-btn" title="Pause" aria-label="Pause Game">⚙</button>
         </div>
@@ -76,8 +95,8 @@
       <!-- Dynamic Arcade Letter Box Tiles -->
       <div id="sentence-tiles" aria-live="polite"></div>
 
-      <!-- Desktop Virtual Keyboard Strip -->
-      <div id="virtual-keyboard" aria-hidden="true">
+      <!-- Desktop Virtual Keyboard Strip (Active for PC) -->
+      <div id="virtual-keyboard" class="desktop-keyboard" aria-hidden="true">
         <div class="vk-row">
           <div class="vkey" data-key="Q">Q</div>
           <div class="vkey" data-key="W">W</div>
@@ -113,7 +132,61 @@
         </div>
       </div>
 
-      <!-- Hidden input for transparent mobile touch keyboard auto-focus -->
+      <!-- Mobile Virtual Keypad (Active for Mobile only - matching reference image) -->
+      <div id="mobile-keyboard" class="mobile-keyboard">
+        <div class="mvk-row">
+          <button type="button" class="mvkey num-key" data-key="1">1</button>
+          <button type="button" class="mvkey num-key" data-key="2">2</button>
+          <button type="button" class="mvkey num-key" data-key="3">3</button>
+          <button type="button" class="mvkey num-key" data-key="4">4</button>
+          <button type="button" class="mvkey num-key" data-key="5">5</button>
+          <button type="button" class="mvkey num-key" data-key="6">6</button>
+          <button type="button" class="mvkey num-key" data-key="7">7</button>
+          <button type="button" class="mvkey num-key" data-key="8">8</button>
+          <button type="button" class="mvkey num-key" data-key="9">9</button>
+          <button type="button" class="mvkey num-key" data-key="0">0</button>
+        </div>
+        <div class="mvk-row">
+          <button type="button" class="mvkey" data-key="Q">Q</button>
+          <button type="button" class="mvkey" data-key="W">W</button>
+          <button type="button" class="mvkey" data-key="E">E</button>
+          <button type="button" class="mvkey" data-key="R">R</button>
+          <button type="button" class="mvkey" data-key="T">T</button>
+          <button type="button" class="mvkey" data-key="Y">Y</button>
+          <button type="button" class="mvkey" data-key="U">U</button>
+          <button type="button" class="mvkey" data-key="I">I</button>
+          <button type="button" class="mvkey" data-key="O">O</button>
+          <button type="button" class="mvkey" data-key="P">P</button>
+        </div>
+        <div class="mvk-row indent-row">
+          <button type="button" class="mvkey" data-key="A">A</button>
+          <button type="button" class="mvkey" data-key="S">S</button>
+          <button type="button" class="mvkey" data-key="D">D</button>
+          <button type="button" class="mvkey" data-key="F">F</button>
+          <button type="button" class="mvkey" data-key="G">G</button>
+          <button type="button" class="mvkey" data-key="H">H</button>
+          <button type="button" class="mvkey" data-key="J">J</button>
+          <button type="button" class="mvkey" data-key="K">K</button>
+          <button type="button" class="mvkey" data-key="L">L</button>
+        </div>
+        <div class="mvk-row">
+          <button type="button" class="mvkey" data-key="Z">Z</button>
+          <button type="button" class="mvkey" data-key="X">X</button>
+          <button type="button" class="mvkey" data-key="C">C</button>
+          <button type="button" class="mvkey" data-key="V">V</button>
+          <button type="button" class="mvkey" data-key="B">B</button>
+          <button type="button" class="mvkey" data-key="N">N</button>
+          <button type="button" class="mvkey" data-key="M">M</button>
+          <button type="button" class="mvkey backspace-vkey" data-key="Backspace" aria-label="Backspace">⌫</button>
+        </div>
+        <div class="mvk-row row-bottom">
+          <button type="button" class="mvkey punct-vkey" data-key=",">,</button>
+          <button type="button" class="mvkey space-vkey" data-key=" " aria-label="Spacebar">␣</button>
+          <button type="button" class="mvkey punct-vkey" data-key=".">.</button>
+        </div>
+      </div>
+
+      <!-- Hidden input for mobile touch keyboard auto-focus if needed -->
       <input id="hidden-input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text" aria-hidden="true">
     </section>
 
@@ -132,11 +205,17 @@
 
       <div class="menu-buttons">
         <button id="btn-play" class="retro-btn">START</button>
+        <button id="btn-store" class="retro-btn secondary">STORE</button>
         <button id="btn-settings" class="retro-btn secondary">SETTINGS</button>
       </div>
 
-      <div class="menu-best-score">
-        BEST SCORE: <span id="menu-high-score">0</span>
+      <div class="menu-meta-stats">
+        <div class="menu-best-score">
+          BEST SCORE: <span id="menu-high-score">0</span>
+        </div>
+        <div class="menu-credits-display">
+          <svg class="coin-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="7" fill="#FFD166" stroke="#B8860B" stroke-width="1.5"/><text x="8" y="11" font-size="8" font-family="sans-serif" font-weight="bold" fill="#784C00" text-anchor="middle">C</text></svg> CREDITS: <span id="menu-credits-val">0</span>
+        </div>
       </div>
     </main>
 
@@ -161,6 +240,38 @@
         </div>
 
         <button id="btn-settings-back" class="retro-btn" style="margin-top: 18px;">BACK</button>
+      </div>
+    </div>
+
+    <!-- Store Modal -->
+    <div id="store-modal" class="modal-overlay hidden" role="dialog" aria-modal="true">
+      <div class="retro-modal-card store-modal-card">
+        <div class="store-header">
+          <h2 class="modal-title" style="margin: 0;">CYBER STORE</h2>
+          <div class="store-wallet-badge">
+            <svg class="coin-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="7" fill="#FFD166" stroke="#B8860B" stroke-width="1.5"/><text x="8" y="11" font-size="8" font-family="sans-serif" font-weight="bold" fill="#784C00" text-anchor="middle">C</text></svg>
+            <span id="store-wallet-credits">0</span>
+          </div>
+        </div>
+
+        <!-- Rewarded Ad Free Credits Boost -->
+        <div class="store-ad-banner">
+          <button id="btn-watch-ad-credits" class="retro-btn ad-reward-btn">
+            <svg class="coin-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="7" fill="#FFD166" stroke="#B8860B" stroke-width="1.5"/><text x="8" y="11" font-size="8" font-family="sans-serif" font-weight="bold" fill="#784C00" text-anchor="middle">C</text></svg>
+            FREE +2,500 CREDITS (WATCH AD)
+          </button>
+        </div>
+
+        <!-- Store Navigation Tabs -->
+        <div class="store-tabs">
+          <button id="store-tab-upgrades" class="store-tab-btn active">UPGRADES</button>
+          <button id="store-tab-skins" class="store-tab-btn">HERO SKINS</button>
+        </div>
+
+        <!-- Scrollable Store Catalog Container -->
+        <div id="store-items-container" class="store-items-list"></div>
+
+        <button id="btn-store-close" class="retro-btn" style="margin-top: 12px; width: 100%;">BACK</button>
       </div>
     </div>
 
@@ -193,7 +304,13 @@
           </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+        <!-- Credits Earned Banner -->
+        <div id="gameover-credits-banner" class="gameover-credits-banner">
+          <svg class="coin-icon" viewBox="0 0 16 16" width="14" height="14"><circle cx="8" cy="8" r="7" fill="#FFD166" stroke="#B8860B" stroke-width="1.5"/><text x="8" y="11" font-size="8" font-family="sans-serif" font-weight="bold" fill="#784C00" text-anchor="middle">C</text></svg>
+          BANKED: +<span id="gameover-credits-val">0</span> CREDITS
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
           <button id="btn-play-again" class="retro-btn">PLAY AGAIN</button>
           <button id="btn-game-over-menu" class="retro-btn secondary">MAIN MENU</button>
         </div>
@@ -208,6 +325,7 @@
   <!-- Game Scripts in strict dependency order -->
   <script src="js/config.js"></script>
   <script src="js/audio.js"></script>
+  <script src="js/store.js"></script>
   <script src="js/sentences.js"></script>
   <script src="js/particles.js"></script>
   <script src="js/characters.js"></script>
