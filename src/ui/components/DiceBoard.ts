@@ -3,6 +3,7 @@ import { EventBus } from '../../core/EventBus';
 import { Dice3DComponent } from './Dice3D';
 import { SmartRecommender } from '../../scoring/SmartRecommender';
 import { CATEGORY_METAS } from '../../types/game';
+import { Icons } from '../icons/Icons';
 
 export class DiceBoard {
   private container: HTMLElement;
@@ -38,6 +39,10 @@ export class DiceBoard {
         if (data.isHeld) scene.classList.add('held');
         else scene.classList.remove('held');
       }
+    });
+
+    this.bus.on('SKIN_CHANGED', () => {
+      this.render();
     });
 
     this.bus.on('TURN_STARTED', (data: any) => {
@@ -112,17 +117,6 @@ export class DiceBoard {
       ? SmartRecommender.recommend(diceValues, state.player.scorecard, rollCount)
       : null;
 
-    let bannerText = '';
-    if (rollCount === 0) {
-      bannerText = `➔ Roll up to <span class="accent-rolls">3</span> more times ⇦`;
-    } else if (rollsLeft > 1) {
-      bannerText = `➔ Roll up to <span class="accent-rolls">${rollsLeft}</span> more times ⇦`;
-    } else if (rollsLeft === 1) {
-      bannerText = `➔ Roll up to <span class="accent-rolls">1</span> more time ⇦`;
-    } else {
-      bannerText = `➔ Choose a category on the scorecard ⇦`;
-    }
-
     const tipCategoryName = recommendation ? (CATEGORY_METAS[recommendation.category]?.name || recommendation.category) : '';
     const tipText = recommendation
       ? `Tip: <strong>${tipCategoryName}</strong> is open! Score <strong>${recommendation.score}</strong> pts`
@@ -136,11 +130,6 @@ export class DiceBoard {
       <div class="gameplay-wrapper ${!isPlayer ? 'bot-turn-active' : ''}">
         <!-- Glassmorphism Dice Tray Card -->
         <div class="dice-glass-card">
-          <!-- Dynamic Banner -->
-          <div class="dice-card-banner">
-            ${isPlayer ? bannerText : `🤖 Bot's Turn — Calculating optimal EV moves...`}
-          </div>
-
           <!-- 3D Dice Tray -->
           <div class="dice-tray-wrapper">
             ${this.dice3d.renderTrayHTML(dice, rollCount)}
@@ -172,10 +161,10 @@ export class DiceBoard {
           `}
         </div>
 
-        <!-- Bottom HUD Row: Combo Card, Tip Card, Undo/Rematch Button -->
+        <!-- Bottom HUD Row: Combo Card, Tip Card (Vector SVG Icons) -->
         <div class="bottom-hud-row">
           <div class="hud-combo-card">
-            <span class="hud-combo-flame">🔥</span>
+            ${Icons.flame(20, '#ff5252')}
             <div class="hud-combo-body">
               <span class="hud-combo-title">COMBO x2</span>
               <div class="hud-combo-bar">
@@ -186,14 +175,9 @@ export class DiceBoard {
           </div>
 
           <div class="hud-tip-card" title="Smart AI Strategy Advisor">
-            <span class="hud-tip-bulb">💡</span>
+            ${Icons.lightbulb(20, '#ffd200')}
             <div class="hud-tip-content">${tipText}</div>
           </div>
-
-          <button class="hud-undo-btn" id="btn-hud-undo" title="Restart Match" aria-label="Restart Match">
-            <span class="hud-undo-icon">↺</span>
-            <span class="hud-undo-label">RESTART</span>
-          </button>
         </div>
       </div>
     `;
@@ -210,12 +194,6 @@ export class DiceBoard {
         }
       });
     }
-
-    this.container.querySelector('#btn-hud-undo')?.addEventListener('click', () => {
-      if (confirm('Restart current match?')) {
-        this.bus.emit('REQUEST_REMATCH');
-      }
-    });
   }
 
   private attachDieClickHandlers(): void {

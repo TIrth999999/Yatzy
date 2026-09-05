@@ -30,6 +30,7 @@ export class Scorecard {
     const pCard = state.player.scorecard;
     const bCard = state.bot.scorecard;
     const isPlayer = state.activePlayer === 'player';
+    const isBot = state.activePlayer === 'bot';
     const rollCount = this.engine.getDice().getRollCount();
     const diceValues = this.engine.getDice().getValues();
 
@@ -41,11 +42,21 @@ export class Scorecard {
       ? SmartRecommender.recommend(diceValues, pCard, rollCount)
       : null;
 
+    const botPotentials = (isBot && rollCount > 0)
+      ? calculateAllCategoryScores(diceValues)
+      : null;
+
+    const botRecommendation = (isBot && rollCount > 0)
+      ? SmartRecommender.recommend(diceValues, bCard, rollCount)
+      : null;
+
+    const pBonusText = pCard.bonusAchieved ? '35' : `${pCard.upperSubtotal}/63`;
+    const bBonusText = bCard.bonusAchieved ? '35' : `${bCard.upperSubtotal}/63`;
+
     this.container.innerHTML = `
       <div class="scorecard-modern-card">
-        <!-- Upper Section Header -->
+        <!-- Upper Section Header (Badges only) -->
         <div class="sc-section-header">
-          <span class="sc-header-label">UPPER SECTION</span>
           <div class="sc-header-badges">
             <span class="sc-badge player">YOU</span>
             <span class="sc-badge bot">BOT</span>
@@ -65,18 +76,11 @@ export class Scorecard {
               pCard,
               bCard,
               potentials,
-              recommendation?.category === cat
+              recommendation?.category === cat,
+              botPotentials,
+              botRecommendation?.category === cat
             );
           }).join('')}
-        </div>
-
-        <!-- Upper Total -->
-        <div class="sc-subtotal-row">
-          <span>UPPER TOTAL</span>
-          <div class="sc-subtotal-values">
-            <span class="sc-subtotal-num player">${pCard.upperSubtotal}</span>
-            <span class="sc-subtotal-num bot">${bCard.upperSubtotal}</span>
-          </div>
         </div>
 
         <!-- Bonus Progress Row (63+) -->
@@ -88,38 +92,20 @@ export class Scorecard {
             </div>
           </div>
           <div class="sc-bonus-values">
-            <span class="sc-bonus-num player">${pCard.upperBonus}</span>
-            <span class="sc-bonus-num bot">${bCard.upperBonus}</span>
-          </div>
-        </div>
-
-        <!-- Lower Section Header -->
-        <div class="sc-section-header">
-          <span class="sc-header-label">LOWER SECTION</span>
-          <div class="sc-header-badges">
-            <span class="sc-badge player">YOU</span>
-            <span class="sc-badge bot">BOT</span>
+            <span class="sc-bonus-num player">${pBonusText}</span>
+            <span class="sc-bonus-num bot">${bBonusText}</span>
           </div>
         </div>
 
         <!-- Lower Rows -->
         <div class="sc-rows-container">
-          ${this.renderRow('threeOfAKind', '3 of a kind', 'Total of all dice', '<span class="sc-icon-tile">3x</span>', pCard, bCard, potentials, recommendation?.category === 'threeOfAKind')}
-          ${this.renderRow('fourOfAKind', '4 of a kind', 'Total of all dice', '<span class="sc-icon-tile">4x</span>', pCard, bCard, potentials, recommendation?.category === 'fourOfAKind')}
-          ${this.renderRow('fullHouse', 'Full House', '25 points', Icons.house(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'fullHouse')}
-          ${this.renderRow('smallStraight', 'Small Straight', '30 points', Icons.cardsSmall(), pCard, bCard, potentials, recommendation?.category === 'smallStraight')}
-          ${this.renderRow('largeStraight', 'Large Straight', '40 points', Icons.cardsLarge(), pCard, bCard, potentials, recommendation?.category === 'largeStraight')}
-          ${this.renderRow('yatzy', 'Yahtzee', '50 points', '<span class="sc-icon-tile yahtzy-tile">YATZY</span>', pCard, bCard, potentials, recommendation?.category === 'yatzy')}
-          ${this.renderRow('chance', 'Chance', 'Total of all dice', Icons.question(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'chance')}
-        </div>
-
-        <!-- Lower Total -->
-        <div class="sc-subtotal-row">
-          <span>LOWER TOTAL</span>
-          <div class="sc-subtotal-values">
-            <span class="sc-subtotal-num player">${pCard.lowerTotal}</span>
-            <span class="sc-subtotal-num bot">${bCard.lowerTotal}</span>
-          </div>
+          ${this.renderRow('threeOfAKind', '3 of a kind', 'Total of all dice', '<span class="sc-icon-tile">3x</span>', pCard, bCard, potentials, recommendation?.category === 'threeOfAKind', botPotentials, botRecommendation?.category === 'threeOfAKind')}
+          ${this.renderRow('fourOfAKind', '4 of a kind', 'Total of all dice', '<span class="sc-icon-tile">4x</span>', pCard, bCard, potentials, recommendation?.category === 'fourOfAKind', botPotentials, botRecommendation?.category === 'fourOfAKind')}
+          ${this.renderRow('fullHouse', 'Full House', '25 points', Icons.house(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'fullHouse', botPotentials, botRecommendation?.category === 'fullHouse')}
+          ${this.renderRow('smallStraight', 'Small Straight', '30 points', Icons.cardsSmall(), pCard, bCard, potentials, recommendation?.category === 'smallStraight', botPotentials, botRecommendation?.category === 'smallStraight')}
+          ${this.renderRow('largeStraight', 'Large Straight', '40 points', Icons.cardsLarge(), pCard, bCard, potentials, recommendation?.category === 'largeStraight', botPotentials, botRecommendation?.category === 'largeStraight')}
+          ${this.renderRow('yatzy', 'Yahtzee', '50 points', '<span class="sc-icon-tile yahtzy-tile">YATZY</span>', pCard, bCard, potentials, recommendation?.category === 'yatzy', botPotentials, botRecommendation?.category === 'yatzy')}
+          ${this.renderRow('chance', 'Chance', 'Total of all dice', Icons.question(18, '#1e354d'), pCard, bCard, potentials, recommendation?.category === 'chance', botPotentials, botRecommendation?.category === 'chance')}
         </div>
 
         <!-- Grand Total -->
@@ -144,13 +130,17 @@ export class Scorecard {
     pCard: any,
     bCard: any,
     potentials: Record<ScoreCategory, number> | null,
-    isBest: boolean
+    isBest: boolean,
+    botPotentials: Record<ScoreCategory, number> | null = null,
+    isBotBest: boolean = false
   ): string {
     const isPlayerScored = pCard.scores[category] !== undefined;
     const isBotScored = bCard.scores[category] !== undefined;
 
     const pScoreVal = isPlayerScored ? pCard.scores[category] : (potentials ? potentials[category] : '');
-    const bScoreVal = isBotScored ? bCard.scores[category] : '';
+    const bScoreVal = isBotScored
+      ? bCard.scores[category]
+      : (botPotentials ? botPotentials[category] : '');
 
     const canSelect = !isPlayerScored && potentials !== null;
 
@@ -159,11 +149,18 @@ export class Scorecard {
       pClass += ' committed';
     } else if (canSelect) {
       pClass += ' preview';
+    } else {
+      pClass += ' unscored';
     }
 
     let bClass = 'bot';
     if (isBotScored) {
       bClass += ' committed';
+    } else if (botPotentials !== null) {
+      bClass += ' preview';
+      if (isBotBest) bClass += ' is-bot-best';
+    } else {
+      bClass += ' unscored';
     }
 
     return `
@@ -180,12 +177,12 @@ export class Scorecard {
 
         <div class="sc-cell-scores">
           <div class="sc-score-box ${pClass}" title="${canSelect ? 'Tap to score' : ''}">
-            <span>${pScoreVal !== '' ? pScoreVal : '-'}</span>
+            <span>${pScoreVal !== '' ? pScoreVal : ''}</span>
             ${canSelect ? `<span class="sc-dot">●</span>` : ''}
           </div>
 
           <div class="sc-score-box ${bClass}">
-            <span>${bScoreVal !== '' ? bScoreVal : '-'}</span>
+            <span>${bScoreVal !== '' ? bScoreVal : ''}</span>
           </div>
         </div>
       </div>

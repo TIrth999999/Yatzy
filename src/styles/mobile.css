@@ -27,22 +27,118 @@
     order: 1;
     flex-shrink: 0;
     width: 100%;
-    padding: 4px 10px;
+    padding: 2px 8px;
     z-index: 20;
   }
 
-  /* Center: Scrollable Unified Scorecard */
+  /* Center: Non-scrollable perfectly-fit Unified Scorecard */
   .desktop-scorecard-panel {
     order: 2;
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding: 4px 8px;
+    flex: 1 1 auto;
+    overflow: hidden;
+    padding: 2px 8px;
     min-height: 0;
     width: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
+  }
+
+  .scorecard-modern-card {
+    max-width: 440px;
+    border-width: 2.5px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+  }
+
+  .sc-section-header {
+    padding: 4px 10px;
+  }
+
+  .sc-header-label {
+    font-size: 0.72rem;
+  }
+
+  .sc-badge {
+    padding: 2px 12px;
+    font-size: 0.68rem;
+    min-width: 44px;
+  }
+
+  .sc-row {
+    padding: 1px 8px;
+    margin: 0;
+    border-radius: 6px;
+  }
+
+  .sc-icon-wrapper {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+  }
+
+  .sc-icon-tile {
+    font-size: 0.74rem;
+  }
+
+  .yahtzy-tile {
+    font-size: 0.58rem;
+  }
+
+  .sc-cat-name {
+    font-size: 0.76rem;
+  }
+
+  .sc-cat-desc {
+    font-size: 0.56rem;
+  }
+
+  .sc-score-box {
+    min-width: 44px;
+    height: 22px;
+    font-size: 0.88rem;
+    border-radius: 6px;
+  }
+
+  .sc-subtotal-row {
+    padding: 3px 10px;
+    font-size: 0.7rem;
+  }
+
+  .sc-subtotal-num {
+    min-width: 44px;
+    font-size: 0.84rem;
+  }
+
+  .sc-bonus-row {
+    padding: 2px 10px;
+  }
+
+  .sc-bonus-label {
+    font-size: 0.68rem;
+  }
+
+  .sc-bonus-track {
+    width: 60px;
+    height: 6px;
+  }
+
+  .sc-bonus-num {
+    min-width: 44px;
+    font-size: 0.82rem;
+  }
+
+  .sc-grand-total-bar {
+    padding: 5px 12px;
+  }
+
+  .sc-grand-label {
+    font-size: 0.88rem;
+  }
+
+  .sc-grand-num {
+    min-width: 44px;
+    font-size: 1.35rem;
   }
 
   /* Bottom Controls: Docked Gameplay Zone */
@@ -50,7 +146,7 @@
     order: 3;
     flex-shrink: 0;
     width: 100%;
-    padding: 4px 8px calc(env(safe-area-inset-bottom, 8px) + 4px) 8px;
+    padding: 2px 8px calc(env(safe-area-inset-bottom, 6px) + 2px) 8px;
     z-index: 25;
     display: flex;
     flex-direction: column;
@@ -58,44 +154,57 @@
   }
 
   .dice-glass-card {
-    padding: 8px 12px;
-    gap: 8px;
-    border-radius: 20px;
+    padding: 6px 10px;
+    gap: 6px;
+    border-radius: 18px;
     max-width: 420px;
   }
 
-  .dice-card-banner {
-    font-size: 0.92rem;
-  }
-
   .btn-roll-3d {
-    height: 50px;
+    height: 46px;
     max-width: 320px;
-    padding: 0 10px 0 18px;
+    padding: 0 10px 0 16px;
     border-radius: 14px;
   }
 
+  .roll-action-area,
+  .bot-status-container {
+    min-height: 72px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bot-status-pill {
+    padding: 10px 20px;
+    margin: 0;
+  }
+
   .btn-roll-title {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .btn-roll-badge {
-    min-width: 64px;
-    padding: 2px 10px;
-    border-radius: 10px;
+    min-width: 60px;
+    padding: 2px 8px;
+    border-radius: 8px;
   }
 
   .badge-num {
-    font-size: 1.05rem;
+    font-size: 0.98rem;
   }
 
   .badge-label {
-    font-size: 0.5rem;
+    font-size: 0.48rem;
   }
 
   .roll-feedback-chip {
-    padding: 4px 12px;
-    font-size: 0.74rem;
+    padding: 3px 12px;
+    font-size: 0.72rem;
+    margin-top: 6px;
   }
 
   .bottom-hud-row {
@@ -111,12 +220,6 @@
     border-radius: 12px;
   }
 
-  .hud-undo-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-  }
-
   .turn-tracker-pill {
     padding: 3px 12px 4px;
     gap: 3px;
@@ -127,3 +230,4 @@
     height: 6px;
   }
 }
+

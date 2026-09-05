@@ -2,6 +2,7 @@ import { DiceSkin } from '../../types/game';
 import { SettingsManager } from '../../settings/SettingsManager';
 import { StatsManager } from '../../persistence/StatsManager';
 import { AdManager } from '../../crazygames/AdManager';
+import { EventBus } from '../../core/EventBus';
 import { Icons } from '../icons/Icons';
 
 export interface CosmeticOption {
@@ -139,5 +140,6 @@ export class CosmeticsModal {
     if (skin !== 'classic') {
       document.body.classList.add(`skin-${skin}`);
     }
+    EventBus.getInstance().emit('SKIN_CHANGED', { skin });
   }
 }

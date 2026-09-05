@@ -209,5 +209,20 @@ export const Icons = {
         ${circles.map(c => `<circle cx="${c.cx}" cy="${c.cy}" r="2.2" fill="#2d2538"/>`).join('')}
       </svg>
     `;
-  }
+  },
+
+  flame: (size = 20, color = '#ff5252') => `
+    <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${color}" style="flex-shrink:0;">
+      <path d="M12 2c-.5 2.5-3 4.5-3 7.5a6 6 0 0 0 11.2 3c-.2-1.8-1.2-3.4-2.2-4.5-.3 1.5-1.5 2.7-3 2.7-1.7 0-3-1.3-3-3 0-1.8 1.5-3.8 2-5.7-1.5.5-2 1.5-2 0z"/>
+    </svg>
+  `,
+
+  lightbulb: (size = 20, color = '#facc15') => `
+    <svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+      <path d="M9 18h6"/>
+      <path d="M10 22h4"/>
+      <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/>
+    </svg>
+  `
 };
+

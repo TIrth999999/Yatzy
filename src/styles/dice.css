@@ -149,42 +149,67 @@ body.fast-animation .die.rolling {
   animation-duration: 0.22s;
 }
 
-/* ================= Dice Skins ================= */
+/* ================= Dice Skins (2D & True 3D Support) ================= */
 /* Ruby Flame */
-body.skin-ruby .die {
-  background: linear-gradient(145deg, #e74c3c, #962d22);
-  box-shadow: 0 4px 0 #5c1810, 0 8px 16px rgba(0,0,0,0.4);
+body.skin-ruby .die,
+body.skin-ruby .cube-face {
+  background: linear-gradient(145deg, #e74c3c, #962d22) !important;
+  border-color: #7b1d14 !important;
+  box-shadow:
+    inset 0 3px 6px rgba(255, 120, 100, 0.4),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.4),
+    0 4px 10px rgba(0, 0, 0, 0.25) !important;
 }
-body.skin-ruby .pip {
-  background: #ffffff;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+body.skin-ruby .pip,
+body.skin-ruby .die-pip {
+  background: #ffffff !important;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.9), inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
 }
 
 /* Cyber Neon */
-body.skin-cyber .die {
-  background: #111424;
-  border: 1px solid #00d2d3;
-  box-shadow: 0 4px 0 #005c5d, 0 8px 16px rgba(0, 210, 211, 0.3);
+body.skin-cyber .die,
+body.skin-cyber .cube-face {
+  background: #0b0f19 !important;
+  border-color: #00d2d3 !important;
+  box-shadow:
+    inset 0 0 12px rgba(0, 210, 211, 0.35),
+    inset 0 0 4px rgba(0, 210, 211, 0.8),
+    0 4px 14px rgba(0, 210, 211, 0.4) !important;
 }
-body.skin-cyber .pip {
-  background: #00d2d3;
-  box-shadow: 0 0 6px #00d2d3;
+body.skin-cyber .pip,
+body.skin-cyber .die-pip {
+  background: #00f5f5 !important;
+  box-shadow: 0 0 8px #00f5f5, 0 0 14px rgba(0, 245, 245, 0.8) !important;
 }
 
 /* Royal Gold */
-body.skin-gold .die {
-  background: linear-gradient(145deg, #ffd700, #d4af37);
-  box-shadow: 0 4px 0 #8c7324, 0 8px 16px rgba(0,0,0,0.4);
+body.skin-gold .die,
+body.skin-gold .cube-face {
+  background: linear-gradient(145deg, #ffe066, #d4af37 60%, #aa820a) !important;
+  border-color: #8c6d12 !important;
+  box-shadow:
+    inset 0 3px 6px rgba(255, 255, 200, 0.6),
+    inset 0 -3px 6px rgba(100, 75, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
-body.skin-gold .pip {
-  background: #3e2704;
+body.skin-gold .pip,
+body.skin-gold .die-pip {
+  background: #2b1803 !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* Ocean Wave */
-body.skin-ocean .die {
-  background: linear-gradient(145deg, #48dbfb, #0abde3);
-  box-shadow: 0 4px 0 #007793, 0 8px 16px rgba(0,0,0,0.35);
+body.skin-ocean .die,
+body.skin-ocean .cube-face {
+  background: linear-gradient(145deg, #38bdf8, #0284c7 70%, #0369a1) !important;
+  border-color: #075985 !important;
+  box-shadow:
+    inset 0 3px 6px rgba(186, 230, 253, 0.6),
+    inset 0 -3px 6px rgba(2, 60, 95, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.25) !important;
 }
-body.skin-ocean .pip {
-  background: #ffffff;
+body.skin-ocean .pip,
+body.skin-ocean .die-pip {
+  background: #ffffff !important;
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), inset 0 1px 2px rgba(0, 0, 0, 0.25) !important;
 }

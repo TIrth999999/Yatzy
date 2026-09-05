@@ -194,11 +194,13 @@ export class MainMenu {
             </button>
 
             <div style="display: flex; gap: 10px; width: 100%;">
-              <button class="btn btn-gold" id="btn-play-daily" style="flex: 1; height: 44px; font-size: 0.88rem;">
-                Daily Challenge ${isDailyDone ? '✓' : ''}
+              <button class="btn btn-gold mode-coming-soon-btn" id="btn-play-daily" style="flex: 1; height: 48px; font-size: 0.84rem; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 6px;">
+                <span>Daily Challenge</span>
+                <span style="font-size: 0.58rem; font-weight: 900; background: rgba(0, 0, 0, 0.45); color: #ffd200; padding: 1px 7px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid rgba(255, 210, 0, 0.4);">COMING SOON</span>
               </button>
-              <button class="btn btn-secondary" id="btn-play-practice" style="flex: 1; height: 44px; font-size: 0.88rem; background: #ffffff;">
-                Solo Practice
+              <button class="btn btn-secondary mode-coming-soon-btn" id="btn-play-practice" style="flex: 1; height: 48px; font-size: 0.84rem; background: #f1f5f9; position: relative; opacity: 0.72; filter: grayscale(20%); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 6px;">
+                <span style="color: #475569;">Solo Practice</span>
+                <span style="font-size: 0.58rem; font-weight: 900; background: #e2e8f0; color: #64748b; padding: 1px 7px; border-radius: 999px; letter-spacing: 0.06em; border: 1px solid #cbd5e1;">COMING SOON</span>
               </button>
             </div>
           </div>
@@ -347,15 +349,52 @@ export class MainMenu {
       this.bus.emit('START_MATCH', { mode: 'quick', difficulty: selectedDiff });
     });
 
+    const showComingSoonModal = (modeName: string, desc: string, icon: string) => {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay active';
+      modal.style.zIndex = '999';
+      modal.innerHTML = `
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 28px 24px;">
+          <div style="font-size: 3.2rem; line-height: 1; margin-bottom: 12px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));">${icon}</div>
+          <h2 style="font-size: 1.5rem; font-weight: 900; color: #1e354d; margin-bottom: 6px;">${modeName}</h2>
+          <div style="display: inline-block; background: #fff3cd; color: #856404; font-size: 0.72rem; font-weight: 900; padding: 4px 14px; border-radius: 999px; margin-bottom: 14px; letter-spacing: 0.08em; border: 1.5px solid #ffeeba;">
+            COMING SOON
+          </div>
+          <p style="font-size: 0.88rem; color: #64748b; font-weight: 600; line-height: 1.45; margin-bottom: 22px;">
+            ${desc}
+          </p>
+          <button class="btn btn-primary btn-close-cs" style="width: 100%; height: 46px; font-size: 1rem; border-radius: 14px;">
+            Got it!
+          </button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.querySelector('.btn-close-cs')?.addEventListener('click', () => {
+        modal.classList.remove('active');
+        setTimeout(() => modal.remove(), 200);
+      });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          setTimeout(() => modal.remove(), 200);
+        }
+      });
+    };
+
     this.container.querySelector('#btn-play-practice')?.addEventListener('click', () => {
-      this.hide();
-      this.bus.emit('START_MATCH', { mode: 'practice', difficulty: selectedDiff });
+      showComingSoonModal(
+        'Solo Practice',
+        'Solo Practice mode is currently under development and will be available in the upcoming update. Play against our smart tactical bot in the meantime!',
+        '🎯'
+      );
     });
 
     this.container.querySelector('#btn-play-daily')?.addEventListener('click', () => {
-      this.hide();
-      DailyChallenge.setupDailyChallengeRNG();
-      this.bus.emit('START_MATCH', { mode: 'daily', difficulty: 'hard' });
+      showComingSoonModal(
+        'Daily Challenge',
+        'Daily Challenge tournaments with worldwide seed rankings will be unlocked in the next season. Stay tuned!',
+        '🏆'
+      );
     });
 
     this.container.querySelector('#btn-menu-htp')?.addEventListener('click', () => {
