@@ -103,7 +103,6 @@ export class DiceBoard {
     const state = this.engine.getState();
     const isPlayer = state.activePlayer === 'player';
     const canRoll = isPlayer && this.engine.getDice().canRoll() && !this.isRolling;
-    const canScore = isPlayer && rollCount > 0;
 
     this.container.innerHTML = `
       <div class="dice-board-wrapper ${!isPlayer ? 'bot-turn-active' : ''}">
@@ -121,12 +120,6 @@ export class DiceBoard {
                 <span class="roll-pill ${rollCount === 3 ? 'active' : ''}">3</span>
               </div>
             </button>
-
-            ${canScore ? `
-              <button class="btn-play-reference" id="btn-play-action" title="Commit score on scorecard">
-                PLAY
-              </button>
-            ` : ''}
           </div>
         ` : `
           <div class="bot-status-container animate-fade-in">
@@ -146,11 +139,6 @@ export class DiceBoard {
         if (canRoll) {
           this.engine.playerRoll();
         }
-      });
-
-      this.container.querySelector('#btn-play-action')?.addEventListener('click', () => {
-        const scorecard = document.querySelector('.scorecard-board-reference');
-        scorecard?.scrollIntoView({ behavior: 'smooth' });
       });
     }
   }

@@ -33,49 +33,36 @@ export class ScoreHeader {
       <div class="reference-header-wrapper ${isBotTurn ? 'is-bot-header' : ''}">
         <!-- Left Action: Back to Menu / Pause -->
         <button class="circle-header-btn" id="btn-header-back" title="Menu / Pause" aria-label="Menu">
-          ${Icons.arrowLeft(20, '#1e354d')}
+          ${Icons.arrowLeft(40, '#1e354d')}
         </button>
 
-        <!-- Center: VS Capsule on Player Turn OR Big "Bot's Turn" on Bot Turn -->
-        ${isBotTurn ? `
-          <div class="bot-turn-header-title animate-bounce-subtle">
-            <span class="bot-header-avatar">🤖</span>
-            <span class="bot-header-text">Bot's Turn</span>
+        <!-- Center: Persistent VS Capsule with Active Player Turn Highlight -->
+        <div class="vs-capsule-container">
+          <div class="diff-tab-pill ${isBotTurn ? 'bot-turn' : 'player-turn'}">
+            ${diffLabel} • ${isBotTurn ? "BOT'S TURN 🤖" : "YOUR TURN"}
           </div>
-        ` : `
-          <div class="vs-capsule-container">
-            <div class="diff-tab-pill">${diffLabel}</div>
-            <div class="vs-capsule-body">
-              <div class="score-player-side">
-                <span class="capsule-label">YOU</span>
-                <span class="capsule-score-val player">${pScore}</span>
-              </div>
+          <div class="vs-capsule-body">
+            <div class="score-player-side ${!isBotTurn ? 'active-turn' : ''}">
+              <span class="capsule-label">YOU</span>
+              <span class="capsule-score-val player">${pScore}</span>
+            </div>
 
-              <span class="capsule-vs-text">VS</span>
+            <span class="capsule-vs-text">VS</span>
 
-              <div class="score-bot-side">
-                <span class="capsule-label">BOT</span>
-                <span class="capsule-score-val bot">${bScore}</span>
-              </div>
+            <div class="score-bot-side ${isBotTurn ? 'active-turn' : ''}">
+              <span class="capsule-label">BOT</span>
+              <span class="capsule-score-val bot">${bScore}</span>
             </div>
           </div>
-        `}
+        </div>
 
-        <!-- Right Action: Restart Match -->
-        <button class="circle-header-btn" id="btn-header-restart" title="Restart Game" aria-label="Restart">
-          ${Icons.refresh(20, '#1e354d')}
-        </button>
+        <!-- Right Spacer to keep center scoreboard capsule perfectly centered -->
+        <div style="width: 60px; height: 60px; visibility: hidden;" aria-hidden="true"></div>
       </div>
     `;
 
     this.container.querySelector('#btn-header-back')?.addEventListener('click', () => {
       this.bus.emit('REQUEST_PAUSE');
-    });
-
-    this.container.querySelector('#btn-header-restart')?.addEventListener('click', () => {
-      if (confirm('Restart current match?')) {
-        this.bus.emit('REQUEST_REMATCH');
-      }
     });
   }
 }

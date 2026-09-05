@@ -45,7 +45,6 @@ export class Dice3DComponent {
                   ${this.renderCubeFacesHTML()}
                 </div>
                 <div class="die-shadow"></div>
-                ${d.held ? `<span class="held-badge">HELD</span>` : ''}
               </div>
             </div>
           `;

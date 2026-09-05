@@ -28,7 +28,9 @@
   --radius-full: 9999px;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -38,7 +40,8 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -75,10 +78,10 @@ body.bot-turn-view {
 
 /* Header Action Buttons (Guaranteed True Circle) */
 .circle-header-btn {
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  min-height: 60px;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   background: #ffffff;
@@ -126,35 +129,91 @@ body.bot-turn-view {
   padding: 3px 14px;
   border-radius: 8px 8px 0 0;
   text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.diff-tab-pill.player-turn {
+  color: #ff9e9e;
+  border-bottom: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+.diff-tab-pill.bot-turn {
+  color: #64dfdf;
+  border-bottom: 1px solid rgba(0, 180, 216, 0.3);
 }
 
 .vs-capsule-body {
   background: var(--capsule-bg);
   border-radius: 20px;
-  padding: 6px 22px;
+  padding: 4px 18px;
+  min-height: 54px;
   display: flex;
   align-items: center;
-  gap: 18px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+  gap: 14px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
 }
 
-.score-player-side, .score-bot-side {
+.score-player-side,
+.score-bot-side {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 52px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 0.25s ease,
+              border 0.25s ease,
+              box-shadow 0.25s ease,
+              opacity 0.25s ease;
+}
+
+/* Dim the non-active player's side */
+.score-player-side:not(.active-turn),
+.score-bot-side:not(.active-turn) {
+  opacity: 0.55;
+  transform: scale(0.92);
+}
+
+/* Highlight the active player's side with glow and scale */
+.score-player-side.active-turn {
+  background: rgba(255, 82, 82, 0.18);
+  border: 1.5px solid rgba(255, 82, 82, 0.7);
+  box-shadow: 0 0 14px rgba(255, 82, 82, 0.35);
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.score-bot-side.active-turn {
+  background: rgba(0, 180, 216, 0.18);
+  border: 1.5px solid rgba(0, 180, 216, 0.7);
+  box-shadow: 0 0 14px rgba(0, 180, 216, 0.35);
+  transform: scale(1.1);
+  opacity: 1;
 }
 
 .capsule-label {
   font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
+  font-weight: 900;
+  letter-spacing: 0.08em;
   color: rgba(255, 255, 255, 0.65);
+  transition: color 0.25s ease;
+}
+
+.score-player-side.active-turn .capsule-label {
+  color: #ff8585;
+}
+
+.score-bot-side.active-turn .capsule-label {
+  color: #64dfdf;
 }
 
 .capsule-score-val {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 900;
-  line-height: 1;
+  line-height: 1.05;
+  transition: font-size 0.25s ease, color 0.25s ease;
 }
 
 .capsule-score-val.player {
@@ -165,10 +224,16 @@ body.bot-turn-view {
   color: var(--bot-cyan);
 }
 
+/* Make the active player's score bigger */
+.score-player-side.active-turn .capsule-score-val,
+.score-bot-side.active-turn .capsule-score-val {
+  font-size: 1.65rem;
+}
+
 .capsule-vs-text {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 900;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.7);
   letter-spacing: 0.08em;
 }
 
@@ -270,8 +335,13 @@ body.bot-turn-view {
 }
 
 @keyframes pulseSlot {
-  0% { transform: scale(0.97); }
-  100% { transform: scale(1.03); }
+  0% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1.03);
+  }
 }
 
 .player-slot.selectable.best-choice {
@@ -492,8 +562,15 @@ body.bot-turn-view {
 }
 
 @keyframes botBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .bot-status-message-text {
